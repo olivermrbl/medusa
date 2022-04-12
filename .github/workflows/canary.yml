@@ -2,8 +2,8 @@ name: Publish canary
 on: 
   pull_request:
     types: [opened, synchronize]
-    branches:
-      - develop
+    # branches:
+    #   - develop
 
 jobs:
   publish-canary:
