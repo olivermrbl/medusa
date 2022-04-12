@@ -27,22 +27,15 @@
  */
 
 import {
-  Entity,
-  Index,
   BeforeInsert,
-  Column,
-  DeleteDateColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  PrimaryColumn,
-  ManyToOne,
-  JoinColumn,
+  Column, CreateDateColumn, DeleteDateColumn, Entity,
+  Index, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn
 } from "typeorm"
 import { ulid } from "ulid"
-import { resolveDbType, DbAwareColumn } from "../utils/db-aware-column"
-
-import { Customer } from "./customer"
+import { DbAwareColumn, resolveDbType } from "../utils/db-aware-column"
 import { Country } from "./country"
+import { Customer } from "./customer"
+
 
 @Entity()
 export class Address {
