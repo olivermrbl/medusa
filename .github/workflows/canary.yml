@@ -21,11 +21,11 @@ jobs:
           cache: "yarn"
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Bootstrap packages
-        uses: ./.github/actions/cache-bootstrap
+      # - name: Bootstrap packages
+      #   uses: ./.github/actions/cache-bootstrap
 
-      - name: Build Packages
-        run: yarn build
+      # - name: Build Packages
+      #   run: yarn build
 
       - name: "Get Branch Name"
         env:
@@ -38,7 +38,9 @@ jobs:
           fi
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
       - name: Format Branch name
-        run: echo "VERSION_NAME=${{ env.BRANCH_NAME }} | sed "s/[/_]/-/g"" >> $GITHUB_ENV 
+        run: |
+          VERSION_NAME=`echo ${{ env.BRANCH_NAME }} | sed "s/[/_]/-/g"`
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV 
       - name: Version name
         run: echo "${{ env.VERSION_NAME }}" 
 
