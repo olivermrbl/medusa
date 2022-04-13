@@ -1,6 +1,6 @@
 name: Publish canary
 on: 
-  pull_request:
+  pull_request: 
     branches:
       - develop
 
@@ -26,14 +26,18 @@ jobs:
       - name: Build Packages
         run: yarn build
 
-      - name: Format Version Name
-        uses: actions/github-script@v5
-        id: format-branch
-        with:
-          script: return "${{ github.ref_name }}"
-          result-encoding: string
-      - name: Get formatted branch name
-        run: echo "${{steps.format-branch.outputs.result}}"
+      - name: "Get Branch Name"
+        env:
+          IS_PR: ${{ github.EVENT_NAME == 'pull_request' }}
+        run: |
+          if ${IS_PR}; then
+            BRANCH_NAME="${GITHUB_HEAD_REF}"
+          else
+            BRANCH_NAME="${GITHUB_REF##*/}"
+          fi
+          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+      - name: Format Branch name
+        run: echo "Name -> ${{ env.BRANCH_NAME }}"
 
       # - name: Publish Canary
       #   run: lerna publish --yes --canary --preid ${{steps.format-branch.outputs.result}} --force-publish="*"
