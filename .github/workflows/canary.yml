@@ -1,5 +1,6 @@
 name: Publish canary
 on: 
+  push:
   pull_request: 
     branches:
       - develop
@@ -37,7 +38,9 @@ jobs:
           fi
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
       - name: Format Branch name
-        run: echo ${{ env.BRANCH_NAME }} | sed "s/[/_]/-/g"
+        run: echo "VERSION_NAME=${{ env.BRANCH_NAME }} | sed "s/[/_]/-/g"" >> $GITHUB_ENV 
+      - name: Version name
+        run: echo "${{ env.VERSION_NAME }}" 
 
       # - name: Publish Canary
       #   run: lerna publish --yes --canary --preid ${{steps.format-branch.outputs.result}} --force-publish="*"
