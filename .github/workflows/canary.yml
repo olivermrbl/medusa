@@ -37,7 +37,7 @@ jobs:
           fi
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
       - name: Format Branch name
-        run: echo "Name -> ${{ env.BRANCH_NAME }}"
+        run: echo ${{ env.BRANCH_NAME }} | sed "s/[/_]/-/g"
 
       # - name: Publish Canary
       #   run: lerna publish --yes --canary --preid ${{steps.format-branch.outputs.result}} --force-publish="*"
