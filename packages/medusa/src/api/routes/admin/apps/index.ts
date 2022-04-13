@@ -13,6 +13,8 @@ export default (app) => {
     middlewares.wrap(require("./authorize-app").default)
   )
 
+  console.log("Should trigger a pipeline")
+
   return app
 }
 
