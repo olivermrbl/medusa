@@ -20,20 +20,37 @@ class DatabaseFactory {
     this.templateDbName = "medusa-integration-template"
   }
 
-  async createTemplateDb_() {
+  async createTemplateDb_({ cwd }) {
     try {
-      const cwd = path.resolve(path.join(__dirname, ".."))
+      // const cwd = path.resolve(path.join(__dirname, ".."))
       const connection = await this.getMasterConnection()
       const migrationDir = path.resolve(
         path.join(
           cwd,
-          "api",
           `node_modules`,
           `@medusajs`,
           `medusa`,
           `dist`,
-          `migrations`
+          `migrations`,
+          `*.js`
         )
+      )
+
+      const { getEnabledMigrations } = require(path.join(
+        cwd,
+        `node_modules`,
+        `@medusajs`,
+        `medusa`,
+        `dist`,
+        `commands`,
+        `utils`,
+        `get-migrations`
+      ))
+
+      // filter migrations to only include those that dont have feature flags
+      const enabledMigrations = await getEnabledMigrations(
+        [migrationDir],
+        (flag) => false
       )
 
       await dropDatabase(
@@ -52,7 +69,7 @@ class DatabaseFactory {
         type: "postgres",
         name: "templateConnection",
         url: `${DB_URL}/${this.templateDbName}`,
-        migrations: [`${migrationDir}/*.js`],
+        migrations: enabledMigrations,
       })
 
       await templateDbConnection.runMigrations()
@@ -93,7 +110,7 @@ class DatabaseFactory {
   }
 
   async destroy() {
-    let connection = await this.getMasterConnection()
+    const connection = await this.getMasterConnection()
 
     await connection.query(`DROP DATABASE IF EXISTS "${this.templateDbName}";`)
     await connection.close()

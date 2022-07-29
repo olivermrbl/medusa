@@ -8,6 +8,9 @@ describe("OrderService", () => {
     getTotal: (o) => {
       return o.total || 0
     },
+    getGiftCardableAmount: (o) => {
+      return o.subtotal || 0
+    },
     getRefundedTotal: (o) => {
       return o.refunded_total || 0
     },
@@ -230,7 +233,6 @@ describe("OrderService", () => {
           "items",
           "discounts",
           "discounts.rule",
-          "discounts.rule.valid_for",
           "gift_cards",
           "shipping_methods",
         ],
@@ -282,6 +284,7 @@ describe("OrderService", () => {
           id: "test",
           currency_code: "eur",
           name: "test",
+          gift_cards_taxable: true,
           tax_rate: 25,
         },
         shipping_address_id: "1234",
@@ -340,6 +343,8 @@ describe("OrderService", () => {
       expect(giftCardService.createTransaction).toHaveBeenCalledWith({
         gift_card_id: "gid",
         order_id: "id",
+        is_taxable: true,
+        tax_rate: 25,
         amount: 80,
       })
 
@@ -456,7 +461,7 @@ describe("OrderService", () => {
       await expect(res).rejects.toThrow(
         "Variant with id: variant-1 does not have the required inventory"
       )
-      //check to see if payment is cancelled
+      // check to see if payment is cancelled
       expect(
         orderService.paymentProviderService_.cancelPayment
       ).toHaveBeenCalledTimes(1)
@@ -1229,7 +1234,7 @@ describe("OrderService", () => {
         .mockImplementation((optionId, data, config) =>
           Promise.resolve({ shipping_option: { profile_id: optionId } })
         ),
-      deleteShippingMethod: jest
+      deleteShippingMethods: jest
         .fn()
         .mockImplementation(() => Promise.resolve({})),
 
@@ -1277,7 +1282,7 @@ describe("OrderService", () => {
         }
       )
 
-      expect(optionService.deleteShippingMethod).not.toHaveBeenCalled()
+      expect(optionService.deleteShippingMethods).not.toHaveBeenCalled()
     })
 
     it("successfully removes shipping method if same option profile", async () => {
@@ -1306,8 +1311,8 @@ describe("OrderService", () => {
         }
       )
 
-      expect(optionService.deleteShippingMethod).toHaveBeenCalledTimes(1)
-      expect(optionService.deleteShippingMethod).toHaveBeenCalledWith({
+      expect(optionService.deleteShippingMethods).toHaveBeenCalledTimes(1)
+      expect(optionService.deleteShippingMethods).toHaveBeenCalledWith({
         shipping_option: {
           profile_id: IdMap.getId("method1"),
         },

@@ -1,10 +1,4 @@
----
-
-title: Medusa Admin Quickstart
-
----
-
-# Admin Quickstart
+# Medusa Admin Quickstart
 
 This document will guide you through setting up the Medusa admin in minutes, as well as some of its features.
 
@@ -18,18 +12,24 @@ If you’re not very familiar with Medusa’s architecture, you can learn more a
 
 :::
 
+## Instant Deployment to Netlify
+
+Instead of manually following this guide to install then later deploy the Medusa Admin, you can deploy the Medusa Admin to Netlify with this button:
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/medusajs/admin)
+
 ## Install the Admin
 
-Start by cloning the [Admin GitHub repository](https://github.com/medusajs/admin):
+Start by cloning the [Admin GitHub repository](https://github.com/medusajs/admin) and changing to the cloned directory:
 
 ```bash
 git clone https://github.com/medusajs/admin medusa-admin
+cd medusa-admin
 ```
 
-Then, change to the cloned directory and install the dependencies:
+Then, install the dependencies:
 
-```bash
-cd medusa-admin
+```bash npm2yarn
 npm install
 ```
 
@@ -39,14 +39,18 @@ Before running your Medusa admin, make sure that your Medusa server is running.
 
 :::tip
 
-To run your Medusa server, go to the directory holding the server and run `npm start`.
+To run your Medusa server, go to the directory holding the server and run:
+
+```bash npm2yarn
+npm run start
+```
 
 :::
 
 Then, in the directory holding your Medusa admin, run the following to start the development server:
 
-```bash
-npm start
+```bash npm2yarn
+npm run start
 ```
 
 By default, the admin runs on port 7000. So, in your browser, go to `localhost:7000` to view your admin.
@@ -57,7 +61,13 @@ Use your Medusa admin’s user credentials to log in.
 
 :::tip
 
-If you installed the demo data when you installed the Medusa server by using the `--seed` option or running `npm run seed`, you can use the email `admin@medusa-test.com` and password `supersecret` to log in.
+If you installed the demo data when you installed the Medusa server by using the `--seed` option or running:
+
+```bash npm2yarn
+npm run seed
+```
+
+You can use the email `admin@medusa-test.com` and password `supersecret` to log in.
 
 :::
 
@@ -90,6 +100,12 @@ ADMIN_CORS=<YOUR_ADMIN_URL>
 ```
 
 Make sure to replace `<YOUR_ADMIN_URL>` with your URL.
+
+:::info
+
+For more details about the Admin CORS configuration, check out the [Configure your Server documentation](../usage/configurations.md#admin-cors).
+
+:::
 
 ## Admin Features Overview
 
@@ -138,4 +154,4 @@ In the Medusa admin, you can manage your store’s overall settings. These inclu
 ## What’s Next 🚀
 
 - Install the [Next.js](../starters/nextjs-medusa-starter.md) or [Gatsby](../starters/gatsby-medusa-starter.md) storefront starters.
-- [Learn how you can use `create-medusa-app` to install all of Medusa’s 3 components.](../how-to/create-medusa-app.md)
+- [Learn how you can use `create-medusa-app` to install all of Medusa’s 3 components.](../usage/create-medusa-app.mdx)

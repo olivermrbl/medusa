@@ -1,7 +1,6 @@
 import {
   BeforeInsert,
   Column,
-  CreateDateColumn,
   Entity,
   Generated,
   Index,
@@ -11,10 +10,8 @@ import {
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
 } from "typeorm"
-import { ulid } from "ulid"
+import { BaseEntity } from "../interfaces/models/base-entity"
 import {
   DbAwareColumn,
   resolveDbGenerationStrategy,
@@ -38,6 +35,12 @@ import { Region } from "./region"
 import { Return } from "./return"
 import { ShippingMethod } from "./shipping-method"
 import { Swap } from "./swap"
+import { generateEntityId } from "../utils/generate-entity-id"
+import {
+  FeatureFlagColumn,
+  FeatureFlagDecorators,
+} from "../utils/feature-flag-decorators"
+import { SalesChannel } from "./sales-channel"
 
 export enum OrderStatus {
   PENDING = "pending",
@@ -70,10 +73,7 @@ export enum PaymentStatus {
 }
 
 @Entity()
-export class Order {
-  @PrimaryColumn()
-  id: string
-
+export class Order extends BaseEntity {
   readonly object = "order"
 
   @DbAwareColumn({ type: "enum", enum: OrderStatus, default: "pending" })
@@ -218,14 +218,8 @@ export class Order {
   @Column({ nullable: true, type: resolveDbType("timestamptz") })
   canceled_at: Date
 
-  @CreateDateColumn({ type: resolveDbType("timestamptz") })
-  created_at: Date
-
-  @UpdateDateColumn({ type: resolveDbType("timestamptz") })
-  updated_at: Date
-
   @DbAwareColumn({ type: "jsonb", nullable: true })
-  metadata: any
+  metadata: Record<string, unknown>
 
   @Column({ type: "boolean", nullable: true })
   no_notification: boolean
@@ -235,6 +229,15 @@ export class Order {
 
   @Column({ type: "varchar", nullable: true })
   external_id: string | null
+
+  @FeatureFlagColumn("sales_channels", { type: "varchar", nullable: true })
+  sales_channel_id: string | null
+
+  @FeatureFlagDecorators("sales_channels", [
+    ManyToOne(() => SalesChannel),
+    JoinColumn({ name: "sales_channel_id" }),
+  ])
+  sales_channel: SalesChannel
 
   // Total fields
   shipping_total: number
@@ -246,13 +249,11 @@ export class Order {
   paid_total: number
   refundable_amount: number
   gift_card_total: number
+  gift_card_tax_total: number
 
   @BeforeInsert()
   private async beforeInsert(): Promise<void> {
-    if (!this.id) {
-      const id = ulid()
-      this.id = `order_${id}`
-    }
+    this.id = generateEntityId(this.id, "order")
 
     if (process.env.NODE_ENV === "development" && !this.display_id) {
       const disId = await manualAutoIncrement("order")

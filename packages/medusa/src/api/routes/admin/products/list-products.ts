@@ -1,4 +1,4 @@
-import { Type } from "class-transformer"
+import { Transform, Type } from "class-transformer"
 import {
   IsArray,
   IsBoolean,
@@ -8,17 +8,11 @@ import {
   IsString,
   ValidateNested,
 } from "class-validator"
-import { pickBy, omit } from "lodash"
-import { MedusaError } from "medusa-core-utils"
-import { Product } from "../../../../models/product"
-import {
-  allowedAdminProductFields,
-  defaultAdminProductFields,
-  defaultAdminProductRelations,
-} from "."
-import { ProductService } from "../../../../services"
-import { FindConfig, DateComparisonOperator } from "../../../../types/common"
-import { validator } from "../../../../utils/validator"
+import { Product, ProductStatus } from "../../../../models/product"
+import { DateComparisonOperator } from "../../../../types/common"
+import { optionalBooleanMapper } from "../../../../utils/validators/is-boolean"
+import { PricedProduct } from "../../../../types/pricing"
+import { PricingService, ProductService } from "../../../../services"
 
 /**
  * @oas [get] /products
@@ -69,75 +63,31 @@ import { validator } from "../../../../utils/validator"
  *                 $ref: "#/components/schemas/product"
  */
 export default async (req, res) => {
-  const validatedParams = await validator(AdminGetProductsParams, req.query)
-
   const productService: ProductService = req.scope.resolve("productService")
+  const pricingService: PricingService = req.scope.resolve("pricingService")
 
-  let includeFields: string[] = []
-  if (validatedParams.fields) {
-    includeFields = validatedParams.fields!.split(",")
-  }
+  const { skip, take, relations } = req.listConfig
 
-  let expandFields: string[] = []
-  if (validatedParams.expand) {
-    expandFields = validatedParams.expand!.split(",")
-  }
-
-  const listConfig: FindConfig<Product> = {
-    select: (includeFields.length
-      ? includeFields
-      : defaultAdminProductFields) as (keyof Product)[],
-    relations: expandFields.length
-      ? expandFields
-      : defaultAdminProductRelations,
-    skip: validatedParams.offset,
-    take: validatedParams.limit,
-  }
-
-  if (typeof validatedParams.order !== "undefined") {
-    let orderField = validatedParams.order
-    if (validatedParams.order.startsWith("-")) {
-      const [, field] = validatedParams.order.split("-")
-      orderField = field
-      listConfig.order = { [field]: "DESC" }
-    } else {
-      listConfig.order = { [validatedParams.order]: "ASC" }
-    }
-
-    if (!allowedAdminProductFields.includes(orderField)) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        "Order field must be a valid product field"
-      )
-    }
-  }
-
-  const filterableFields = omit(validatedParams, [
-    "limit",
-    "offset",
-    "expand",
-    "fields",
-    "order",
-  ])
-
-  const [products, count] = await productService.listAndCount(
-    pickBy(filterableFields, (val) => typeof val !== "undefined"),
-    listConfig
+  const [rawProducts, count] = await productService.listAndCount(
+    req.filterableFields,
+    req.listConfig
   )
+
+  let products: (Product | PricedProduct)[] = rawProducts
+
+  const includesPricing = ["variants", "variants.prices"].every((relation) =>
+    relations?.includes(relation)
+  )
+  if (includesPricing) {
+    products = await pricingService.setProductPrices(rawProducts)
+  }
 
   res.json({
     products,
     count,
-    offset: validatedParams.offset,
-    limit: validatedParams.limit,
+    offset: skip,
+    limit: take,
   })
-}
-
-export enum ProductStatus {
-  DRAFT = "draft",
-  PROPOSED = "proposed",
-  PUBLISHED = "published",
-  REJECTED = "rejected",
 }
 
 export class AdminGetProductsPaginationParams {
@@ -181,6 +131,10 @@ export class AdminGetProductsParams extends AdminGetProductsPaginationParams {
   @IsOptional()
   tags?: string[]
 
+  @IsArray()
+  @IsOptional()
+  price_list_id?: string[]
+
   @IsString()
   @IsOptional()
   title?: string
@@ -195,8 +149,8 @@ export class AdminGetProductsParams extends AdminGetProductsPaginationParams {
 
   @IsBoolean()
   @IsOptional()
-  @Type(() => Boolean)
-  is_giftcard?: string
+  @Transform(({ value }) => optionalBooleanMapper.get(value.toLowerCase()))
+  is_giftcard?: boolean
 
   @IsString()
   @IsOptional()

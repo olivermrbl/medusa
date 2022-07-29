@@ -23,11 +23,18 @@ module.exports = {
         systemvars: true, // Set to true if you would rather load all system variables as well (useful for CI purposes)
       },
     ],
+    [
+      "docusaurus-plugin-segment",
+      {
+        apiKey: process.env.SEGMENT_API_KEY || "temp"
+      }
+    ]
   ],
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: true,
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
     algolia: {
       apiKey: algoliaApiKey,
@@ -45,20 +52,45 @@ module.exports = {
     navbar: {
       hideOnScroll: true,
       logo: {
-        alt: "Medusa Commerce",
+        alt: "Medusa",
         src: "img/logo.svg",
-        srcDark: "img/logo.svg",
+        srcDark: "img/logo-dark.svg",
         width: 100
       },
       items: [
         {
-          href: "https://docs.medusajs.com",
-          label: "Introduction",
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          label: "Docs"
         },
         {
-          href: `https://docs.medusajs.com/api/store`,
-          target: "_self",
-          label: "API Reference",
+          type: 'dropdown',
+          label: 'References',
+          items: [
+            {
+              href: `https://docs.medusajs.com/api/store`,
+              target: "_self",
+              label: "API Reference",
+            },
+            {
+              to: "cli/reference",
+              label: "CLI Reference",
+            },
+            {
+              to: "advanced/backend/subscribers/events-list",
+              label: "Events Reference",
+            },
+            {
+              type: "docSidebar",
+              sidebarId: "jsClientSidebar",
+              label: "JS Client Reference",
+            },
+            {
+              type: "docSidebar",
+              sidebarId: "servicesSidebar",
+              label: "Services Reference",
+            },
+          ]
         },
         {
           href: "https://github.com/medusajs/medusa",
@@ -126,9 +158,12 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/medusajs/medusa/edit/master/www/",
+          editUrl: "https://github.com/medusajs/medusa/edit/master/docs/content",
           path: docsPath,
           routeBasePath: "/",
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          ]
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

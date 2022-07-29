@@ -1,29 +1,26 @@
 import {
-  Entity,
-  RelationId,
   BeforeInsert,
   Column,
-  DeleteDateColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  PrimaryColumn,
-  OneToOne,
-  OneToMany,
-  ManyToOne,
-  ManyToMany,
+  Entity,
   JoinColumn,
   JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToOne,
 } from "typeorm"
-import { ulid } from "ulid"
-import { resolveDbType, DbAwareColumn } from "../utils/db-aware-column"
+import { BaseEntity } from "../interfaces/models/base-entity"
+import { DbAwareColumn } from "../utils/db-aware-column"
 
 import { Currency } from "./currency"
+import { generateEntityId } from "../utils/generate-entity-id"
+import { SalesChannel } from "./sales-channel"
+import {
+  FeatureFlagColumn,
+  FeatureFlagDecorators,
+} from "../utils/feature-flag-decorators"
 
 @Entity()
-export class Store {
-  @PrimaryColumn()
-  id: string
-
+export class Store extends BaseEntity {
   @Column({ default: "Medusa Store" })
   name: string
 
@@ -57,19 +54,21 @@ export class Store {
   @Column({ nullable: true })
   invite_link_template: string
 
-  @CreateDateColumn({ type: resolveDbType("timestamptz") })
-  created_at: Date
-
-  @UpdateDateColumn({ type: resolveDbType("timestamptz") })
-  updated_at: Date
-
   @DbAwareColumn({ type: "jsonb", nullable: true })
-  metadata: any
+  metadata: Record<string, unknown>
+
+  @FeatureFlagColumn("sales_channels", { nullable: true })
+  default_sales_channel_id: string
+
+  @FeatureFlagDecorators("sales_channels", [
+    OneToOne(() => SalesChannel),
+    JoinColumn({ name: "default_sales_channel_id" }),
+  ])
+  default_sales_channel: SalesChannel
 
   @BeforeInsert()
-  private beforeInsert() {
-    const id = ulid()
-    this.id = `store_${id}`
+  private beforeInsert(): void {
+    this.id = generateEntityId(this.id, "store")
   }
 }
 

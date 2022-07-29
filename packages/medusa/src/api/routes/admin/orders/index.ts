@@ -1,20 +1,36 @@
 import { Router } from "express"
-import { Order } from "../../../.."
-import middlewares from "../../../middlewares"
-import { DeleteResponse, PaginatedResponse } from "../../../../types/common"
 import "reflect-metadata"
+import { Order } from "../../../.."
+import {
+  DeleteResponse,
+  EmptyQueryParams,
+  PaginatedResponse,
+} from "../../../../types/common"
+import middlewares, { transformQuery } from "../../../middlewares"
+import { AdminGetOrdersParams } from "./list-orders"
+import { FlagRouter } from "../../../../utils/flag-router"
 
 const route = Router()
 
-export default (app) => {
+export default (app, featureFlagRouter: FlagRouter) => {
   app.use("/orders", route)
+
+  const relations = [...defaultAdminOrdersRelations]
+  if (featureFlagRouter.isFeatureEnabled("sales_channels")) {
+    relations.push("sales_channel")
+  }
 
   /**
    * List orders
    */
   route.get(
     "/",
-    middlewares.normalizeQuery(),
+    transformQuery(AdminGetOrdersParams, {
+      defaultRelations: relations,
+      defaultFields: defaultAdminOrdersFields,
+      allowedFields: allowedAdminOrdersFields,
+      isList: true,
+    }),
     middlewares.wrap(require("./list-orders").default)
   )
 
@@ -23,7 +39,12 @@ export default (app) => {
    */
   route.get(
     "/:id",
-    middlewares.normalizeQuery(),
+    transformQuery(EmptyQueryParams, {
+      defaultRelations: relations,
+      defaultFields: defaultAdminOrdersFields,
+      allowedFields: allowedAdminOrdersFields,
+      isList: false,
+    }),
     middlewares.wrap(require("./get-order").default)
   )
 
@@ -231,7 +252,6 @@ export const defaultAdminOrdersRelations = [
   "shipping_address",
   "discounts",
   "discounts.rule",
-  "discounts.rule.valid_for",
   "shipping_methods",
   "payments",
   "fulfillments",
@@ -332,7 +352,6 @@ export const allowedAdminOrdersRelations = [
   "shipping_address",
   "discounts",
   "discounts.rule",
-  "discounts.rule.valid_for",
   "shipping_methods",
   "payments",
   "fulfillments",

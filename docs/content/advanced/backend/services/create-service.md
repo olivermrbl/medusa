@@ -1,7 +1,5 @@
 ---
-
 title: Create a Service
-
 ---
 
 # Create a Service
@@ -31,7 +29,7 @@ To create a service, you should create a JavaScript file in `src/services` to ho
 For example, if you want to create a service `helloService`, create the file `hello.js` in `src/services` with the following content:
 
 ```js
-import { BaseService } from "medusa-interfaces";
+import { BaseService } from "medusa-interfaces"
 
 class HelloService extends BaseService {
   getMessage() {
@@ -39,7 +37,7 @@ class HelloService extends BaseService {
   }
 }
 
-export default HelloService;
+export default HelloService
 ```
 
 ## Service Constructor
@@ -69,6 +67,16 @@ async getProductCount() {
 
 You can use your custom service throughout your Medusa server just like you would use any of the core services.
 
+:::note
+
+Before using your service, make sure you run the `build` command:
+
+```bash npm2yarn
+npm run build
+```
+
+:::
+
 ### In a Service
 
 To use your custom service in another custom service, you can have easy access to it in the dependencies injected to the constructor of your service:
@@ -85,10 +93,10 @@ constructor({ helloService }) {
 To use your custom service in an endpoint, you can use `req.scope.resolve` passing it the service’s registration name:
 
 ```js
-const helloService = req.scope.resolve('helloService');
+const helloService = req.scope.resolve("helloService")
 
 res.json({
-  message: helloService.getMessage()
+  message: helloService.getMessage(),
 })
 ```
 
@@ -104,4 +112,5 @@ constructor({ helloService, eventBusService }) {
 
 ## What’s Next 🚀
 
+- Check out the [Services Reference](/references/services/classes/AuthService) to see a list of all services in Medusa.
 - [Learn How to Create an Endpoint.](/advanced/backend/endpoints/add-storefront)
