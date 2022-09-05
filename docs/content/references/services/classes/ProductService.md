@@ -2,7 +2,7 @@
 
 ## Hierarchy
 
-- `TransactionBaseService`<[`ProductService`](ProductService.md)\>
+- `TransactionBaseService`
 
   ↳ **`ProductService`**
 
@@ -20,31 +20,39 @@
 
 #### Overrides
 
-TransactionBaseService&lt;ProductService\&gt;.constructor
+TransactionBaseService.constructor
 
 #### Defined in
 
-[services/product.ts:62](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L62)
+[packages/medusa/src/services/product.ts:72](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L72)
 
 ## Properties
 
-### configModule
+### \_\_configModule\_\_
 
-• `Protected` `Optional` `Readonly` **configModule**: `Record`<`string`, `unknown`\>
+• `Protected` `Optional` `Readonly` **\_\_configModule\_\_**: `Record`<`string`, `unknown`\>
 
 #### Inherited from
 
-TransactionBaseService.configModule
+TransactionBaseService.\_\_configModule\_\_
+
+#### Defined in
+
+[packages/medusa/src/interfaces/transaction-base-service.ts:10](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L10)
 
 ___
 
-### container
+### \_\_container\_\_
 
-• `Protected` `Readonly` **container**: `unknown`
+• `Protected` `Readonly` **\_\_container\_\_**: `any`
 
 #### Inherited from
 
-TransactionBaseService.container
+TransactionBaseService.\_\_container\_\_
+
+#### Defined in
+
+[packages/medusa/src/interfaces/transaction-base-service.ts:9](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L9)
 
 ___
 
@@ -54,7 +62,17 @@ ___
 
 #### Defined in
 
-[services/product.ts:53](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L53)
+[packages/medusa/src/services/product.ts:62](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L62)
+
+___
+
+### featureFlagRouter\_
+
+• `Protected` `Readonly` **featureFlagRouter\_**: `FlagRouter`
+
+#### Defined in
+
+[packages/medusa/src/services/product.ts:63](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L63)
 
 ___
 
@@ -64,7 +82,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:50](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L50)
+[packages/medusa/src/services/product.ts:59](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L59)
 
 ___
 
@@ -78,7 +96,7 @@ TransactionBaseService.manager\_
 
 #### Defined in
 
-[services/product.ts:42](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L42)
+[packages/medusa/src/services/product.ts:51](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L51)
 
 ___
 
@@ -88,7 +106,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:45](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L45)
+[packages/medusa/src/services/product.ts:54](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L54)
 
 ___
 
@@ -98,7 +116,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:46](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L46)
+[packages/medusa/src/services/product.ts:55](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L55)
 
 ___
 
@@ -108,7 +126,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:49](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L49)
+[packages/medusa/src/services/product.ts:58](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L58)
 
 ___
 
@@ -118,7 +136,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:48](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L48)
+[packages/medusa/src/services/product.ts:57](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L57)
 
 ___
 
@@ -128,7 +146,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:47](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L47)
+[packages/medusa/src/services/product.ts:56](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L56)
 
 ___
 
@@ -138,7 +156,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:51](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L51)
+[packages/medusa/src/services/product.ts:60](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L60)
 
 ___
 
@@ -148,7 +166,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:52](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L52)
+[packages/medusa/src/services/product.ts:61](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L61)
 
 ___
 
@@ -162,7 +180,7 @@ TransactionBaseService.transactionManager\_
 
 #### Defined in
 
-[services/product.ts:43](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L43)
+[packages/medusa/src/services/product.ts:52](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L52)
 
 ___
 
@@ -180,7 +198,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:56](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L56)
+[packages/medusa/src/services/product.ts:66](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L66)
 
 ___
 
@@ -190,7 +208,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:55](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L55)
+[packages/medusa/src/services/product.ts:65](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L65)
 
 ## Methods
 
@@ -198,26 +216,36 @@ ___
 
 ▸ **addOption**(`productId`, `optionTitle`): `Promise`<`Product`\>
 
+Adds an option to a product. Options can, for example, be "Size", "Color",
+etc. Will update all the products variants with a dummy value for the newly
+created option. The same option cannot be added more than once.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
-| `optionTitle` | `string` |  |
+| `productId` | `string` | the product to apply the new option to |
+| `optionTitle` | `string` | the display title of the option, e.g. "Size" |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+the result of the model update operation
+
 #### Defined in
 
-[services/product.ts:552](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L552)
+[packages/medusa/src/services/product.ts:634](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L634)
 
 ___
 
 ### atomicPhase\_
 
 ▸ `Protected` **atomicPhase_**<`TResult`, `TError`\>(`work`, `isolationOrErrorHandler?`, `maybeErrorHandlerOrDontFail?`): `Promise`<`TResult`\>
+
+Wraps some work within a transactional block. If the service already has
+a transaction manager attached this will be reused, otherwise a new
+transaction manager is created.
 
 #### Type parameters
 
@@ -230,13 +258,15 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `work` | (`transactionManager`: `EntityManager`) => `Promise`<`TResult`\> |  |
-| `isolationOrErrorHandler?` | `IsolationLevel` \| (`error`: `TError`) => `Promise`<`void` \| `TResult`\> |  |
-| `maybeErrorHandlerOrDontFail?` | (`error`: `TError`) => `Promise`<`void` \| `TResult`\> |  |
+| `work` | (`transactionManager`: `EntityManager`) => `Promise`<`TResult`\> | the transactional work to be done |
+| `isolationOrErrorHandler?` | `IsolationLevel` \| (`error`: `TError`) => `Promise`<`void` \| `TResult`\> | the isolation level to be used for the work. |
+| `maybeErrorHandlerOrDontFail?` | (`error`: `TError`) => `Promise`<`void` \| `TResult`\> | Potential error handler |
 
 #### Returns
 
 `Promise`<`TResult`\>
+
+the result of the transactional work
 
 #### Inherited from
 
@@ -244,7 +274,7 @@ TransactionBaseService.atomicPhase\_
 
 #### Defined in
 
-[interfaces/transaction-base-service.ts:53](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/interfaces/transaction-base-service.ts#L53)
+[packages/medusa/src/interfaces/transaction-base-service.ts:50](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L50)
 
 ___
 
@@ -252,19 +282,23 @@ ___
 
 ▸ **count**(`selector?`): `Promise`<`number`\>
 
+Return the total number of documents in database
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `selector` | `Selector`<`Product`\> |  |
+| `selector` | `Selector`<`Product`\> | the selector to choose products by |
 
 #### Returns
 
 `Promise`<`number`\>
 
+the result of the count operation
+
 #### Defined in
 
-[services/product.ts:175](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L175)
+[packages/medusa/src/services/product.ts:175](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L175)
 
 ___
 
@@ -272,19 +306,23 @@ ___
 
 ▸ **create**(`productObject`): `Promise`<`Product`\>
 
+Creates a product.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productObject` | `CreateProductInput` |  |
+| `productObject` | `CreateProductInput` | the product to create |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+resolves to the creation result.
+
 #### Defined in
 
-[services/product.ts:324](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L324)
+[packages/medusa/src/services/product.ts:343](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L343)
 
 ___
 
@@ -292,19 +330,24 @@ ___
 
 ▸ **delete**(`productId`): `Promise`<`void`\>
 
+Deletes a product from a given product id. The product's associated
+variants will also be deleted.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
+| `productId` | `string` | the id of the product to delete. Must be   castable as an ObjectId |
 
 #### Returns
 
 `Promise`<`void`\>
 
+empty promise
+
 #### Defined in
 
-[services/product.ts:518](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L518)
+[packages/medusa/src/services/product.ts:600](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L600)
 
 ___
 
@@ -312,33 +355,38 @@ ___
 
 ▸ **deleteOption**(`productId`, `optionId`): `Promise`<`void` \| `Product`\>
 
+Delete an option from a product.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
-| `optionId` | `string` |  |
+| `productId` | `string` | the product to delete an option from |
+| `optionId` | `string` | the option to delete |
 
 #### Returns
 
 `Promise`<`void` \| `Product`\>
 
+the updated product
+
 #### Defined in
 
-[services/product.ts:693](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L693)
+[packages/medusa/src/services/product.ts:779](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L779)
 
 ___
 
-### list
+### filterProductsBySalesChannel
 
-▸ **list**(`selector?`, `config?`): `Promise`<`Product`[]\>
+▸ **filterProductsBySalesChannel**(`productIds`, `salesChannelId`, `config?`): `Promise`<`Product`[]\>
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `selector` | `Selector`<`Product`\> \| `FilterableProductProps` |  |
-| `config` | `FindProductConfig` |  |
+| Name | Type |
+| :------ | :------ |
+| `productIds` | `string`[] |
+| `salesChannelId` | `string` |
+| `config` | `FindProductConfig` |
 
 #### Returns
 
@@ -346,7 +394,32 @@ ___
 
 #### Defined in
 
-[services/product.ts:107](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L107)
+[packages/medusa/src/services/product.ts:289](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L289)
+
+___
+
+### list
+
+▸ **list**(`selector?`, `config?`): `Promise`<`Product`[]\>
+
+Lists products based on the provided parameters.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `selector` | `Selector`<`Product`\> \| `FilterableProductProps` | an object that defines rules to filter products   by |
+| `config` | `FindProductConfig` | object that defines the scope for what should be   returned |
+
+#### Returns
+
+`Promise`<`Product`[]\>
+
+the result of the find operation
+
+#### Defined in
+
+[packages/medusa/src/services/product.ts:109](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L109)
 
 ___
 
@@ -354,20 +427,27 @@ ___
 
 ▸ **listAndCount**(`selector`, `config?`): `Promise`<[`Product`[], `number`]\>
 
+Lists products based on the provided parameters and includes the count of
+products that match the query.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `selector` | `Selector`<`Product`\> \| `FilterableProductProps` |  |
-| `config` | `FindProductConfig` |  |
+| `selector` | `Selector`<`Product`\> \| `FilterableProductProps` | an object that defines rules to filter products   by |
+| `config` | `FindProductConfig` | object that defines the scope for what should be   returned |
 
 #### Returns
 
 `Promise`<[`Product`[], `number`]\>
 
+an array containing the products as
+  the first element and the total count of products that matches the query
+  as the second element.
+
 #### Defined in
 
-[services/product.ts:144](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L144)
+[packages/medusa/src/services/product.ts:145](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L145)
 
 ___
 
@@ -387,7 +467,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:309](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L309)
+[packages/medusa/src/services/product.ts:329](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L329)
 
 ___
 
@@ -401,7 +481,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:299](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L299)
+[packages/medusa/src/services/product.ts:320](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L320)
 
 ___
 
@@ -409,16 +489,21 @@ ___
 
 ▸ `Protected` **prepareListQuery_**(`selector`, `config`): `Object`
 
+Creates a query object to be used for list queries.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `selector` | `Selector`<`Product`\> \| `FilterableProductProps` |  |
-| `config` | `FindProductConfig` |  |
+| `selector` | `Selector`<`Product`\> \| `FilterableProductProps` | the selector to create the query from |
+| `config` | `FindProductConfig` | the config to use for the query |
 
 #### Returns
 
 `Object`
+
+an object containing the query, relations and free-text
+  search param.
 
 | Name | Type |
 | :------ | :------ |
@@ -428,7 +513,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:759](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L759)
+[packages/medusa/src/services/product.ts:845](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L845)
 
 ___
 
@@ -449,7 +534,7 @@ ___
 
 #### Defined in
 
-[services/product.ts:591](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L591)
+[packages/medusa/src/services/product.ts:677](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L677)
 
 ___
 
@@ -457,20 +542,25 @@ ___
 
 ▸ **retrieve**(`productId`, `config?`): `Promise`<`Product`\>
 
+Gets a product by id.
+Throws in case of DB Error and if product was not found.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
-| `config` | `FindProductConfig` |  |
+| `productId` | `string` | id of the product to get. |
+| `config` | `FindProductConfig` | object that defines what should be included in the   query response |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+the result of the find one operation.
+
 #### Defined in
 
-[services/product.ts:191](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L191)
+[packages/medusa/src/services/product.ts:190](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L190)
 
 ___
 
@@ -478,20 +568,25 @@ ___
 
 ▸ **retrieveByExternalId**(`externalId`, `config?`): `Promise`<`Product`\>
 
+Gets a product by external id.
+Throws in case of DB Error and if product was not found.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `externalId` | `string` |  |
-| `config` | `FindProductConfig` |  |
+| `externalId` | `string` | handle of the product to get. |
+| `config` | `FindProductConfig` | details about what to get from the product |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+the result of the find one operation.
+
 #### Defined in
 
-[services/product.ts:225](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L225)
+[packages/medusa/src/services/product.ts:220](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L220)
 
 ___
 
@@ -499,20 +594,25 @@ ___
 
 ▸ **retrieveByHandle**(`productHandle`, `config?`): `Promise`<`Product`\>
 
+Gets a product by handle.
+Throws in case of DB Error and if product was not found.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productHandle` | `string` |  |
-| `config` | `FindProductConfig` |  |
+| `productHandle` | `string` | handle of the product to get. |
+| `config` | `FindProductConfig` | details about what to get from the product |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+the result of the find one operation.
+
 #### Defined in
 
-[services/product.ts:209](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L209)
+[packages/medusa/src/services/product.ts:206](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L206)
 
 ___
 
@@ -520,20 +620,24 @@ ___
 
 ▸ **retrieveVariants**(`productId`, `config?`): `Promise`<`ProductVariant`[]\>
 
+Gets all variants belonging to a product.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
-| `config` | `FindProductConfig` |  |
+| `productId` | `string` | the id of the product to get variants from. |
+| `config` | `FindProductConfig` | The config to select and configure relations etc... |
 
 #### Returns
 
 `Promise`<`ProductVariant`[]\>
 
+an array of variants
+
 #### Defined in
 
-[services/product.ts:279](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L279)
+[packages/medusa/src/services/product.ts:271](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L271)
 
 ___
 
@@ -541,20 +645,25 @@ ___
 
 ▸ **retrieve_**(`selector`, `config?`): `Promise`<`Product`\>
 
+Gets a product by selector.
+Throws in case of DB Error and if product was not found.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `selector` | `Selector`<`Product`\> |  |
-| `config` | `FindProductConfig` |  |
+| `selector` | `Selector`<`Product`\> | selector object |
+| `config` | `FindProductConfig` | object that defines what should be included in the   query response |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+the result of the find one operation.
+
 #### Defined in
 
-[services/product.ts:242](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L242)
+[packages/medusa/src/services/product.ts:235](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L235)
 
 ___
 
@@ -578,7 +687,7 @@ TransactionBaseService.shouldRetryTransaction\_
 
 #### Defined in
 
-[interfaces/transaction-base-service.ts:34](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/interfaces/transaction-base-service.ts#L34)
+[packages/medusa/src/interfaces/transaction-base-service.ts:31](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L31)
 
 ___
 
@@ -586,20 +695,26 @@ ___
 
 ▸ **update**(`productId`, `update`): `Promise`<`Product`\>
 
+Updates a product. Product variant updates should use dedicated methods,
+e.g. `addVariant`, etc. The function will throw errors if metadata or
+product variant updates are attempted.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
-| `update` | `UpdateProductInput` |  |
+| `productId` | `string` | the id of the product. Must be a string that   can be casted to an ObjectId |
+| `update` | `UpdateProductInput` | an object with the update values. |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+resolves to the update result.
+
 #### Defined in
 
-[services/product.ts:399](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L399)
+[packages/medusa/src/services/product.ts:442](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L442)
 
 ___
 
@@ -607,21 +722,26 @@ ___
 
 ▸ **updateOption**(`productId`, `optionId`, `data`): `Promise`<`Product`\>
 
+Updates a product's option. Throws if the call tries to update an option
+not associated with the product. Throws if the updated title already exists.
+
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `productId` | `string` |  |
-| `optionId` | `string` |  |
-| `data` | `ProductOptionInput` |  |
+| `productId` | `string` | the product whose option we are updating |
+| `optionId` | `string` | the id of the option we are updating |
+| `data` | `ProductOptionInput` | the data to update the option with |
 
 #### Returns
 
 `Promise`<`Product`\>
 
+the updated product
+
 #### Defined in
 
-[services/product.ts:637](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/services/product.ts#L637)
+[packages/medusa/src/services/product.ts:723](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/product.ts#L723)
 
 ___
 
@@ -645,4 +765,4 @@ TransactionBaseService.withTransaction
 
 #### Defined in
 
-[interfaces/transaction-base-service.ts:16](https://github.com/medusajs/medusa/blob/32b066d92/packages/medusa/src/interfaces/transaction-base-service.ts#L16)
+[packages/medusa/src/interfaces/transaction-base-service.ts:13](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L13)

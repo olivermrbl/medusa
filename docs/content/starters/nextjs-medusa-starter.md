@@ -89,6 +89,14 @@ Make sure to replace `<MEILISEARCH_URL>` with the URL MeiliSearch is running on 
 
 Then, restart the Next.js server. You’ll be able to search through available products by clicking the search icon in the navigation bar.
 
+:::note
+
+To make sure the Next.js storefront properly displays the products in the search result, include in the `displayedAttributes` setting of the MeiliSearch plugin on the Medusa server at least the fields `title`, `handle`, `description`, and `thumbnail`.
+
+:::
+
+![Search Result on Next.js storefront](https://i.imgur.com/gQVWvH2.png)
+
 ### Algolia Integration
 
 Instead of using the default MeiliSearch search engine, you can switch to using Algolia. Make sure you start by installing the Algolia plugin on your Medusa server. You can do it by [following this guide](../add-plugins/algolia.md).
@@ -205,5 +213,5 @@ You can learn more about development with Next.js through [their documentation](
 
 ## What’s Next 🚀
 
-- Check the [Storefront API reference](https://docs.medusajs.com/api/store/auth) for a full list of REST APIs to use on your storefront.
+- Check the [Storefront API reference](https://docs.medusajs.com/api/store) for a full list of REST APIs to use on your storefront.
 - Learn [how to install Medusa Admin](../admin/quickstart.md).

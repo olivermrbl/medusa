@@ -4,7 +4,7 @@ In this document, you’ll learn what configurations you can add to your Medusa 
 
 ## Prerequisites
 
-This document assumes you already followed along with the [“Set up your development environment” documentation](../tutorial/0-set-up-your-development-environment.mdx) and have installed a Medusa server.
+This document assumes you already followed along with the [“Set up your development environment” documentation](../tutorial/0-set-up-your-development-environment.mdx) and have [installed a Medusa server](../quickstart/quick-start.md#create-a-medusa-server).
 
 ## Medusa Configurations File
 
@@ -96,6 +96,12 @@ module.exports = {
 Where `database_type` is `sqlite` and `database_database` is the location you want the SQLite database to be created in.
 
 ### PostgreSQL Configurations
+
+:::note
+
+Before getting started with configuring PostgreSQL, you should have created a PostgreSQL `database`. You can check how to create a database in [PostgreSQL's documentation](https://www.postgresql.org/docs/current/sql-createdatabase.html).
+
+:::
 
 For PostgreSQL you mainly need 2 configurations:
 
