@@ -1,5 +1,25 @@
 # Change Log
 
+## 1.5.1-nightly.0
+
+### Patch Changes
+
+- [#2427](https://github.com/medusajs/medusa/pull/2427) [`211720f2`](https://github.com/medusajs/medusa/commit/211720f24cbcb1f01c36aa35660e1ff0c4518ebd) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - Changes type to type_id for the list products endpoints in both the Store and Admin API.
+
+* [#2411](https://github.com/medusajs/medusa/pull/2411) [`c7174424`](https://github.com/medusajs/medusa/commit/c717442451cf9fc2e0961edded5b49ea5a78760e) Thanks [@adrien2p](https://github.com/adrien2p)! - feat(medusa): Allow to filter collections by discount condition id
+
+- [#2430](https://github.com/medusajs/medusa/pull/2430) [`765a2ccc`](https://github.com/medusajs/medusa/commit/765a2cccda2c4c552ede9ec23e0c1e3dd4ea44fc) Thanks [@adrien2p](https://github.com/adrien2p)! - Feat(medusa, medusa-js, medusa-react): add resources to discount condition by batch
+
+* [#2270](https://github.com/medusajs/medusa/pull/2270) [`69e57975`](https://github.com/medusajs/medusa/commit/69e579758f81332094d6f0dfa6fbcbc359b0d92c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - Adds the use of price selection strategy to retrieving variants in the admin API. This moves the responsibility of tax calculations from the frontend (admin) to the backend.
+
+- [#2424](https://github.com/medusajs/medusa/pull/2424) [`05f92171`](https://github.com/medusajs/medusa/commit/05f921711fb0ac3603d29955648d8ba563a7da7d) Thanks [@fPolic](https://github.com/fPolic)! - Product import - allow null product type
+
+* [#2359](https://github.com/medusajs/medusa/pull/2359) [`19ca18e7`](https://github.com/medusajs/medusa/commit/19ca18e71c8feea7277e09db3c5e9e6316adb6ab) Thanks [@adrien2p](https://github.com/adrien2p)! - feat(medusa): Allow to query product types by discount condition id
+
+- [#2340](https://github.com/medusajs/medusa/pull/2340) [`a9c703d5`](https://github.com/medusajs/medusa/commit/a9c703d56c2678fb509af7f9e1fe2cb65f95ba9d) Thanks [@adrien2p](https://github.com/adrien2p)! - feat(medusa): Allow to query product tags by condition id
+
+* [`2086f810`](https://github.com/medusajs/medusa/commit/2086f8101c1f22fd3427e736bed54431c6bc9c19) Thanks [@olivermrbl](https://github.com/olivermrbl)! - TEsting this out
+
 ## 1.5.0
 
 ### Minor Changes

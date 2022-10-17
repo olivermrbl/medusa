@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.0.1-nightly.0
+
+### Patch Changes
+
+- [#2430](https://github.com/medusajs/medusa/pull/2430) [`765a2ccc`](https://github.com/medusajs/medusa/commit/765a2cccda2c4c552ede9ec23e0c1e3dd4ea44fc) Thanks [@adrien2p](https://github.com/adrien2p)! - Feat(medusa, medusa-js, medusa-react): add resources to discount condition by batch
+
+- Updated dependencies [[`211720f2`](https://github.com/medusajs/medusa/commit/211720f24cbcb1f01c36aa35660e1ff0c4518ebd), [`c7174424`](https://github.com/medusajs/medusa/commit/c717442451cf9fc2e0961edded5b49ea5a78760e), [`765a2ccc`](https://github.com/medusajs/medusa/commit/765a2cccda2c4c552ede9ec23e0c1e3dd4ea44fc), [`69e57975`](https://github.com/medusajs/medusa/commit/69e579758f81332094d6f0dfa6fbcbc359b0d92c), [`05f92171`](https://github.com/medusajs/medusa/commit/05f921711fb0ac3603d29955648d8ba563a7da7d), [`19ca18e7`](https://github.com/medusajs/medusa/commit/19ca18e71c8feea7277e09db3c5e9e6316adb6ab), [`a9c703d5`](https://github.com/medusajs/medusa/commit/a9c703d56c2678fb509af7f9e1fe2cb65f95ba9d), [`2086f810`](https://github.com/medusajs/medusa/commit/2086f8101c1f22fd3427e736bed54431c6bc9c19)]:
+  - @medusajs/medusa@1.5.1-nightly.0
+  - @medusajs/medusa-js@1.3.2-nightly.0
+
 ## 2.0.0
 
 ### Patch Changes
