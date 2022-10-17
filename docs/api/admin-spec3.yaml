@@ -15,6 +15,89 @@ info:
 
 
     <!-- ReDoc-Inject: <SecurityDefinitions> -->
+
+
+    ## Expanding Fields
+
+
+    In many endpoints you'll find an `expand` query parameter that can be passed
+    to the endpoint. You can use the `expand` query parameter to unpack an
+    entity's relations and return them in the response.
+
+
+    For example, when you list customers you can also retrieve their groups by
+    passing to the `expand` query parameter the value `groups`.
+
+
+    You can expand more than one relation by separating the relations in the
+    `expand` query parameter with a comma. For example, to retrieve both the
+    orders and the groups of a customer, pass to the `expand` query parameter
+    the value `groups,orders`.
+
+
+    Please note that the parameters you pass to `expand` replace any relations
+    that are expanded by default.
+
+
+    ## Selecting Fields
+
+
+    In many endpoints you'll find a `fields` query parameter that can be passed
+    to the endpoint. You can use the `fields` query parameter to specify which
+    fields in the entity should be returned in the response.
+
+
+    You can pass more than one field by seperating the field names in the
+    `fields` query parameter with a comma.
+
+
+    Only the fields you pass to `field` will be retrieved and returned in the
+    response. Any fields that are returned by default will not be returned in
+    this case. This does not affect relations.
+
+
+    For example, to only select the `title` and `description` fields of a
+    product, pass to the `fields` query parameter the value `title,description`.
+
+
+    ## Pagination
+
+
+    ### Query Parameters
+
+
+    In listing endpoints, such as list customers or list products, you can
+    control the pagination using the query parameters `limit` and `offset`.
+
+
+    `limit` is used to specify the maximum number of items that can be return in
+    the response. `offset` is used to specify how many items to skip before
+    returning the resulting entities.
+
+
+    You can use the `offset` query parameter to change between pages. For
+    example, if the limit is 50, at page 1 the offset should be 0; at page 2 the
+    offset should be 50, and so on.
+
+
+    ### Response Fields
+
+
+    In listing fields, aside from the entities retrieved, there are three
+    pagination-related fields returned: `count`, `limit`, and `offset`.
+
+
+    Similarly to the query parameters, `limit` is the maximum number of items
+    that can be returned in the response, and `field` is the number of items
+    that were skipped before the entities in the result.
+
+
+    `count` is the total number of available items of this entity. It can be
+    used to determine how many pages are there.
+
+
+    For example, if the `count` is 100 and the `limit` is 50, you can divide the
+    `count` by the `limit` to get the number of pages: `100/50 = 2 pages`.
   license:
     name: MIT
     url: 'https://github.com/medusajs/medusa/blob/master/LICENSE'
@@ -122,7 +205,7 @@ paths:
   /apps/authorizations:
     post:
       operationId: PostApps
-      summary: Generates a token for an application.
+      summary: Generate Token for App
       description: Generates a token for an application.
       x-authenticated: true
       requestBody:
@@ -188,7 +271,7 @@ paths:
   /apps:
     get:
       operationId: GetApps
-      summary: List applications
+      summary: List Applications
       description: Retrieve a list of applications.
       x-authenticated: true
       x-codeSamples:
@@ -228,7 +311,7 @@ paths:
   /auth:
     post:
       operationId: PostAuth
-      summary: Authenticate a User
+      summary: User Login
       x-authenticated: false
       description: Logs a User in and authorizes them to manage Store settings.
       parameters: []
@@ -296,7 +379,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteAuth
-      summary: Delete Session
+      summary: User Logout
       x-authenticated: true
       description: Deletes the current session for the logged in user.
       x-codeSamples:
@@ -340,7 +423,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetAuth
-      summary: Get Session
+      summary: Get Current User
       x-authenticated: true
       description: Gets the currently logged in User.
       x-codeSamples:
@@ -393,7 +476,7 @@ paths:
   '/batch-jobs/{id}/cancel':
     post:
       operationId: PostBatchJobsBatchJobCancel
-      summary: Marks a batch job as canceled
+      summary: Cancel a Batch Job
       description: Marks a batch job as canceled
       x-authenticated: true
       parameters:
@@ -455,7 +538,7 @@ paths:
   '/batch-jobs/{id}/confirm':
     post:
       operationId: PostBatchJobsBatchJobConfirmProcessing
-      summary: Confirm a batch job
+      summary: Confirm a Batch Job
       description: Confirms that a previously requested batch job should be executed.
       x-authenticated: true
       parameters:
@@ -921,7 +1004,7 @@ paths:
   '/batch-jobs/{id}':
     get:
       operationId: GetBatchJobsBatchJob
-      summary: Retrieve a Batch Job
+      summary: Get a Batch Job
       description: Retrieves a Batch Job.
       x-authenticated: true
       parameters:
@@ -983,7 +1066,7 @@ paths:
   '/collections/{id}/products/batch':
     post:
       operationId: PostProductsToCollection
-      summary: Updates products associated with a Product Collection
+      summary: Update Products
       description: Updates products associated with a Product Collection
       x-authenticated: true
       parameters:
@@ -1050,7 +1133,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteProductsFromCollection
-      summary: Removes products associated with a Product Collection
+      summary: Remove Product
       description: Removes products associated with a Product Collection
       x-authenticated: true
       parameters:
@@ -1131,7 +1214,7 @@ paths:
   /collections:
     post:
       operationId: PostCollections
-      summary: Create a Product Collection
+      summary: Create a Collection
       description: Creates a Product Collection.
       x-authenticated: true
       requestBody:
@@ -1213,7 +1296,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetCollections
-      summary: List Product Collections
+      summary: List Collections
       description: Retrieve a list of Product Collection.
       x-authenticated: true
       parameters:
@@ -1373,7 +1456,7 @@ paths:
   '/collections/{id}':
     delete:
       operationId: DeleteCollectionsCollection
-      summary: Delete a Product Collection
+      summary: Delete a Collection
       description: Deletes a Product Collection.
       x-authenticated: true
       parameters:
@@ -1443,7 +1526,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetCollectionsCollection
-      summary: Retrieve a Product Collection
+      summary: Get a Collection
       description: Retrieves a Product Collection.
       x-authenticated: true
       parameters:
@@ -1504,7 +1587,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostCollectionsCollection
-      summary: Update a Product Collection
+      summary: Update a Collection
       description: Updates a Product Collection.
       x-authenticated: true
       parameters:
@@ -1589,10 +1672,96 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+  /currencies:
+    get:
+      operationId: GetCurrencies
+      summary: List Currency
+      description: Retrieves a list of Currency
+      x-authenticated: true
+      parameters:
+        - in: query
+          name: code
+          description: Code of the currency to search for.
+          schema:
+            type: string
+        - in: query
+          name: includes_tax
+          description: Search for tax inclusive currencies.
+          schema:
+            type: boolean
+        - in: query
+          name: order
+          description: to retrieve products in.
+          schema:
+            type: string
+        - in: query
+          name: offset
+          description: How many products to skip in the result.
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: Limit the number of products returned.
+          schema:
+            type: string
+      tags:
+        - Currency
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  count:
+                    description: The number of Currency.
+                    type: integer
+                  offset:
+                    description: The offset of the Currency query.
+                    type: integer
+                  limit:
+                    description: The limit of the currency query.
+                    type: integer
+                  currencies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/currency'
+  '/currencies/{code}':
+    post:
+      operationId: PostCurrenciesCurrency
+      summary: Update a Currency
+      description: Update a Currency
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: code
+          required: true
+          description: The code of the Currency.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                includes_tax:
+                  type: boolean
+                  description: '[EXPERIMENTAL] Tax included in prices of currency.'
+      tags:
+        - Currency
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  currency:
+                    $ref: '#/components/schemas/currency'
   '/customer-groups/{id}/customers/batch':
     post:
       operationId: PostCustomerGroupsGroupCustomersBatch
-      summary: 'Add a list of customers to a customer group '
+      summary: Add Customers
       description: 'Adds a list of customers, represented by id''s, to a customer group.'
       x-authenticated: true
       parameters:
@@ -1687,7 +1856,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteCustomerGroupsGroupCustomerBatch
-      summary: 'Remove a list of customers from a customer group '
+      summary: Remove Customers
       description: 'Removes a list of customers, represented by id''s, from a customer group.'
       x-authenticated: true
       parameters:
@@ -1783,7 +1952,7 @@ paths:
   /customer-groups:
     post:
       operationId: PostCustomerGroups
-      summary: Create a CustomerGroup
+      summary: Create a Customer Group
       description: Creates a CustomerGroup.
       x-authenticated: true
       parameters: []
@@ -1860,7 +2029,7 @@ paths:
                   description: Metadata for the customer.
     get:
       operationId: GetCustomerGroups
-      summary: Retrieve a list of customer groups
+      summary: List Customer Groups
       description: Retrieve a list of customer groups.
       x-authenticated: true
       parameters:
@@ -1989,7 +2158,7 @@ paths:
             medusa.admin.customerGroups.list()
 
             .then(({ customer_groups, limit, offset, count }) => {
-              console.log(customer_groups.id);
+              console.log(customer_groups.length);
             });
         - lang: Shell
           label: cURL
@@ -2038,7 +2207,7 @@ paths:
   '/customer-groups/{id}':
     delete:
       operationId: DeleteCustomerGroupsCustomerGroup
-      summary: Delete a CustomerGroup
+      summary: Delete a Customer Group
       description: Deletes a CustomerGroup.
       x-authenticated: true
       parameters:
@@ -2110,7 +2279,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetCustomerGroupsGroup
-      summary: Retrieve a CustomerGroup
+      summary: Get a Customer Group
       description: Retrieves a Customer Group.
       x-authenticated: true
       parameters:
@@ -2185,7 +2354,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostCustomerGroupsGroup
-      summary: Update a CustomerGroup
+      summary: Update a Customer Group
       description: Update a CustomerGroup.
       x-authenticated: true
       parameters:
@@ -2528,7 +2697,7 @@ paths:
   '/customers/{id}':
     get:
       operationId: GetCustomersCustomer
-      summary: Retrieve a Customer
+      summary: Get a Customer
       description: Retrieves a Customer.
       x-authenticated: true
       parameters:
@@ -2716,7 +2885,7 @@ paths:
   '/discounts/{id}/regions/{region_id}':
     post:
       operationId: PostDiscountsDiscountRegionsRegion
-      summary: Adds Region availability
+      summary: Add Region
       description: Adds a Region to the list of Regions that a Discount can be used in.
       x-authenticated: true
       parameters:
@@ -2783,7 +2952,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteDiscountsDiscountRegionsRegion
-      summary: Remove Region availability
+      summary: Remove Region
       x-authenticated: true
       description: >-
         Removes a Region from the list of Regions that a Discount can be used
@@ -2853,7 +3022,7 @@ paths:
   '/discounts/{discount_id}/conditions':
     post:
       operationId: PostDiscountsDiscountConditions
-      summary: Create a DiscountCondition
+      summary: Create a Condition
       description: >-
         Creates a DiscountCondition. Only one of `products`, `product_types`,
         `product_collections`, `product_tags`, and `customer_groups` should be
@@ -3341,10 +3510,11 @@ paths:
   '/discounts/{id}/dynamic-codes':
     post:
       operationId: PostDiscountsDiscountDynamicCodes
-      summary: Create a dynamic Discount code
+      summary: Create a Dynamic Code
       description: >-
-        Creates a unique code that can map to a parent Discount. This is useful
-        if you want to automatically generate codes with the same behaviour.
+        Creates a dynamic unique code that can map to a parent Discount. This is
+        useful if you want to automatically generate codes with the same
+        behaviour.
       x-authenticated: true
       parameters:
         - in: path
@@ -3434,7 +3604,7 @@ paths:
   '/discounts/{discount_id}/conditions/{condition_id}':
     delete:
       operationId: DeleteDiscountsDiscountConditionsCondition
-      summary: Delete a DiscountCondition
+      summary: Delete a Condition
       description: Deletes a DiscountCondition
       x-authenticated: true
       parameters:
@@ -3526,7 +3696,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetDiscountsDiscountConditionsCondition
-      summary: Gets a DiscountCondition
+      summary: Get a Condition
       description: Gets a DiscountCondition
       x-authenticated: true
       parameters:
@@ -3604,7 +3774,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostDiscountsDiscountConditionsCondition
-      summary: Update a DiscountCondition
+      summary: Update a Condition
       description: >-
         Updates a DiscountCondition. Only one of `products`, `product_types`,
         `product_collections`, `product_tags`, and `customer_groups` should be
@@ -3810,7 +3980,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetDiscountsDiscount
-      summary: Retrieve a Discount
+      summary: Get a Discount
       description: Retrieves a Discount
       x-authenticated: true
       parameters:
@@ -4086,7 +4256,7 @@ paths:
   '/discounts/{id}/dynamic-codes/{code}':
     delete:
       operationId: DeleteDiscountsDiscountDynamicCodesCode
-      summary: Delete a dynamic code
+      summary: Delete a Dynamic Code
       description: Deletes a dynamic code from a Discount.
       x-authenticated: true
       parameters:
@@ -4154,7 +4324,7 @@ paths:
   '/discounts/code/{code}':
     get:
       operationId: GetDiscountsDiscountCode
-      summary: Retrieve a Discount by code
+      summary: Get Discount by Code
       description: Retrieves a Discount by its discount code
       x-authenticated: true
       parameters:
@@ -4251,10 +4421,10 @@ paths:
                   format: email
                 billing_address:
                   description: The Address to be used for billing purposes.
-                  $ref: '#/components/schemas/address'
+                  $ref: '#/components/schemas/address_fields'
                 shipping_address:
                   description: The Address to be used for shipping.
-                  $ref: '#/components/schemas/address'
+                  $ref: '#/components/schemas/address_fields'
                 items:
                   description: The Line Items that have been received.
                   type: array
@@ -4495,7 +4665,7 @@ paths:
   '/draft-orders/{id}/line-items':
     post:
       operationId: PostDraftOrdersDraftOrderLineItems
-      summary: Create a Line Item for Draft Order
+      summary: Create a Line Item
       description: Creates a Line Item for the Draft Order
       x-authenticated: true
       parameters:
@@ -4662,7 +4832,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetDraftOrdersDraftOrder
-      summary: Retrieve a Draft Order
+      summary: Get a Draft Order
       description: Retrieves a Draft Order.
       x-authenticated: true
       parameters:
@@ -4792,7 +4962,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostDraftOrdersDraftOrderLineItemsItem
-      summary: Update a Line Item for a Draft Order
+      summary: Update a Line Item
       description: Updates a Line Item for a Draft Order
       x-authenticated: true
       parameters:
@@ -4887,7 +5057,7 @@ paths:
           $ref: '#/components/responses/500_error'
   '/draft-orders/{id}/pay':
     post:
-      summary: Registers a payment for a Draft Order
+      summary: Registers a Payment
       operationId: PostDraftOrdersDraftOrderRegisterPayment
       description: Registers a payment for a Draft Order.
       x-authenticated: true
@@ -4950,7 +5120,7 @@ paths:
   '/admin/draft-orders/{id}':
     post:
       operationId: PostDraftOrdersDraftOrder
-      summary: Update a Draft Order"
+      summary: Update a Draft Order
       description: Updates a Draft Order.
       x-authenticated: true
       parameters:
@@ -4981,10 +5151,10 @@ paths:
                   format: email
                 billing_address:
                   description: The Address to be used for billing purposes.
-                  $ref: '#/components/schemas/address'
+                  $ref: '#/components/schemas/address_fields'
                 shipping_address:
                   description: The Address to be used for shipping.
-                  $ref: '#/components/schemas/address'
+                  $ref: '#/components/schemas/address_fields'
                 discounts:
                   description: An array of Discount codes to add to the Draft Order.
                   type: array
@@ -5313,7 +5483,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetGiftCardsGiftCard
-      summary: Retrieve a Gift Card
+      summary: Get a Gift Card
       description: Retrieves a Gift Card.
       x-authenticated: true
       parameters:
@@ -5655,7 +5825,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetInvites
-      summary: Lists all Invites
+      summary: Lists Invites
       description: Lists all Invites
       x-authenticated: true
       x-codeSamples:
@@ -6009,7 +6179,7 @@ paths:
   '/notes/{id}':
     delete:
       operationId: DeleteNotesNote
-      summary: Deletes a Note
+      summary: Delete a Note
       description: Deletes a Note.
       x-authenticated: true
       parameters:
@@ -6079,7 +6249,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetNotesNote
-      summary: Get Note
+      summary: Get a Note
       description: Retrieves a single note using its id
       x-authenticated: true
       parameters:
@@ -6140,7 +6310,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostNotesNote
-      summary: Updates a Note
+      summary: Update a Note
       x-authenticated: true
       description: Updates a Note associated with some resource
       parameters:
@@ -6403,6 +6573,689 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+  '/order-edits/{id}/items':
+    post:
+      operationId: PostOrderEditsEditLineItems
+      summary: Add an line item to an order (edit)
+      description: Create an OrderEdit LineItem.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the Order Edit.
+          schema:
+            type: string
+      x-authenticated: true
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdit.addLineItem(order_edit_id, { variant_id,
+            quantity })
+             .then(({ order_edit }) => {
+                console.log(order_edit.id)
+             })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits/{id}/items' \
+
+            --header 'Authorization: Bearer {api_token}'
+
+            -d '{ "variant_id": "some_variant_id", "quantity": 3 }'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  '/order-edits/{id}/cancel':
+    post:
+      operationId: PostOrderEditsOrderEditCancel
+      summary: Cancel an OrderEdit
+      description: Cancels an OrderEdit.
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the OrderEdit.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdit.cancel(orderEditId)
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits/:id/cancel' \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  '/order-edits/{id}/confirm':
+    post:
+      operationId: PostOrderEditsOrderEditConfirm
+      summary: Confirms an OrderEdit
+      description: Confirms an OrderEdit.
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the order edit.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdit.confirm(orderEditId)
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits/:id/confirm' \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /order-edits:
+    post:
+      operationId: PostOrderEdits
+      summary: Create an OrderEdit
+      description: Creates an OrderEdit.
+      x-authenticated: true
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdit.create({ order_id, internal_note })
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits' \
+
+            --header 'Authorization: Bearer {api_token}'
+
+            -d '{ "order_id": "my_order_id", "internal_note": "my_optional_note"
+            }'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  '/order-edits/{id}/items/{item_id}':
+    delete:
+      operationId: DeleteOrderEditsOrderEditLineItemsLineItem
+      summary: Delete line items from an order edit and create change item
+      description: Delete line items from an order edit and create change item
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the Order Edit to delete from.
+          schema:
+            type: string
+        - in: path
+          name: item_id
+          required: true
+          description: The ID of the order edit item to delete from order.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdits.removeLineItem(order_edit_id, line_item_id)
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request DELETE
+            'https://medusa-url.com/admin/order-edits/{id}/items/{item_id}' \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+    post:
+      operationId: PostOrderEditsEditLineItemsLineItem
+      summary: Create or update the order edit change holding the line item changes
+      description: Create or update the order edit change holding the line item changes
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the Order Edit to update.
+          schema:
+            type: string
+        - in: path
+          name: item_id
+          required: true
+          description: The ID of the order edit item to update.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdits.updateLineItem(order_edit_id, line_item_id)
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits/{id}/items/{item_id}' \
+
+            --header 'Authorization: Bearer {api_token}'
+
+            -d '{ "quantity": 5 }'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  '/order-edits/{id}/changes/{change_id}':
+    delete:
+      operationId: DeleteOrderEditsOrderEditItemChange
+      summary: Delete an Order Edit Item Change
+      description: Deletes an Order Edit Item Change
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the Order Edit to delete.
+          schema:
+            type: string
+        - in: path
+          name: change_id
+          required: true
+          description: The ID of the Order Edit Item Change to delete.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdits.deleteItemChange(item_change_id,
+            order_edit_id)
+              .then(({ id, object, deleted }) => {
+                console.log(id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request DELETE
+            'https://medusa-url.com/admin/order-edits/{id}/changes/{change_id}'
+            \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the deleted Order Edit Item Change.
+                  object:
+                    type: string
+                    description: The type of the object that was deleted.
+                    format: item_change
+                  deleted:
+                    type: boolean
+                    description: Whether or not the Order Edit Item Change was deleted.
+                    default: true
+        '400':
+          $ref: '#/components/responses/400_error'
+  '/order-edits/{id}':
+    delete:
+      operationId: DeleteOrderEditsOrderEdit
+      summary: Delete an Order Edit
+      description: Deletes an Order Edit
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the Order Edit to delete.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdits.delete(edit_id)
+              .then(({ id, object, deleted }) => {
+                console.log(id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request DELETE
+            'https://medusa-url.com/admin/order-edits/{id}' \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the deleted Order Edit.
+                  object:
+                    type: string
+                    description: The type of the object that was deleted.
+                    format: order_edit
+                  deleted:
+                    type: boolean
+                    description: Whether or not the Order Edit was deleted.
+                    default: true
+        '400':
+          $ref: '#/components/responses/400_error'
+    get:
+      operationId: GetOrderEditsOrderEdit
+      summary: Retrieve an OrderEdit
+      description: Retrieves a OrderEdit.
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the OrderEdit.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdit.retrieve(orderEditId)
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request GET
+            'https://medusa-url.com/admin/order-edits/{id}' \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+    post:
+      operationId: PostOrderEditsOrderEdit
+      summary: Updates an OrderEdit
+      description: Updates a OrderEdit.
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the OrderEdit.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            const params = {internal_note: "internal reason XY"}
+
+            medusa.admin.orderEdit.update(orderEditId, params)
+              .then(({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits/{id}' \
+
+            --header 'Authorization: Bearer {api_token}'
+
+            --header 'Content-Type: application/json' \
+
+            --data-raw '{
+                "internal_note": "internal reason XY"
+            }'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  '/order-edits/{id}/request':
+    post:
+      operationId: PostOrderEditsOrderEditRequest
+      summary: Request order edit confirmation
+      description: Request customer confirmation of an Order Edit
+      x-authenticated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the Order Edit to request confirmation from.
+          schema:
+            type: string
+      x-codeSamples:
+        - lang: JavaScript
+          label: JS Client
+          source: >
+            import Medusa from "@medusajs/medusa-js"
+
+            const medusa = new Medusa({ baseUrl: MEDUSA_BACKEND_URL, maxRetries:
+            3 })
+
+            // must be previously logged in or use api token
+
+            medusa.admin.orderEdits.requestConfirmation(edit_id)
+              .then({ order_edit }) => {
+                console.log(order_edit.id)
+              })
+        - lang: Shell
+          label: cURL
+          source: >
+            curl --location --request POST
+            'https://medusa-url.com/admin/order-edits/{id}/request' \
+
+            --header 'Authorization: Bearer {api_token}'
+      security:
+        - api_token: []
+        - cookie_auth: []
+      tags:
+        - OrderEdit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  order_edit:
+                    $ref: '#/components/schemas/order_edit'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '500':
+          $ref: '#/components/responses/500_error'
   '/orders/{id}/shipping-methods':
     post:
       operationId: PostOrdersOrderShippingMethods
@@ -6506,7 +7359,7 @@ paths:
   '/orders/{id}/archive':
     post:
       operationId: PostOrdersOrderArchive
-      summary: Archive order
+      summary: Archive Order
       description: Archives the order with the given id.
       x-authenticated: true
       parameters:
@@ -6568,7 +7421,7 @@ paths:
   '/orders/{id}/claims/{claim_id}/cancel':
     post:
       operationId: PostOrdersClaimCancel
-      summary: Cancels a Claim
+      summary: Cancel a Claim
       description: Cancels a Claim
       x-authenticated: true
       parameters:
@@ -6637,8 +7490,8 @@ paths:
   '/orders/{id}/claims/{claim_id}/fulfillments/{fulfillment_id}/cancel':
     post:
       operationId: PostOrdersClaimFulfillmentsCancel
-      summary: Cancels a fulfilmment related to a Claim
-      description: Registers a Fulfillment as canceled.
+      summary: Cancel Claim Fulfillment
+      description: Registers a claim's fulfillment as canceled.
       x-authenticated: true
       parameters:
         - in: path
@@ -6713,8 +7566,8 @@ paths:
   '/orders/{id}/swaps/{swap_id}/fulfillments/{fulfillment_id}/cancel':
     post:
       operationId: PostOrdersSwapFulfillmentsCancel
-      summary: Cancels a fulfilmment related to a Swap
-      description: Registers a Fulfillment as canceled.
+      summary: Cancel Swap's Fulfilmment
+      description: Registers a Swap's Fulfillment as canceled.
       x-authenticated: true
       parameters:
         - in: path
@@ -6789,7 +7642,7 @@ paths:
   '/orders/{id}/fulfillments/{fulfillment_id}/cancel':
     post:
       operationId: PostOrdersOrderFulfillmentsCancel
-      summary: Cancels a fulfilmment
+      summary: Cancels a Fulfilmment
       description: Registers a Fulfillment as canceled.
       x-authenticated: true
       parameters:
@@ -6992,7 +7845,7 @@ paths:
   '/orders/{id}/capture':
     post:
       operationId: PostOrdersOrderCapture
-      summary: Capture an Order
+      summary: Capture Order's Payment
       description: Captures all the Payments associated with an Order.
       x-authenticated: true
       parameters:
@@ -7649,7 +8502,7 @@ paths:
                     type: string
                 no_notification:
                   description: >-
-                    If set to true no notification will be send related to this
+                    If set to true no notification will be sent related to this
                     Claim.
                   type: boolean
       x-codeSamples:
@@ -7877,7 +8730,7 @@ paths:
   '/orders/{id}/claims/{claim_id}/fulfillments':
     post:
       operationId: PostOrdersOrderClaimsClaimFulfillments
-      summary: Create a Claim Fulfillment
+      summary: Create Claim Fulfillment
       description: Creates a Fulfillment for a Claim.
       x-authenticated: true
       parameters:
@@ -7961,7 +8814,7 @@ paths:
   '/orders/{id}/swaps/{swap_id}/fulfillments':
     post:
       operationId: PostOrdersOrderSwapsSwapFulfillments
-      summary: Create a Swap Fulfillment
+      summary: Create Swap Fulfillment
       description: Creates a Fulfillment for a Swap.
       x-authenticated: true
       parameters:
@@ -8045,7 +8898,7 @@ paths:
   '/orders/{id}':
     get:
       operationId: GetOrdersOrder
-      summary: Retrieve an Order
+      summary: Get an Order
       description: Retrieves an Order
       x-authenticated: true
       parameters:
@@ -8106,7 +8959,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostOrdersOrder
-      summary: Update an order
+      summary: Update an Order
       description: Updates and order
       x-authenticated: true
       parameters:
@@ -8127,11 +8980,11 @@ paths:
                 billing_address:
                   description: Billing address
                   anyOf:
-                    - $ref: '#/components/schemas/address'
+                    - $ref: '#/components/schemas/address_fields'
                 shipping_address:
                   description: Shipping address
                   anyOf:
-                    - $ref: '#/components/schemas/address'
+                    - $ref: '#/components/schemas/address_fields'
                 items:
                   description: The Line Items for the order
                   type: array
@@ -8524,7 +9377,7 @@ paths:
   '/orders/{id}/swaps/{swap_id}/process-payment':
     post:
       operationId: PostOrdersOrderSwapsSwapProcessPayment
-      summary: Process a Swap difference
+      summary: Process Swap Payment
       description: >-
         When there are differences between the returned and shipped Products in
         a Swap, the difference must be processed. Either a Refund will be issued
@@ -9000,7 +9853,7 @@ paths:
   '/price-lists/{id}/prices/batch':
     post:
       operationId: PostPriceListsPriceListPricesBatch
-      summary: Batch update prices for a Price List
+      summary: Update Prices
       description: Batch update prices for a Price List
       x-authenticated: true
       parameters:
@@ -9128,7 +9981,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeletePriceListsPriceListPricesBatch
-      summary: Batch delete prices that belong to a Price List
+      summary: Delete Prices
       description: Batch delete prices that belong to a Price List
       x-authenticated: true
       parameters:
@@ -9225,7 +10078,7 @@ paths:
   /price-lists:
     post:
       operationId: PostPriceListsPriceList
-      summary: Creates a Price List
+      summary: Create a Price List
       description: Creates a Price List
       x-authenticated: true
       requestBody:
@@ -9310,6 +10163,9 @@ paths:
                       id:
                         description: The ID of a customer group
                         type: string
+                includes_tax:
+                  description: '[EXPERIMENTAL] Tax included in prices of price list'
+                  type: boolean
       x-codeSamples:
         - lang: JavaScript
           label: JS Client
@@ -9666,7 +10522,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetPriceListsPriceList
-      summary: Retrieve a Price List
+      summary: Get a Price List
       description: Retrieves a Price List.
       x-authenticated: true
       parameters:
@@ -9817,6 +10673,9 @@ paths:
                       id:
                         description: The ID of a customer group
                         type: string
+                includes_tax:
+                  description: '[EXPERIMENTAL] Tax included in prices of price list'
+                  type: boolean
       x-codeSamples:
         - lang: JavaScript
           label: JS Client
@@ -9877,7 +10736,7 @@ paths:
   '/price-lists/{id}/products/{product_id}/prices':
     delete:
       operationId: DeletePriceListsPriceListProductsProductPrices
-      summary: Delete all the prices related to a specific product in a price list
+      summary: Delete Product's Prices
       description: Delete all the prices related to a specific product in a price list
       x-authenticated: true
       parameters:
@@ -9960,7 +10819,7 @@ paths:
   '/price-lists/{id}/variants/{variant_id}/prices':
     delete:
       operationId: DeletePriceListsPriceListVariantsVariantPrices
-      summary: Delete all the prices related to a specific variant in a price list
+      summary: Delete Variant's Prices
       description: Delete all the prices related to a specific variant in a price list
       x-authenticated: true
       parameters:
@@ -10043,7 +10902,7 @@ paths:
   '/price-lists/{id}/products':
     get:
       operationId: GetPriceListsPriceListProducts
-      summary: List Product in a Price List
+      summary: List Products
       description: Retrieves a list of Product that are part of a Price List
       x-authenticated: true
       parameters:
@@ -10878,7 +11737,7 @@ paths:
                                 same index in the Product's `options` field.
                               type: string
                 weight:
-                  description: The wieght of the Product.
+                  description: The weight of the Product.
                   type: number
                 length:
                   description: The length of the Product.
@@ -10967,7 +11826,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetProducts
-      summary: List Product
+      summary: List Products
       description: Retrieves a list of Product
       x-authenticated: true
       parameters:
@@ -11431,7 +12290,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetProductsProductVariants
-      summary: List a Product's Product Variants
+      summary: List a Product's Variants
       description: Retrieves a list of the Product Variants associated with a Product.
       x-authenticated: true
       parameters:
@@ -11593,7 +12452,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostProductsProductOptionsOption
-      summary: Update a Product Option.
+      summary: Update a Product Option
       description: Updates a Product Option
       x-authenticated: true
       parameters:
@@ -11749,7 +12608,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetProductsProduct
-      summary: Retrieve a Product
+      summary: Get a Product
       description: Retrieves a Product.
       x-authenticated: true
       parameters:
@@ -12236,7 +13095,7 @@ paths:
                     Product Variant.
                   type: boolean
                 weight:
-                  description: The wieght of the Product Variant.
+                  description: The weight of the Product Variant.
                   type: number
                 length:
                   description: The length of the Product Variant.
@@ -12387,7 +13246,7 @@ paths:
   /products/tag-usage:
     get:
       operationId: GetProductsTagUsage
-      summary: List Product Tags Usage Number
+      summary: List Tags Usage Number
       description: Retrieves a list of Product Tags with how many times each is used.
       x-authenticated: true
       x-codeSamples:
@@ -12510,7 +13369,7 @@ paths:
   '/products/{id}/metadata':
     post:
       operationId: PostProductsProductMetadata
-      summary: Set Product metadata
+      summary: Set Product Metadata
       description: Set metadata key/value pair for Product
       x-authenticated: true
       parameters:
@@ -12894,6 +13753,9 @@ paths:
                   type: array
                   items:
                     type: string
+                includes_tax:
+                  description: '[EXPERIMENTAL] Tax included in prices of region'
+                  type: boolean
       x-codeSamples:
         - lang: JavaScript
           label: JS Client
@@ -13150,7 +14012,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetRegionsRegion
-      summary: Retrieve a Region
+      summary: Get a Region
       description: Retrieves a Region.
       x-authenticated: true
       parameters:
@@ -13257,6 +14119,9 @@ paths:
                 tax_rate:
                   description: The tax rate to use on Orders in the Region.
                   type: number
+                includes_tax:
+                  description: '[EXPERIMENTAL] Tax included in prices of region'
+                  type: boolean
                 payment_providers:
                   description: >-
                     A list of Payment Provider IDs that should be enabled for
@@ -13338,7 +14203,7 @@ paths:
   '/regions/{id}/fulfillment-options':
     get:
       operationId: GetRegionsRegionFulfillmentOptions
-      summary: List Fulfillment Options available in the Region
+      summary: List Fulfillment Options
       description: Gathers all the fulfillment options available to in the Region.
       x-authenticated: true
       parameters:
@@ -13412,7 +14277,7 @@ paths:
   '/regions/{id}/countries/{country_code}':
     delete:
       operationId: PostRegionsRegionCountriesCountry
-      summary: Remove Country
+      summary: Delete Country
       x-authenticated: true
       description: Removes a Country from the list of Countries in a Region
       parameters:
@@ -13483,7 +14348,7 @@ paths:
   '/regions/{id}/fulfillment-providers/{provider_id}':
     delete:
       operationId: PostRegionsRegionFulfillmentProvidersProvider
-      summary: Remove Fulfillment Provider
+      summary: Del. Fulfillment Provider
       description: Removes a Fulfillment Provider.
       x-authenticated: true
       parameters:
@@ -13552,7 +14417,7 @@ paths:
   '/regions/{id}/payment-providers/{provider_id}':
     delete:
       operationId: PostRegionsRegionPaymentProvidersProvider
-      summary: Remove Payment Provider
+      summary: Delete Payment Provider
       description: Removes a Payment Provider.
       x-authenticated: true
       parameters:
@@ -13769,7 +14634,7 @@ paths:
   '/return-reasons/{id}':
     delete:
       operationId: DeleteReturnReason
-      summary: Delete a return reason
+      summary: Delete a Return Reason
       description: Deletes a return reason.
       x-authenticated: true
       parameters:
@@ -13839,7 +14704,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetReturnReasonsReason
-      summary: Retrieve a Return Reason
+      summary: Get a Return Reason
       description: Retrieves a Return Reason.
       x-authenticated: true
       parameters:
@@ -14235,7 +15100,7 @@ paths:
   '/sales-channels/{id}/products/batch':
     post:
       operationId: PostSalesChannelsChannelProductsBatch
-      summary: Assign a batch of product to a sales channel
+      summary: Add Products
       description: Assign a batch of product to a sales channel.
       x-authenticated: true
       parameters:
@@ -14330,7 +15195,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteSalesChannelsChannelProductsBatch
-      summary: Remove a list of products from a sales channel
+      summary: Delete Products
       description: Remove a list of products from a sales channel.
       x-authenticated: true
       parameters:
@@ -14505,7 +15370,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetSalesChannels
-      summary: List sales channels
+      summary: List Sales Channels
       description: Retrieves a list of sales channels
       x-authenticated: true
       parameters:
@@ -14689,7 +15554,7 @@ paths:
   '/sales-channels/{id}':
     delete:
       operationId: DeleteSalesChannelsSalesChannel
-      summary: Delete a sales channel
+      summary: Delete a Sales Channel
       description: Deletes the sales channel.
       x-authenticated: true
       parameters:
@@ -14759,7 +15624,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetSalesChannelsSalesChannel
-      summary: Retrieve a sales channel
+      summary: Get a Sales Channel
       description: Retrieves the sales channel.
       x-authenticated: true
       parameters:
@@ -14982,6 +15847,9 @@ paths:
                     An optional set of key-value pairs with additional
                     information.
                   type: object
+                includes_tax:
+                  description: '[EXPERIMENTAL] Tax included in prices of shipping option'
+                  type: boolean
       x-codeSamples:
         - lang: JavaScript
           label: JS Client
@@ -15196,7 +16064,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetShippingOptionsOption
-      summary: Retrieve a Shipping Option
+      summary: Get a Shipping Option
       description: Retrieves a Shipping Option.
       x-authenticated: true
       parameters:
@@ -15310,6 +16178,9 @@ paths:
                       amount:
                         description: The amount to compare with.
                         type: integer
+                includes_tax:
+                  description: '[EXPERIMENTAL] Tax included in prices of shipping option'
+                  type: boolean
       x-codeSamples:
         - lang: JavaScript
           label: JS Client
@@ -15581,7 +16452,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetShippingProfilesProfile
-      summary: Retrieve a Shipping Profile
+      summary: Get a Shipping Profile
       description: Retrieves a Shipping Profile.
       x-authenticated: true
       parameters:
@@ -15642,7 +16513,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostShippingProfilesProfile
-      summary: Update a Shipping Profiles
+      summary: Update a Shipping Profile
       description: Updates a Shipping Profile
       parameters:
         - in: path
@@ -15783,7 +16654,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteStoreCurrenciesCode
-      summary: Remove a Currency Code
+      summary: Delete a Currency Code
       description: Removes a Currency Code from the available currencies.
       x-authenticated: true
       parameters:
@@ -15848,7 +16719,7 @@ paths:
   /store:
     get:
       operationId: GetStore
-      summary: Retrieve Store details.
+      summary: Get Store details
       description: Retrieves the Store details
       x-authenticated: true
       x-codeSamples:
@@ -15900,7 +16771,7 @@ paths:
           $ref: '#/components/responses/500_error'
     post:
       operationId: PostStore
-      summary: Update Store details.
+      summary: Update Store Details
       description: Updates the Store details
       x-authenticated: true
       requestBody:
@@ -16002,7 +16873,7 @@ paths:
   /store/payment-providers:
     get:
       operationId: GetStorePaymentProviders
-      summary: Retrieve configured Payment Providers
+      summary: List Payment Providers
       description: Retrieves the configured Payment Providers
       x-authenticated: true
       x-codeSamples:
@@ -16059,7 +16930,7 @@ paths:
   /store/tax-providers:
     get:
       operationId: GetStoreTaxProviders
-      summary: Retrieve configured Tax Providers
+      summary: List Tax Providers
       description: Retrieves the configured Tax Providers
       x-authenticated: true
       x-codeSamples:
@@ -16116,7 +16987,7 @@ paths:
   '/swaps/{id}':
     get:
       operationId: GetSwapsSwap
-      summary: Retrieve a Swap
+      summary: Get a Swap
       description: Retrieves a Swap.
       x-authenticated: true
       parameters:
@@ -16255,7 +17126,7 @@ paths:
   '/tax-rates/{id}/product-types/batch':
     post:
       operationId: PostTaxRatesTaxRateProductTypes
-      summary: Add Tax Rate to Product Types
+      summary: Add to Product Types
       description: Associates a Tax Rate with a list of Product Types
       parameters:
         - in: path
@@ -16360,7 +17231,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteTaxRatesTaxRateProductTypes
-      summary: Remove Tax Rate from Product Types
+      summary: Delete from Product Types
       description: Removes a Tax Rate from a list of Product Types
       parameters:
         - in: path
@@ -16466,7 +17337,7 @@ paths:
   '/tax-rates/{id}/products/batch':
     post:
       operationId: PostTaxRatesTaxRateProducts
-      summary: Add Tax Rate to Products
+      summary: Add to Products
       description: Associates a Tax Rate with a list of Products
       parameters:
         - in: path
@@ -16569,7 +17440,7 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteTaxRatesTaxRateProducts
-      summary: Removes Tax Rate from Products
+      summary: Delete from Products
       description: Removes a Tax Rate from a list of Products
       parameters:
         - in: path
@@ -16675,7 +17546,7 @@ paths:
   '/tax-rates/{id}/shipping-options/batch':
     post:
       operationId: PostTaxRatesTaxRateShippingOptions
-      summary: Add Tax Rate to Product Types
+      summary: Add to Shipping Options
       description: Associates a Tax Rate with a list of Shipping Options
       parameters:
         - in: path
@@ -16781,8 +17652,8 @@ paths:
           $ref: '#/components/responses/500_error'
     delete:
       operationId: DeleteTaxRatesTaxRateShippingOptions
-      summary: Removes a Tax Rate from Product Types
-      description: Removes a Tax Rate from a list of Product Types
+      summary: Del. for Shipping Options
+      description: Removes a Tax Rate from a list of Shipping Options
       parameters:
         - in: path
           name: id
@@ -17223,7 +18094,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetTaxRatesTaxRate
-      summary: Get Tax Rate
+      summary: Get a Tax Rate
       description: Retrieves a TaxRate
       parameters:
         - in: path
@@ -17426,8 +18297,10 @@ paths:
   /uploads:
     post:
       operationId: PostUploads
-      summary: Uploads a file
-      description: Uploads a file to the specific fileservice that is installed in Medusa.
+      summary: Upload files
+      description: >-
+        Uploads at least one file to the specific fileservice that is installed
+        in Medusa.
       x-authenticated: true
       requestBody:
         content:
@@ -17464,7 +18337,9 @@ paths:
 
             --header 'Content-Type: image/jpeg' \
 
-            --data-binary '{file_path}'
+            --form 'files=@"<FILE_PATH_1>"' \
+
+            --form 'files=@"<FILE_PATH_1>"'
       security:
         - api_token: []
         - cookie_auth: []
@@ -17594,7 +18469,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetUsers
-      summary: Retrieve all users
+      summary: List Users
       description: Retrieves all users.
       x-authenticated: true
       x-codeSamples:
@@ -17686,7 +18561,7 @@ paths:
         - api_token: []
         - cookie_auth: []
       tags:
-        - Users
+        - User
       responses:
         '200':
           description: OK
@@ -17719,7 +18594,7 @@ paths:
           $ref: '#/components/responses/500_error'
     get:
       operationId: GetUsersUser
-      summary: Retrieve a User
+      summary: Get a User
       description: Retrieves a User.
       x-authenticated: true
       parameters:
@@ -17876,7 +18751,7 @@ paths:
   /users/password-token:
     post:
       operationId: PostUsersUserPasswordToken
-      summary: Generate a password token for a User.
+      summary: Request Password Reset
       description: Generates a password token for a User with a given email.
       x-authenticated: true
       requestBody:
@@ -17948,7 +18823,7 @@ paths:
   /users/reset-password:
     post:
       operationId: PostUsersUserPassword
-      summary: Set the password for a User.
+      summary: Reset Password
       description: Sets the password for a User given the correct token.
       x-authenticated: true
       requestBody:
@@ -18032,7 +18907,7 @@ paths:
   /variants:
     get:
       operationId: GetVariants
-      summary: List Product Variants.
+      summary: List Product Variants
       description: Retrieves a list of Product Variants
       x-authenticated: true
       parameters:
@@ -18387,6 +19262,60 @@ components:
 
         Where `{sid}` is the value of `connect.sid` that you copied.
   schemas:
+    address_fields:
+      title: Address Fields
+      description: Address fields used when creating/updating an address.
+      x-resourceId: address
+      properties:
+        company:
+          type: string
+          description: Company name
+          example: Acme
+        first_name:
+          type: string
+          description: First name
+          example: Arno
+        last_name:
+          type: string
+          description: Last name
+          example: Willms
+        address_1:
+          type: string
+          description: Address line 1
+          example: 14433 Kemmer Court
+        address_2:
+          type: string
+          description: Address line 2
+          example: Suite 369
+        city:
+          type: string
+          description: City
+          example: South Geoffreyview
+        country_code:
+          type: string
+          description: The 2 character ISO code of the country in lower case
+          externalDocs:
+            url: >-
+              https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+            description: See a list of codes.
+          example: st
+        province:
+          type: string
+          description: Province
+          example: Kentucky
+        postal_code:
+          type: string
+          description: Postal Code
+          example: 72093
+        phone:
+          type: string
+          description: Phone Number
+          example: 16128234334802
+        metadata:
+          type: object
+          description: An optional key-value map with additional details
+          example:
+            car: white
     address:
       title: Address
       description: An address.
@@ -19155,6 +20084,9 @@ components:
           description: The written name of the currency
           type: string
           example: US Dollar
+        includes_tax:
+          description: '[EXPERIMENTAL] Does the currency prices include tax'
+          type: boolean
     custom_shipping_option:
       title: Custom Shipping Option
       description: >-
@@ -19211,6 +20143,11 @@ components:
           description: An optional key-value map with additional details
           example:
             car: white
+        includes_tax:
+          description: >-
+            [EXPERIMENTAL] Indicates if the custom shipping option price include
+            tax
+          type: boolean
     customer_group:
       title: Customer Group
       description: Represents a customer group
@@ -20510,6 +21447,20 @@ components:
           type: integer
           description: The total of the gift card of the line item
           example: 0
+        includes_tax:
+          description: '[EXPERIMENTAL] Indicates if the line item unit_price include tax'
+          type: boolean
+        original_item_id:
+          description: '[EXPERIMENTAL] The id of the original line item'
+          type: string
+        order_edit_id:
+          description: >-
+            [EXPERIMENTAL] The ID of the order edit to which a cloned item
+            belongs
+          type: string
+        order_edit:
+          description: '[EXPERIMENTAL] The order edit joined'
+          type: object
         created_at:
           type: string
           description: The date with timezone at which the resource was created.
@@ -20848,6 +21799,150 @@ components:
           type: object
           description: Any data necessary to the app.
           example: {}
+    order_edit:
+      title: Order Edit
+      description: Order edit keeps track of order items changes.
+      x-resourceId: order_edit
+      required:
+        - order_id
+        - order
+        - changes
+        - created_by
+      properties:
+        id:
+          type: string
+          description: The order edit's ID
+          example: oe_01G8TJSYT9M6AVS5N4EMNFS1EK
+        order_id:
+          type: string
+          description: The ID of the order that is edited
+          example: order_01G2SG30J8C85S4A5CHM2S1NS2
+        order:
+          description: Order object
+          $ref: '#/components/schemas/order'
+        changes:
+          type: array
+          description: Line item changes array.
+          items:
+            $ref: '#/components/schemas/order_item_change'
+        internal_note:
+          description: An optional note with additional details about the order edit.
+          type: string
+          example: Included two more items B to the order.
+        created_by:
+          type: string
+          description: >-
+            The unique identifier of the user or customer who created the order
+            edit.
+        requested_by:
+          type: string
+          description: >-
+            The unique identifier of the user or customer who requested the
+            order edit.
+        requested_at:
+          type: string
+          description: The date with timezone at which the edit was requested.
+          format: date-time
+        confirmed_by:
+          type: string
+          description: >-
+            The unique identifier of the user or customer who confirmed the
+            order edit.
+        confirmed_at:
+          type: string
+          description: The date with timezone at which the edit was confirmed.
+          format: date-time
+        declined_by:
+          type: string
+          description: >-
+            The unique identifier of the user or customer who declined the order
+            edit.
+        declined_at:
+          type: string
+          description: The date with timezone at which the edit was declined.
+          format: date-time
+        declined_reason:
+          description: An optional note why  the order edit is declined.
+          type: string
+        subtotal:
+          type: integer
+          description: The total of subtotal
+          example: 8000
+        discount_total:
+          type: integer
+          description: The total of discount
+          example: 800
+        shipping_total:
+          type: integer
+          description: The total of the shipping amount
+          example: 800
+        gift_card_total:
+          type: integer
+          description: The total of the gift card amount
+          example: 800
+        gift_card_tax_total:
+          type: integer
+          description: The total of the gift card tax amount
+          example: 800
+        tax_total:
+          type: integer
+          description: The total of tax
+          example: 0
+        total:
+          type: integer
+          description: The total amount of the edited order.
+          example: 8200
+        difference_due:
+          type: integer
+          description: >-
+            The difference between the total amount of the order and total
+            amount of edited order.
+          example: 8200
+        items:
+          type: array
+          description: Computed line items from the changes.
+          items:
+            $ref: '#/components/schemas/line_item'
+    order_item_change:
+      title: Order Item Change
+      description: Represents an order edit item change
+      x-resourceId: order_item_change
+      required:
+        - type
+        - order_edit_id
+      properties:
+        id:
+          type: string
+          description: The order item change's ID
+          example: oic_01G8TJSYT9M6AVS5N4EMNFS1EK
+        type:
+          type: string
+          description: The order's status
+          enum:
+            - item_add
+            - item_remove
+            - item_update
+        order_edit_id:
+          type: string
+          description: The ID of the order edit
+          example: oe_01G2SG30J8C85S4A5CHM2S1NS2
+        order_edit:
+          description: Order edit object
+          $ref: '#/components/schemas/order_edit'
+        original_line_item_id:
+          type: string
+          description: The ID of the original line item in the order
+          example: item_01G8ZC9GWT6B2GP5FSXRXNFNGN
+        original_line_item:
+          description: Original line item object.
+          $ref: '#/components/schemas/line_item'
+        line_item_id:
+          type: string
+          description: The ID of the cloned line item.
+          example: item_01G8ZC9GWT6B2GP5FSXRXNFNGN
+        line_item:
+          description: Line item object.
+          $ref: '#/components/schemas/line_item'
     order:
       title: Order
       description: Represents an order
@@ -21040,6 +22135,13 @@ components:
             `items` is expanded.
           items:
             $ref: '#/components/schemas/line_item'
+        edits:
+          type: array
+          description: >-
+            [EXPERIMENTAL] Order edits done on the order. Available if the
+            relation `edits` is expanded.
+          items:
+            $ref: '#/components/schemas/order_edit'
         gift_card_transactions:
           type: array
           description: >-
@@ -21371,7 +22473,12 @@ components:
             if the relation `prices` is expanded.
           type: array
           items:
-            $ref: '#/components/schemas/money_amount'
+            oneOf:
+              - $ref: '#/components/schemas/money_amount'
+              - $ref: '#/components/schemas/customer_group'
+        includes_tax:
+          description: '[EXPERIMENTAL] Does the price list prices include tax'
+          type: boolean
         created_at:
           type: string
           description: The date with timezone at which the resource was created.
@@ -21835,6 +22942,46 @@ components:
           description: An optional key-value map with additional details
           example:
             car: white
+    product_variant_prices_fields:
+      title: Product Variant Prices Fields
+      description: Product Variants Prices Fields that are only available in some requests.
+      x-resourceId: product_variant_prices_fields
+      properties:
+        original_price:
+          type: number
+          description: >-
+            The original price of the variant without any discounted prices
+            applied.
+        calculated_price:
+          type: number
+          description: The calculated price of the variant. Can be a discounted price.
+        original_price_incl_tax:
+          type: number
+          description: The original price of the variant including taxes.
+        calculated_price_incl_tax:
+          type: number
+          description: The calculated price of the variant including taxes.
+        original_tax:
+          type: number
+          description: The taxes applied on the original price.
+        calculated_tax:
+          type: number
+          description: The taxes applied on the calculated price.
+        tax_rates:
+          type: array
+          description: An array of applied tax rates
+          items:
+            type: object
+            properties:
+              rate:
+                type: number
+                description: The tax rate value
+              name:
+                type: string
+                description: The name of the tax rate
+              code:
+                type: string
+                description: The code of the tax rate
     product:
       title: Product
       description: >-
@@ -22183,6 +23330,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/fulfillment_provider'
+        includes_tax:
+          description: '[EXPERIMENTAL] Does the prices for the region include tax'
+          type: boolean
         created_at:
           type: string
           description: The date with timezone at which the resource was created.
@@ -22577,6 +23727,9 @@ components:
             data, and may contain information such as a drop point id.
           type: object
           example: {}
+        includes_tax:
+          description: '[EXPERIMENTAL] Indicates if the shipping method price include tax'
+          type: boolean
     shipping_option_requirement:
       title: Shipping Option Requirement
       description: >-
@@ -22711,6 +23864,9 @@ components:
             Shipping Option.
           type: object
           example: {}
+        includes_tax:
+          description: '[EXPERIMENTAL] Does the shipping option price include tax'
+          type: boolean
         created_at:
           type: string
           description: The date with timezone at which the resource was created.
@@ -23005,7 +24161,7 @@ components:
           $ref: '#/components/schemas/address'
         shipping_methods:
           description: >-
-            The Shipping Methods used to fulfill the addtional items purchased.
+            The Shipping Methods used to fulfill the additional items purchased.
             Available if the relation `shipping_methods` is expanded.
           type: array
           items:

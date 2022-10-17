@@ -12,6 +12,7 @@ const {
   MoneyAmount,
 } = require("@medusajs/medusa")
 const priceListSeeder = require("../../helpers/price-list-seeder")
+const { simpleProductFactory } = require("../../factories")
 
 jest.setTimeout(50000)
 
@@ -1433,6 +1434,58 @@ describe("/admin/products", () => {
     })
   })
 
+  describe("DELETE /admin/products/:id/options/:option_id", () => {
+    beforeEach(async () => {
+      try {
+        await simpleProductFactory(dbConnection, {
+          id: "test-product-without-variants",
+          variants: [],
+          options: [
+            {
+              id: "test-product-option",
+              title: "Test option",
+            },
+          ],
+        })
+        await adminSeeder(dbConnection)
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
+    })
+
+    afterEach(async () => {
+      const db = useDb()
+      await db.teardown()
+    })
+
+    it("deletes a product option", async () => {
+      const api = useApi()
+
+      const response = await api
+        .delete(
+          "/admin/products/test-product-without-variants/options/test-product-option",
+          {
+            headers: {
+              Authorization: "Bearer test_token",
+            },
+          }
+        )
+        .catch((err) => {
+          console.log(err)
+        })
+
+      expect(response.status).toEqual(200)
+      expect(response.data.product).toEqual(
+        expect.objectContaining({
+          options: [],
+          id: "test-product-without-variants",
+          variants: [],
+        })
+      )
+    })
+  })
+
   describe("GET /admin/products/:id/variants", () => {
     beforeEach(async () => {
       await productSeeder(dbConnection)
@@ -1750,6 +1803,80 @@ describe("/admin/products", () => {
           }),
         ])
       )
+    })
+  })
+
+  describe("variant creation", () => {
+    beforeEach(async () => {
+      try {
+        await productSeeder(dbConnection)
+        await adminSeeder(dbConnection)
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
+    })
+
+    afterEach(async () => {
+      const db = useDb()
+      await db.teardown()
+    })
+
+    it("create a product variant with prices (regional and currency)", async () => {
+      const api = useApi()
+
+      const payload = {
+        title: "New variant",
+        sku: "new-sku",
+        ean: "new-ean",
+        upc: "new-upc",
+        barcode: "new-barcode",
+        prices: [
+          {
+            currency_code: "usd",
+            amount: 100,
+          },
+          {
+            region_id: "test-region",
+            amount: 200,
+          },
+        ],
+        options: [{ option_id: "test-option", value: "inserted value" }],
+      }
+
+      const res = await api
+        .post("/admin/products/test-product/variants", payload, {
+          headers: {
+            Authorization: "Bearer test_token",
+          },
+        })
+        .catch((err) => console.log(err))
+
+      const insertedVariant = res.data.product.variants.find(
+        (v) => v.sku === "new-sku"
+      )
+
+      expect(res.status).toEqual(200)
+
+      expect(insertedVariant.prices).toEqual([
+        expect.objectContaining({
+          currency_code: "usd",
+          amount: 100,
+          min_quantity: null,
+          max_quantity: null,
+          variant_id: insertedVariant.id,
+          region_id: null,
+        }),
+        expect.objectContaining({
+          currency_code: "usd",
+          amount: 200,
+          min_quantity: null,
+          max_quantity: null,
+          price_list_id: null,
+          variant_id: insertedVariant.id,
+          region_id: "test-region",
+        }),
+      ])
     })
   })
 
@@ -2244,6 +2371,48 @@ describe("/admin/products", () => {
           }),
         ])
       )
+    })
+  })
+
+  describe("POST /admin/products/:id/variants/:id", () => {
+    beforeEach(async () => {
+      await adminSeeder(dbConnection)
+
+      await simpleProductFactory(dbConnection, {
+        id: "test-product-to-update",
+        variants: [
+          {
+            id: "test-variant-to-update",
+          },
+        ],
+      })
+    })
+
+    afterEach(async () => {
+      const db = useDb()
+      await db.teardown()
+    })
+
+    it("successfully updates variant without prices", async () => {
+      const api = useApi()
+
+      const res = await api
+        .post(
+          "/admin/products/test-product-to-update/variants/test-variant-to-update",
+          {
+            inventory_quantity: 10,
+          },
+          {
+            headers: {
+              Authorization: "Bearer test_token",
+            },
+          }
+        )
+        .catch((err) => {
+          console.log(err)
+        })
+
+      expect(res.status).toEqual(200)
     })
   })
 

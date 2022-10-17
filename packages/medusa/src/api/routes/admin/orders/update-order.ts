@@ -19,7 +19,7 @@ import { validator } from "../../../../utils/validator"
 /**
  * @oas [post] /orders/{id}
  * operationId: "PostOrdersOrder"
- * summary: "Update an order"
+ * summary: "Update an Order"
  * description: "Updates and order"
  * x-authenticated: true
  * parameters:
@@ -35,11 +35,11 @@ import { validator } from "../../../../utils/validator"
  *           billing_address:
  *             description: Billing address
  *             anyOf:
- *               - $ref: "#/components/schemas/address"
+ *               - $ref: "#/components/schemas/address_fields"
  *           shipping_address:
  *             description: Shipping address
  *             anyOf:
- *               - $ref: "#/components/schemas/address"
+ *               - $ref: "#/components/schemas/address_fields"
  *           items:
  *             description: The Line Items for the order
  *             type: array

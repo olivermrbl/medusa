@@ -28,7 +28,7 @@ TransactionBaseService.constructor
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:100](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L100)
+[packages/medusa/src/services/totals.ts:108](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L108)
 
 ## Properties
 
@@ -42,7 +42,7 @@ TransactionBaseService.\_\_configModule\_\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:10](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L10)
+[packages/medusa/src/interfaces/transaction-base-service.ts:10](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/interfaces/transaction-base-service.ts#L10)
 
 ___
 
@@ -56,7 +56,17 @@ TransactionBaseService.\_\_container\_\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:9](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L9)
+[packages/medusa/src/interfaces/transaction-base-service.ts:9](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/interfaces/transaction-base-service.ts#L9)
+
+___
+
+### featureFlagRouter\_
+
+• `Protected` `Readonly` **featureFlagRouter\_**: `FlagRouter`
+
+#### Defined in
+
+[packages/medusa/src/services/totals.ts:106](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L106)
 
 ___
 
@@ -70,27 +80,27 @@ TransactionBaseService.manager\_
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:94](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L94)
+[packages/medusa/src/services/totals.ts:101](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L101)
 
 ___
 
 ### taxCalculationStrategy\_
 
-• `Private` **taxCalculationStrategy\_**: `ITaxCalculationStrategy`
+• `Protected` `Readonly` **taxCalculationStrategy\_**: `ITaxCalculationStrategy`
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:98](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L98)
+[packages/medusa/src/services/totals.ts:105](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L105)
 
 ___
 
 ### taxProviderService\_
 
-• `Private` **taxProviderService\_**: [`TaxProviderService`](TaxProviderService.md)
+• `Protected` `Readonly` **taxProviderService\_**: [`TaxProviderService`](TaxProviderService.md)
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:97](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L97)
+[packages/medusa/src/services/totals.ts:104](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L104)
 
 ___
 
@@ -104,7 +114,7 @@ TransactionBaseService.transactionManager\_
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:95](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L95)
+[packages/medusa/src/services/totals.ts:102](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L102)
 
 ## Methods
 
@@ -143,7 +153,7 @@ TransactionBaseService.atomicPhase\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:50](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L50)
+[packages/medusa/src/interfaces/transaction-base-service.ts:50](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/interfaces/transaction-base-service.ts#L50)
 
 ___
 
@@ -171,7 +181,7 @@ triples of lineitem, variant and applied discount
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:568](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L568)
+[packages/medusa/src/services/totals.ts:609](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L609)
 
 ___
 
@@ -200,13 +210,13 @@ array of triples of lineitem, variant and applied discount
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:610](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L610)
+[packages/medusa/src/services/totals.ts:651](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L651)
 
 ___
 
 ### getAllocationMap
 
-▸ **getAllocationMap**(`orderOrCart`, `options?`): `LineAllocationsMap`
+▸ **getAllocationMap**(`orderOrCart`, `options?`): `Promise`<`LineAllocationsMap`\>
 
 Gets a map of discounts and gift cards that apply to line items in an
 order. The function calculates the amount of a discount or gift card that
@@ -221,19 +231,19 @@ applies to a specific line item.
 
 #### Returns
 
-`LineAllocationsMap`
+`Promise`<`LineAllocationsMap`\>
 
 the allocation map for the line items in the cart or order.
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:391](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L391)
+[packages/medusa/src/services/totals.ts:431](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L431)
 
 ___
 
 ### getCalculationContext
 
-▸ **getCalculationContext**(`cartOrOrder`, `options?`): `TaxCalculationContext`
+▸ **getCalculationContext**(`cartOrOrder`, `options?`): `Promise`<`TaxCalculationContext`\>
 
 Prepares the calculation context for a tax total calculation.
 
@@ -246,19 +256,19 @@ Prepares the calculation context for a tax total calculation.
 
 #### Returns
 
-`TaxCalculationContext`
+`Promise`<`TaxCalculationContext`\>
 
 the tax calculation context
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:973](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L973)
+[packages/medusa/src/services/totals.ts:1065](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L1065)
 
 ___
 
 ### getDiscountTotal
 
-▸ **getDiscountTotal**(`cartOrOrder`): `number`
+▸ **getDiscountTotal**(`cartOrOrder`): `Promise`<`number`\>
 
 Calculates the total discount amount for each of the different supported
 discount types. If discounts aren't present or invalid returns 0.
@@ -271,19 +281,19 @@ discount types. If discounts aren't present or invalid returns 0.
 
 #### Returns
 
-`number`
+`Promise`<`number`\>
 
 the total discounts amount
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:939](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L939)
+[packages/medusa/src/services/totals.ts:1035](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L1035)
 
 ___
 
 ### getGiftCardTotal
 
-▸ **getGiftCardTotal**(`cartOrOrder`): `Object`
+▸ **getGiftCardTotal**(`cartOrOrder`, `opts?`): `Promise`<{ `tax_total`: `number` ; `total`: `number`  }\>
 
 Gets the gift card amount on a cart or order.
 
@@ -292,21 +302,18 @@ Gets the gift card amount on a cart or order.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `cartOrOrder` | `Cart` \| `Order` | the cart or order to get gift card amount for |
+| `opts` | `Object` | - |
+| `opts.gift_cardable?` | `number` | - |
 
 #### Returns
 
-`Object`
+`Promise`<{ `tax_total`: `number` ; `total`: `number`  }\>
 
 the gift card amount applied to the cart or order
 
-| Name | Type |
-| :------ | :------ |
-| `tax_total` | `number` |
-| `total` | `number` |
-
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:867](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L867)
+[packages/medusa/src/services/totals.ts:952](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L952)
 
 ___
 
@@ -331,7 +338,7 @@ the gift card amount applied to the cart or order
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:852](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L852)
+[packages/medusa/src/services/totals.ts:935](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L935)
 
 ___
 
@@ -357,7 +364,7 @@ the allocations that the discount has on the items in the cart or
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:661](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L661)
+[packages/medusa/src/services/totals.ts:702](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L702)
 
 ___
 
@@ -377,7 +384,7 @@ ___
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:638](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L638)
+[packages/medusa/src/services/totals.ts:679](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L679)
 
 ___
 
@@ -398,13 +405,13 @@ ___
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:623](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L623)
+[packages/medusa/src/services/totals.ts:664](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L664)
 
 ___
 
 ### getLineItemRefund
 
-▸ **getLineItemRefund**(`order`, `lineItem`): `number`
+▸ **getLineItemRefund**(`order`, `lineItem`): `Promise`<`number`\>
 
 The amount that can be refunded for a given line item.
 
@@ -417,13 +424,13 @@ The amount that can be refunded for a given line item.
 
 #### Returns
 
-`number`
+`Promise`<`number`\>
 
 the line item refund amount.
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:483](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L483)
+[packages/medusa/src/services/totals.ts:487](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L487)
 
 ___
 
@@ -450,7 +457,7 @@ the line item total
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:821](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L821)
+[packages/medusa/src/services/totals.ts:908](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L908)
 
 ___
 
@@ -478,7 +485,7 @@ the breakdown of the line item totals
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:707](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L707)
+[packages/medusa/src/services/totals.ts:748](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L748)
 
 ___
 
@@ -502,13 +509,13 @@ the total paid amount
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:146](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L146)
+[packages/medusa/src/services/totals.ts:153](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L153)
 
 ___
 
 ### getRefundTotal
 
-▸ **getRefundTotal**(`order`, `lineItems`): `number`
+▸ **getRefundTotal**(`order`, `lineItems`): `Promise`<`number`\>
 
 Calculates refund total of line items.
 If any of the items to return have been discounted, we need to
@@ -523,13 +530,13 @@ apply the discount again before refunding them.
 
 #### Returns
 
-`number`
+`Promise`<`number`\>
 
 the calculated subtotal
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:527](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L527)
+[packages/medusa/src/services/totals.ts:566](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L566)
 
 ___
 
@@ -553,7 +560,7 @@ the total refunded amount for an order.
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:468](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L468)
+[packages/medusa/src/services/totals.ts:472](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L472)
 
 ___
 
@@ -580,13 +587,13 @@ An object that breaks down the totals for the shipping method
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:180](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L180)
+[packages/medusa/src/services/totals.ts:187](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L187)
 
 ___
 
 ### getShippingTotal
 
-▸ **getShippingTotal**(`cartOrOrder`): `number`
+▸ **getShippingTotal**(`cartOrOrder`): `Promise`<`number`\>
 
 Calculates shipping total
 
@@ -598,19 +605,19 @@ Calculates shipping total
 
 #### Returns
 
-`number`
+`Promise`<`number`\>
 
 shipping total
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:287](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L287)
+[packages/medusa/src/services/totals.ts:315](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L315)
 
 ___
 
 ### getSubtotal
 
-▸ **getSubtotal**(`cartOrOrder`, `opts?`): `number`
+▸ **getSubtotal**(`cartOrOrder`, `opts?`): `Promise`<`number`\>
 
 Calculates subtotal of a given cart or order.
 
@@ -623,13 +630,13 @@ Calculates subtotal of a given cart or order.
 
 #### Returns
 
-`number`
+`Promise`<`number`\>
 
 the calculated subtotal
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:263](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L263)
+[packages/medusa/src/services/totals.ts:279](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L279)
 
 ___
 
@@ -654,7 +661,7 @@ the swap total
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:161](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L161)
+[packages/medusa/src/services/totals.ts:168](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L168)
 
 ___
 
@@ -680,7 +687,7 @@ tax total
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:302](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L302)
+[packages/medusa/src/services/totals.ts:342](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L342)
 
 ___
 
@@ -705,7 +712,7 @@ the calculated subtotal
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:123](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L123)
+[packages/medusa/src/services/totals.ts:130](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L130)
 
 ___
 
@@ -729,7 +736,7 @@ the rounded value
 
 #### Defined in
 
-[packages/medusa/src/services/totals.ts:1003](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/totals.ts#L1003)
+[packages/medusa/src/services/totals.ts:1095](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/services/totals.ts#L1095)
 
 ___
 
@@ -753,7 +760,7 @@ TransactionBaseService.shouldRetryTransaction\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:31](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L31)
+[packages/medusa/src/interfaces/transaction-base-service.ts:31](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/interfaces/transaction-base-service.ts#L31)
 
 ___
 
@@ -777,4 +784,4 @@ TransactionBaseService.withTransaction
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:13](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L13)
+[packages/medusa/src/interfaces/transaction-base-service.ts:13](https://github.com/medusajs/medusa/blob/35df4962f/packages/medusa/src/interfaces/transaction-base-service.ts#L13)

@@ -22,7 +22,7 @@ import { validator } from "../../../../utils/validator"
 /**
  * @oas [post] /admin/draft-orders/{id}
  * operationId: PostDraftOrdersDraftOrder
- * summary: Update a Draft Order"
+ * summary: Update a Draft Order
  * description: "Updates a Draft Order."
  * x-authenticated: true
  * parameters:
@@ -47,10 +47,10 @@ import { validator } from "../../../../utils/validator"
  *             format: email
  *           billing_address:
  *             description: "The Address to be used for billing purposes."
- *             $ref: "#/components/schemas/address"
+ *             $ref: "#/components/schemas/address_fields"
  *           shipping_address:
  *             description: "The Address to be used for shipping."
- *             $ref: "#/components/schemas/address"
+ *             $ref: "#/components/schemas/address_fields"
  *           discounts:
  *             description: "An array of Discount codes to add to the Draft Order."
  *             type: array

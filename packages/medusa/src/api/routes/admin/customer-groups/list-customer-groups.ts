@@ -8,7 +8,7 @@ import { Type } from "class-transformer"
 /**
  * @oas [get] /customer-groups
  * operationId: "GetCustomerGroups"
- * summary: "Retrieve a list of customer groups"
+ * summary: "List Customer Groups"
  * description: "Retrieve a list of customer groups."
  * x-authenticated: true
  * parameters:
@@ -108,7 +108,7 @@ import { Type } from "class-transformer"
  *       // must be previously logged in or use api token
  *       medusa.admin.customerGroups.list()
  *       .then(({ customer_groups, limit, offset, count }) => {
- *         console.log(customer_groups.id);
+ *         console.log(customer_groups.length);
  *       });
  *   - lang: Shell
  *     label: cURL

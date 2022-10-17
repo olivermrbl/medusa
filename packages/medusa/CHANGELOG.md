@@ -1,5 +1,70 @@
 # Change Log
 
+## 1.5.0
+
+### Minor Changes
+
+- [#2372](https://github.com/medusajs/medusa/pull/2372) [`3d255302b`](https://github.com/medusajs/medusa/commit/3d255302b022a06b492807774412b1db05fa8d06) Thanks [@srindom](https://github.com/srindom)! - Improve performance of cart total calculations
+
+### Patch Changes
+
+- [#2369](https://github.com/medusajs/medusa/pull/2369) [`d2b272fab`](https://github.com/medusajs/medusa/commit/d2b272fab649bb272b8af4f2f00aafe89965995e) Thanks [@olivermrbl](https://github.com/olivermrbl)! - feat(medusa): Trim discount code on insert and retrieve
+
+* [#2210](https://github.com/medusajs/medusa/pull/2210) [`7dc8d3a0c`](https://github.com/medusajs/medusa/commit/7dc8d3a0c90ce06e3f11a6a46dec1f9ec3f26e81) Thanks [@srindom](https://github.com/srindom)! - Adds a BatchJob strategy for importing prices to PriceLists
+
+- [#2276](https://github.com/medusajs/medusa/pull/2276) [`678a06752`](https://github.com/medusajs/medusa/commit/678a06752a03f71d77265a874fd7d07361337862) Thanks [@adrien2p](https://github.com/adrien2p)! - Finalise service migration and fix super constructor arguments
+
+* [#2351](https://github.com/medusajs/medusa/pull/2351) [`d8a5942d3`](https://github.com/medusajs/medusa/commit/d8a5942d3d85671e2923668bdbf2867957f5554b) Thanks [@ayushthe1](https://github.com/ayushthe1)! - Fix wrongly referenced product id in ProductImportStrategy
+  Fix assigning nested objects properly
+
+- [#2374](https://github.com/medusajs/medusa/pull/2374) [`edd35631f`](https://github.com/medusajs/medusa/commit/edd35631f722009bdcb2439ff8c2326025425d33) Thanks [@olivermrbl](https://github.com/olivermrbl)! - fix(medusa): Add sales channel to order on creation
+
+* [#1790](https://github.com/medusajs/medusa/pull/1790) [`df62e618b`](https://github.com/medusajs/medusa/commit/df62e618bcc365ef376b96705d63b465b48b0191) Thanks [@adrien2p](https://github.com/adrien2p)! - Migrate Stripe providers to the new AbstractPaymentService
+
+- [#2224](https://github.com/medusajs/medusa/pull/2224) [`3f7317028`](https://github.com/medusajs/medusa/commit/3f7317028808cd3c1b44cb7b66694501a7c706c4) Thanks [@olivermrbl](https://github.com/olivermrbl)! - Normalize discount code before querying DB in `DiscountService.retrieveByCode`
+
+- Updated dependencies [[`7dc8d3a0c`](https://github.com/medusajs/medusa/commit/7dc8d3a0c90ce06e3f11a6a46dec1f9ec3f26e81)]:
+  - medusa-core-utils@1.1.32
+
+## 1.4.1
+
+### Patch Changes
+
+- [`d2932d328`](https://github.com/medusajs/medusa/commit/d2932d328c30a2b40a49853fa337ae0e35b29ae8) Thanks [@olivermrbl](https://github.com/olivermrbl)! - Expose list-currencies endpoint by removing the feature flag guard on router
+
+* [`d2932d328`](https://github.com/medusajs/medusa/commit/d2932d328c30a2b40a49853fa337ae0e35b29ae8) Thanks [@olivermrbl](https://github.com/olivermrbl)! - Cleanup Tax lines in case of a failed cart completion
+
+## 1.4.0
+
+### Minor Changes
+
+- [#2185](https://github.com/medusajs/medusa/pull/2185) [`64949dc72`](https://github.com/medusajs/medusa/commit/64949dc721a6c697e3eb7091db9f2d261111a766) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - Adds missing response types for currency endpoints and exports route. Adds currency endpoints to medusa-js and medusa-react.
+
+### Patch Changes
+
+- [#2150](https://github.com/medusajs/medusa/pull/2150) [`b6161d240`](https://github.com/medusajs/medusa/commit/b6161d24043b8b910320475b8616b7e29a96f6cd) Thanks [@adrien2p](https://github.com/adrien2p)! - Handle new line char in csv cell and fix import strategy
+
+* [#2155](https://github.com/medusajs/medusa/pull/2155) [`af80e0fd2`](https://github.com/medusajs/medusa/commit/af80e0fd2ed75cd3c15282ddcbfb949060dfdd33) Thanks [@srindom](https://github.com/srindom)! - Make prices optional param when updating a variant
+
+## 1.3.9
+
+### Patch Changes
+
+- [#2197](https://github.com/medusajs/medusa/pull/2197) [`eb3b02baf`](https://github.com/medusajs/medusa/commit/eb3b02baf422ec2038d5e229d7ac1e35ddc3c561) Thanks [@srindom](https://github.com/srindom)! - Create cart with country code in shipping address
+
+## 1.3.8
+
+### Patch Changes
+
+- [#2069](https://github.com/medusajs/medusa/pull/2069) [`ad717b953`](https://github.com/medusajs/medusa/commit/ad717b9533a0500e20c4e312d1ee48b35ea9d5e1) Thanks [@olivermrbl](https://github.com/olivermrbl)! - Remove deprecated dependency `@hapi/joi`
+
+* [#1846](https://github.com/medusajs/medusa/pull/1846) [`d14a0398f`](https://github.com/medusajs/medusa/commit/d14a0398fb884a1cd472c147af8ff5fa6fdbe4cb) Thanks [@olivermrbl](https://github.com/olivermrbl)! - Fixes an error thrown when deleting product options on a product without variants
+
+- [#2000](https://github.com/medusajs/medusa/pull/2000) [`ba6416f09`](https://github.com/medusajs/medusa/commit/ba6416f095e465cc07e35bfc6d6f311c12f57574) Thanks [@fPolic](https://github.com/fPolic)! - Convert SwapService to TypeScript
+
+- Updated dependencies [[`ad717b953`](https://github.com/medusajs/medusa/commit/ad717b9533a0500e20c4e312d1ee48b35ea9d5e1)]:
+  - @medusajs/medusa-cli@1.3.3
+
 ## 1.3.7
 
 ### Patch Changes

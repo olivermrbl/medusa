@@ -18,7 +18,7 @@ import { validator } from "../../../../utils/validator"
 /**
  * @oas [get] /variants
  * operationId: GetVariants
- * summary: Retrieve Product Variants
+ * summary: Get Product Variants
  * description: "Retrieves a list of Product Variants"
  * parameters:
  *   - (query) ids {string} A comma separated list of Product Variant ids to filter by.
@@ -77,7 +77,9 @@ import { validator } from "../../../../utils/validator"
  *             variants:
  *               type: array
  *               items:
- *                 $ref: "#/components/schemas/product_variant"
+ *                 allOf:
+ *                   - $ref: "#/components/schemas/product_variant"
+ *                   - $ref: "#/components/schemas/product_variant_prices_fields"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "404":

@@ -181,8 +181,10 @@ describe("CartCompletionStrategy", () => {
             return this
           },
           createTaxLines: jest.fn(() => Promise.resolve(cart)),
+          deleteTaxLines: jest.fn(() => Promise.resolve(cart)),
           authorizePayment: jest.fn(() => Promise.resolve(cart)),
           retrieve: jest.fn(() => Promise.resolve(cart)),
+          retrieveWithTotals: jest.fn(() => Promise.resolve(cart)),
         }
         const orderServiceMock = {
           withTransaction: function () {
@@ -205,7 +207,7 @@ describe("CartCompletionStrategy", () => {
           idempotencyKeyService: idempotencyKeyServiceMock,
           orderService: orderServiceMock,
           swapService: swapServiceMock,
-          manager: MockManager
+          manager: MockManager,
         })
 
         const val = await completionStrat.complete(cart.id, idempotencyKey, {})

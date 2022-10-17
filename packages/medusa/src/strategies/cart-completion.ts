@@ -120,6 +120,10 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                       cart.payment_session.status === "requires_more" ||
                       cart.payment_session.status === "pending"
                     ) {
+                      await cartService
+                        .withTransaction(transactionManager)
+                        .deleteTaxLines(id)
+
                       return {
                         response_code: 200,
                         response_body: {
@@ -156,14 +160,8 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
                 async (manager: EntityManager) => {
                   const cart = await cartService
                     .withTransaction(manager)
-                    .retrieve(id, {
-                      select: ["total"],
-                      relations: [
-                        "items",
-                        "items.adjustments",
-                        "payment",
-                        "payment_sessions",
-                      ],
+                    .retrieveWithTotals(id, {
+                      relations: ["payment", "payment_sessions"],
                     })
 
                   // If cart is part of swap, we register swap as complete
@@ -322,6 +320,19 @@ class CartCompletionStrategy extends AbstractCartCompletionStrategy {
     }
 
     if (err) {
+      if (idempotencyKey.recovery_point !== "started") {
+        await this.manager_.transaction(async (transactionManager) => {
+          try {
+            await orderService
+              .withTransaction(transactionManager)
+              .retrieveByCartId(id)
+          } catch (error) {
+            await cartService
+              .withTransaction(transactionManager)
+              .deleteTaxLines(id)
+          }
+        })
+      }
       throw err
     }
 

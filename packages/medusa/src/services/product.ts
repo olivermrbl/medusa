@@ -7,6 +7,7 @@ import { TransactionBaseService } from "../interfaces"
 import SalesChannelFeatureFlag from "../loaders/feature-flags/sales-channels"
 import {
   Product,
+  ProductOption,
   ProductTag,
   ProductType,
   ProductVariant,
@@ -648,7 +649,7 @@ class ProductService extends TransactionBaseService {
         )
       }
 
-      const option = await productOptionRepo.create({
+      const option = productOptionRepo.create({
         title: optionTitle,
         product_id: productId,
       })
@@ -771,6 +772,26 @@ class ProductService extends TransactionBaseService {
   }
 
   /**
+   * Retrieve product's option by title.
+   *
+   * @param title - title of the option
+   * @param productId - id of a product
+   * @return product option
+   */
+  async retrieveOptionByTitle(
+    title: string,
+    productId: string
+  ): Promise<ProductOption | undefined> {
+    const productOptionRepo = this.manager_.getCustomRepository(
+      this.productOptionRepository_
+    )
+
+    return productOptionRepo.findOne({
+      where: { title, product_id: productId },
+    })
+  }
+
+  /**
    * Delete an option from a product.
    * @param productId - the product to delete an option from
    * @param optionId - the option to delete
@@ -797,32 +818,37 @@ class ProductService extends TransactionBaseService {
         return Promise.resolve()
       }
 
-      // For the option we want to delete, make sure that all variants have the
-      // same option values. The reason for doing is, that we want to avoid
-      // duplicate variants. For example, if we have a product with size and
-      // color options, that has four variants: (black, 1), (black, 2),
-      // (blue, 1), (blue, 2) and we delete the size option from the product,
-      // we would end up with four variants: (black), (black), (blue), (blue).
-      // We now have two duplicate variants. To ensure that this does not
-      // happen, we will force the user to select which variants to keep.
-      const firstVariant = product.variants[0]
+      // In case the product does not contain variants, we can safely delete the option
+      // If it does contain variants, we need to make sure no variant exist for the
+      // product option to delete
+      if (product?.variants?.length) {
+        // For the option we want to delete, make sure that all variants have the
+        // same option values. The reason for doing is, that we want to avoid
+        // duplicate variants. For example, if we have a product with size and
+        // color options, that has four variants: (black, 1), (black, 2),
+        // (blue, 1), (blue, 2) and we delete the size option from the product,
+        // we would end up with four variants: (black), (black), (blue), (blue).
+        // We now have two duplicate variants. To ensure that this does not
+        // happen, we will force the user to select which variants to keep.
+        const firstVariant = product.variants[0]
 
-      const valueToMatch = firstVariant.options.find(
-        (o) => o.option_id === optionId
-      )?.value
+        const valueToMatch = firstVariant.options.find(
+          (o) => o.option_id === optionId
+        )?.value
 
-      const equalsFirst = await Promise.all(
-        product.variants.map(async (v) => {
-          const option = v.options.find((o) => o.option_id === optionId)
-          return option?.value === valueToMatch
-        })
-      )
-
-      if (!equalsFirst.every((v) => v)) {
-        throw new MedusaError(
-          MedusaError.Types.INVALID_DATA,
-          `To delete an option, first delete all variants, such that when an option is deleted, no duplicate variants will exist.`
+        const equalsFirst = await Promise.all(
+          product.variants.map(async (v) => {
+            const option = v.options.find((o) => o.option_id === optionId)
+            return option?.value === valueToMatch
+          })
         )
+
+        if (!equalsFirst.every((v) => v)) {
+          throw new MedusaError(
+            MedusaError.Types.INVALID_DATA,
+            `To delete an option, first delete all variants, such that when an option is deleted, no duplicate variants will exist.`
+          )
+        }
       }
 
       // If we reach this point, we can safely delete the product option

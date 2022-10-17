@@ -64,7 +64,7 @@ import { EntityManager } from "typeorm"
  *             description: Whether Medusa should keep track of the inventory for this Product Variant.
  *             type: boolean
  *           weight:
- *             description: The wieght of the Product Variant.
+ *             description: The weight of the Product Variant.
  *             type: number
  *           length:
  *             description: The length of the Product Variant.
@@ -307,9 +307,10 @@ export class AdminPostProductsProductVariantsVariantReq {
 
   @IsObject()
   @IsOptional()
-  metadata?: object
+  metadata?: Record<string, unknown>
 
   @IsArray()
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ProductVariantPricesUpdateReq)
   prices: ProductVariantPricesUpdateReq[]

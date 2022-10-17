@@ -10,7 +10,7 @@ import { validator } from "../../../../utils/validator"
 /**
  * @oas [post] /customer-groups/{id}
  * operationId: "PostCustomerGroupsGroup"
- * summary: "Update a CustomerGroup"
+ * summary: "Update a Customer Group"
  * description: "Update a CustomerGroup."
  * x-authenticated: true
  * parameters:
@@ -119,5 +119,5 @@ export class AdminPostCustomerGroupsGroupReq {
 
   @IsObject()
   @IsOptional()
-  metadata?: object
+  metadata?: Record<string, unknown>
 }

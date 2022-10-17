@@ -10,7 +10,7 @@ import { EntityManager } from "typeorm"
 /**
  * @oas [post] /customers/me
  * operationId: PostCustomersCustomer
- * summary: Update Customer details
+ * summary: Update Customer
  * description: "Updates a Customer's saved details."
  * x-authenticated: true
  * requestBody:
@@ -27,7 +27,7 @@ import { EntityManager } from "typeorm"
  *           billing_address:
  *             description: "The Address to be used for billing purposes."
  *             anyOf:
- *               - $ref: "#/components/schemas/address"
+ *               - $ref: "#/components/schemas/address_fields"
  *                 description: The full billing address object
  *               - type: string
  *                 description: The ID of an existing billing address

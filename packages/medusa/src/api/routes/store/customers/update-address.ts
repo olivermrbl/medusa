@@ -18,7 +18,7 @@ import { EntityManager } from "typeorm"
  *     application/json:
  *       schema:
  *         anyOf:
- *           - $ref: "#/components/schemas/address"
+ *           - $ref: "#/components/schemas/address_fields"
  * x-codeSamples:
  *   - lang: JavaScript
  *     label: JS Client
@@ -95,4 +95,5 @@ export default async (req, res) => {
   res.json({ customer })
 }
 
+// eslint-disable-next-line max-len
 export class StorePostCustomersCustomerAddressesAddressReq extends AddressPayload {}

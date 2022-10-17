@@ -4,7 +4,7 @@ import ShippingProfileService from "../../../../services/shipping-profile"
 /**
  * @oas [get] /shipping-options/{cart_id}
  * operationId: GetShippingOptionsCartId
- * summary: Retrieve Shipping Options for Cart
+ * summary: List for Cart
  * description: "Retrieves a list of Shipping Options available to a cart."
  * parameters:
  *   - (path) cart_id {string} The id of the Cart.
@@ -55,8 +55,7 @@ export default async (req, res) => {
     "shippingProfileService"
   )
 
-  const cart = await cartService.retrieve(cart_id, {
-    select: ["subtotal"],
+  const cart = await cartService.retrieveWithTotals(cart_id, {
     relations: [
       "region",
       "items",

@@ -3,13 +3,7 @@ import {
   DraftOrderService,
   LineItemService,
 } from "../../../../services"
-import {
-  IsBoolean,
-  IsInt,
-  IsObject,
-  IsOptional,
-  IsString,
-} from "class-validator"
+import { IsInt, IsObject, IsOptional, IsString } from "class-validator"
 import {
   defaultAdminDraftOrdersCartFields,
   defaultAdminDraftOrdersCartRelations,
@@ -17,14 +11,13 @@ import {
 } from "."
 
 import { EntityManager } from "typeorm"
-import { FlagRouter } from "../../../../utils/flag-router"
 import { MedusaError } from "medusa-core-utils"
 import { validator } from "../../../../utils/validator"
 
 /**
  * @oas [post] /draft-orders/{id}/line-items
  * operationId: "PostDraftOrdersDraftOrderLineItems"
- * summary: "Create a Line Item for Draft Order"
+ * summary: "Create a Line Item"
  * description: "Creates a Line Item for the Draft Order"
  * x-authenticated: true
  * parameters:

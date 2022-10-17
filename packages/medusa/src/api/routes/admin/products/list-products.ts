@@ -1,15 +1,15 @@
 import { IsNumber, IsOptional, IsString } from "class-validator"
 import { PricingService, ProductService } from "../../../../services"
 
-import { FilterableProductProps } from "../../../../types/product"
-import { PricedProduct } from "../../../../types/pricing"
-import { Product } from "../../../../models"
 import { Type } from "class-transformer"
+import { Product } from "../../../../models"
+import { PricedProduct } from "../../../../types/pricing"
+import { FilterableProductProps } from "../../../../types/product"
 
 /**
  * @oas [get] /products
  * operationId: "GetProducts"
- * summary: "List Product"
+ * summary: "List Products"
  * description: "Retrieves a list of Product"
  * x-authenticated: true
  * parameters:
