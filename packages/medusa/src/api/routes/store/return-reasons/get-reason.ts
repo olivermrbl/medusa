@@ -33,9 +33,7 @@ import ReturnReasonService from "../../../../services/return-reason"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             return_reason:
- *               $ref: "#/components/schemas/return_reason"
+ *           $ref: "#/components/schemas/StoreReturnReasonsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "404":

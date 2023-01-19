@@ -37,9 +37,7 @@ import { SalesChannelService } from "../../../../services"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             sales_channel:
- *               $ref: "#/components/schemas/sales_channel"
+ *           $ref: "#/components/schemas/AdminSalesChannelsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

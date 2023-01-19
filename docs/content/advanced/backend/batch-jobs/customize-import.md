@@ -8,11 +8,13 @@ Product Import Strategy is essentially a batch job strategy. Medusa provides the
 
 Although this documentation specifically targets import strategies, you can use the same steps to overwrite any batch job strategy in Medusa, including export strategies.
 
+---
+
 ## Prerequisites
 
 ### Medusa Components
 
-It's assumed that you already have a Medusa server installed and set up. If not, you can follow our [quickstart guide](../../../quickstart/quick-start.md) to get started.
+It's assumed that you already have a Medusa server installed and set up. If not, you can follow our [quickstart guide](../../../quickstart/quick-start.mdx) to get started.
 
 ### Redis
 
@@ -21,6 +23,8 @@ Redis is required for batch jobs to work. Make sure you [install Redis](../../.
 ### PostgreSQL
 
 If you use SQLite during your development, it’s highly recommended that you use PostgreSQL when working with batch jobs. Learn how to [install PostgreSQL](../../../tutorial/0-set-up-your-development-environment.mdx#postgresql) and [configure it with your Medusa server](../../../usage/configurations.md#postgresql-configurations).
+
+---
 
 ## Overwrite Batch Job Strategy
 
@@ -40,9 +44,12 @@ The batch job strategy class must extend the `AbstractBatchJobStrategy` class wh
 
 For example, you can define the following class in the file you created:
 
-```typescript
-import { AbstractBatchJobStrategy, BatchJobService } from '@medusajs/medusa'
-import { EntityManager } from 'typeorm'
+```ts title=src/strategies/import.ts
+import { 
+  AbstractBatchJobStrategy, 
+  BatchJobService,
+} from "@medusajs/medusa"
+import { EntityManager } from "typeorm"
 
 class MyImportStrategy extends AbstractBatchJobStrategy {
   protected batchJobService_: BatchJobService
@@ -50,10 +57,10 @@ class MyImportStrategy extends AbstractBatchJobStrategy {
   protected transactionManager_: EntityManager
 
   processJob(batchJobId: string): Promise<void> {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
   buildTemplate(): Promise<string> {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
 }
 
@@ -74,10 +81,10 @@ Since only one batch job strategy can handle a batch job type, you can overwrite
 
 So, for example, to overwrite the product import strategy set the `batchType` property in your strategy to `product-import`:
 
-```typescript
+```ts
 class MyImportStrategy extends AbstractBatchJobStrategy {
-  static batchType = 'product-import'
-  //...
+  static batchType = "product-import"
+  // ...
 }
 ```
 
@@ -103,13 +110,17 @@ Specifically, since you create batch jobs using the [Create Batch Job](https://d
 
 If you overwrote the import functionality, you can follow [these steps to learn how to import products using the Admin APIs](../../admin/import-products.mdx).
 
+---
+
 ## Create Custom Batch Job Strategy
 
 If you don’t want to overwrite Medusa’s batch job strategy, you can create a custom batch job strategy with a different `batchType` value. Then, use that type when you send a request to [Create a Batch Job](https://docs.medusajs.com/api/admin/#tag/Batch-Job).
 
 For more details on creating custom batch job strategies, please check out the [Create Batch Job Strategy documentation](create.md).
 
+---
+
 ## What’s Next
 
-- Learn more about [batch jobs](./index.md).
-- Learn [how to use the Import Product APIs](../../admin/import-products.mdx).
+- [Batch Jobs Overview](./index.md).
+- [Use the Import Product APIs](../../admin/import-products.mdx).

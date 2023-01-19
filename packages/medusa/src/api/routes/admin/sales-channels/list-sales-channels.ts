@@ -2,12 +2,11 @@ import {
   DateComparisonOperator,
   extendedFindParamsMixin,
 } from "../../../../types/common"
-import { IsNumber, IsOptional, IsString, ValidateNested } from "class-validator"
+import { IsOptional, IsString, ValidateNested } from "class-validator"
 import { Request, Response } from "express"
 
 import { SalesChannelService } from "../../../../services"
 import { Type } from "class-transformer"
-import { removeUndefinedProperties } from "../../../../utils"
 
 /**
  * @oas [get] /sales-channels
@@ -118,20 +117,7 @@ import { removeUndefinedProperties } from "../../../../utils"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             sales_channels:
- *               type: array
- *               items:
- *                 $ref: "#/components/schemas/sales_channel"
- *             count:
- *               type: integer
- *               description: The total number of items available
- *             offset:
- *               type: integer
- *               description: The number of items skipped before these items
- *             limit:
- *               type: integer
- *               description: The number of items per page
+ *           $ref: "#/components/schemas/AdminSalesChannelsListRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

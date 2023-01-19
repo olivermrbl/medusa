@@ -37,9 +37,7 @@ import RegionService from "../../../../services/region"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             region:
- *               $ref: "#/components/schemas/region"
+ *           $ref: "#/components/schemas/AdminRegionsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

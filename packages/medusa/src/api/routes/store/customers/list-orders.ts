@@ -1,9 +1,4 @@
 import {
-  FulfillmentStatus,
-  OrderStatus,
-  PaymentStatus,
-} from "../../../../models/order"
-import {
   IsEnum,
   IsNumber,
   IsOptional,
@@ -11,11 +6,15 @@ import {
   ValidateNested,
 } from "class-validator"
 import { Request, Response } from "express"
+import {
+  FulfillmentStatus,
+  OrderStatus,
+  PaymentStatus,
+} from "../../../../models/order"
 
-import { DateComparisonOperator } from "../../../../types/common"
-import { MedusaError } from "medusa-core-utils"
-import OrderService from "../../../../services/order"
 import { Type } from "class-transformer"
+import OrderService from "../../../../services/order"
+import { DateComparisonOperator } from "../../../../types/common"
 
 /**
  * @oas [get] /customers/me/orders
@@ -164,20 +163,7 @@ import { Type } from "class-transformer"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             orders:
- *               type: array
- *               items:
- *                 $ref: "#/components/schemas/order"
- *             count:
- *               type: integer
- *               description: The total number of items available
- *             offset:
- *               type: integer
- *               description: The number of items skipped before these items
- *             limit:
- *               type: integer
- *               description: The number of items per page
+ *           $ref: "#/components/schemas/StoreCustomersListOrdersRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":
@@ -193,13 +179,6 @@ import { Type } from "class-transformer"
  */
 export default async (req: Request, res: Response) => {
   const id: string | undefined = req.user?.customer_id
-
-  if (!id) {
-    throw new MedusaError(
-      MedusaError.Types.UNEXPECTED_STATE,
-      "Not authorized to list orders"
-    )
-  }
 
   const orderService: OrderService = req.scope.resolve("orderService")
 

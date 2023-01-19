@@ -33,9 +33,7 @@ import CustomerService from "../../../../services/customer"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             customer:
- *               $ref: "#/components/schemas/customer"
+ *           $ref: "#/components/schemas/StoreCustomersRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

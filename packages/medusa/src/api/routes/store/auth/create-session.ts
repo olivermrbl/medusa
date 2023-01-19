@@ -1,9 +1,9 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
 import jwt from "jsonwebtoken"
+import { EntityManager } from "typeorm"
 import AuthService from "../../../../services/auth"
 import CustomerService from "../../../../services/customer"
 import { validator } from "../../../../utils/validator"
-import { EntityManager } from "typeorm"
 
 /**
  * @oas [post] /auth
@@ -43,9 +43,7 @@ import { EntityManager } from "typeorm"
  *    content:
  *      application/json:
  *        schema:
- *          properties:
- *            customer:
- *              $ref: "#/components/schemas/customer"
+ *          $ref: "#/components/schemas/StoreAuthRes"
  *  "400":
  *    $ref: "#/components/responses/400_error"
  *  "401":
@@ -79,7 +77,7 @@ export default async (req, res) => {
   const {
     projectConfig: { jwt_secret },
   } = req.scope.resolve("configModule")
-  req.session.jwt = jwt.sign(
+  req.session.jwt_store = jwt.sign(
     { customer_id: result.customer?.id },
     jwt_secret!,
     {

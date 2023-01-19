@@ -31,9 +31,7 @@ import { OrderService } from "../../../../services"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             order:
- *               $ref: "#/components/schemas/order"
+ *           $ref: "#/components/schemas/StoreOrdersRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "404":
@@ -49,7 +47,7 @@ export default async (req, res) => {
   const { id } = req.params
 
   const orderService: OrderService = req.scope.resolve("orderService")
-  const order = await orderService.retrieve(id, {
+  const order = await orderService.retrieveWithTotals(id, {
     select: defaultStoreOrdersFields,
     relations: defaultStoreOrdersRelations,
   })

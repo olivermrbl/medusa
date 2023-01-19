@@ -12,41 +12,54 @@ If you’re interested in learning what a price selection strategy is and how it
 
 Create a TypeScript or JavaScript file in `src/strategies` of your Medusa server project with a class that extends the `AbstractPriceSelectionStrategy` class:
 
-```typescript
-import { AbstractPriceSelectionStrategy, IPriceSelectionStrategy, PriceSelectionContext, PriceSelectionResult } from "@medusajs/medusa";
+```ts title=src/strategies/price.ts
+import { 
+  AbstractPriceSelectionStrategy, 
+  IPriceSelectionStrategy, 
+  PriceSelectionContext, 
+  PriceSelectionResult,
+} from "@medusajs/medusa"
 
-import { EntityManager } from "typeorm";
+import { EntityManager } from "typeorm"
 
-export default class MyPriceListStrategy extends AbstractPriceSelectionStrategy {
+export default class MyStrategy extends AbstractPriceSelectionStrategy {
 
   withTransaction(manager: EntityManager): IPriceSelectionStrategy {
     if (!manager) {
       return this
     }
 
-    return new MyPriceListStrategy()
+    return new MyStrategy()
   }
 
   async calculateVariantPrice(
     variant_id: string,
     context: PriceSelectionContext
   ): Promise<PriceSelectionResult> {
-    //TODO
+    // TODO
   }
 }
 ```
 
-You can use services or repositories in the strategy by adding them to the constructor and updating the parameters passed to the `MyPriceListStrategy` constructor in `withTransaction`. For example:
+You can use services or repositories in the strategy by adding them to the constructor and updating the parameters passed to the `MyStrategy` constructor in `withTransaction`. For example:
 
-```typescript
-export default class MyPriceListStrategy extends AbstractPriceSelectionStrategy {
-  private productsService: ProductService
+```ts
+import { 
+  AbstractPriceSelectionStrategy, 
+  CustomerService, 
+  IPriceSelectionStrategy, 
+  PriceSelectionContext, 
+  PriceSelectionResult, 
+} from "@medusajs/medusa"
+
+export default class MyStrategy extends AbstractPriceSelectionStrategy {
+  private customerService: CustomerService
 
   constructor({
-    productsService
+    customerService,
   }) {
     super()
-    this.productsService = productsService
+    this.customerService = customerService
   }
 
   withTransaction(manager: EntityManager): IPriceSelectionStrategy {
@@ -54,11 +67,11 @@ export default class MyPriceListStrategy extends AbstractPriceSelectionStrategy 
       return this
     }
 
-    return new MyPriceListStrategy({
-      productsService: this.productsService
+    return new MyStrategy({
+      customerService: this.customerService,
     })
   }
-  //...
+  // ...
 }
 ```
 
@@ -72,10 +85,10 @@ This method accepts the variant ID as a first parameter and the [context](./inde
 
 This method must return an object having the following fields:
 
-```typescript
+```ts noReport
 {
-  originalPrice, //number | null
-  calculatedPrice, //number | null
+  originalPrice, // number | null
+  calculatedPrice, // number | null
   prices // MoneyAmount[]
 }
 ```
@@ -106,6 +119,6 @@ Then, try out your strategy using any of the [Products](https://docs.medusajs.co
 
 ---
 
-## What’s Next
+## See Also
 
-- Learn more about [price list selection strategy](./index.md).
+- [Price List Selection Strategy Overview](./index.md)

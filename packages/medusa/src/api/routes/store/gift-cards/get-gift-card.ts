@@ -31,9 +31,7 @@ import GiftCardService from "../../../../services/gift-card"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             gift_card:
- *               $ref: "#/components/schemas/gift_card"
+ *           $ref: "#/components/schemas/StoreGiftCardsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "404":

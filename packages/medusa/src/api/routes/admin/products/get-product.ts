@@ -35,9 +35,7 @@ import { PricingService, ProductService } from "../../../../services"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             product:
- *               $ref: "#/components/schemas/product"
+ *           $ref: "#/components/schemas/AdminProductsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

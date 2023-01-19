@@ -42,9 +42,7 @@ import { validator } from "../../../../utils/validator"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             cart:
- *               $ref: "#/components/schemas/cart"
+ *           $ref: "#/components/schemas/StoreCartsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "404":

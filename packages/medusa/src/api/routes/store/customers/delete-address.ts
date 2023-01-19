@@ -1,7 +1,7 @@
 import { defaultStoreCustomersFields, defaultStoreCustomersRelations } from "."
 
-import CustomerService from "../../../../services/customer"
 import { EntityManager } from "typeorm"
+import CustomerService from "../../../../services/customer"
 
 /**
  * @oas [delete] /customers/me/addresses/{address_id}
@@ -37,9 +37,7 @@ import { EntityManager } from "typeorm"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             customer:
- *               $ref: "#/components/schemas/customer"
+ *           $ref: "#/components/schemas/StoreCustomersRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":

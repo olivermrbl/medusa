@@ -1,4 +1,5 @@
 import CustomerService from "../../../../services/customer"
+
 /**
  * @oas [get] /auth/{email}
  * operationId: "GetAuthEmail"
@@ -32,10 +33,7 @@ import CustomerService from "../../../../services/customer"
  *    content:
  *      application/json:
  *        schema:
- *          properties:
- *            exists:
- *              type: boolean
- *              description: Whether email exists or not.
+ *          $ref: "#/components/schemas/StoreGetAuthEmailRes"
  *  "400":
  *    $ref: "#/components/responses/400_error"
  *  "404":
@@ -53,8 +51,8 @@ export default async (req, res) => {
   try {
     const customerService: CustomerService =
       req.scope.resolve("customerService")
-    const customer = await customerService.retrieveByEmail(email, {
-      select: ["has_account"],
+    const customer = await customerService.retrieveRegisteredByEmail(email, {
+      select: ["id", "has_account"],
     })
     res.status(200).json({ exists: customer.has_account })
   } catch (err) {

@@ -18,20 +18,7 @@ import { Type } from "class-transformer"
  *   content:
  *     application/json:
  *       schema:
- *         required:
- *           - product_ids
- *         properties:
- *           product_ids:
- *             description: The IDs of the products to add to the Sales Channel
- *             type: array
- *             items:
- *               type: object
- *               required:
- *                 - id
- *               properties:
- *                 id:
- *                   type: string
- *                   description: The ID of the product
+ *         $ref: "#/components/schemas/AdminPostSalesChannelsChannelProductsBatchReq"
  * x-codeSamples:
  *   - lang: JavaScript
  *     label: JS Client
@@ -73,9 +60,7 @@ import { Type } from "class-transformer"
  *     content:
  *       application/json:
  *         schema:
- *           properties:
- *             sales_channel:
- *               $ref: "#/components/schemas/sales_channel"
+ *           $ref: "#/components/schemas/AdminSalesChannelsRes"
  *   "400":
  *     $ref: "#/components/responses/400_error"
  *   "401":
@@ -112,6 +97,24 @@ export default async (req: Request, res: Response): Promise<void> => {
   res.status(200).json({ sales_channel: salesChannel })
 }
 
+/**
+ * @schema AdminPostSalesChannelsChannelProductsBatchReq
+ * type: object
+ * required:
+ *   - product_ids
+ * properties:
+ *   product_ids:
+ *     description: The IDs of the products to add to the Sales Channel
+ *     type: array
+ *     items:
+ *       type: object
+ *       required:
+ *         - id
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The ID of the product
+ */
 export class AdminPostSalesChannelsChannelProductsBatchReq {
   @IsArray()
   @ValidateNested({ each: true })
