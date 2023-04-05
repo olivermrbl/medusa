@@ -59,7 +59,7 @@ jobs:
 
       - name: Create Medusa project
         run: |
-          medusa new cli-test 'https://github.com/medusajs/medusa-starter-default/tree/feat/test-ci-action'
+          medusa new cli-test 'https://github.com/olivermrbl/medusa-starter-default/tree/feat/test-ci-action'
         working-directory: ..
 
       - name: Set database type in env
