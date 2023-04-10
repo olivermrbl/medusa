@@ -88,7 +88,7 @@
     "version:next": "changeset version --snapshot next",
     "check:freshness": "node ./scripts/freshness-check.js",
     "release": "changeset publish --no-git-tags --snapshot --tag test-ci",
-    "version": "changeset version && yarn install --no-immutable",
+    "version": "changeset version && yarn install --no-immutable"
   },
   "dependencies": {
     "@changesets/changelog-github": "^0.4.8",
