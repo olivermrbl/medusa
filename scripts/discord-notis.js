@@ -3,9 +3,9 @@ async function run() {
   const releaseUrl = process.argv.slice(2)[1]
 
   const message = `
-    Medusa ${releaseName} is out! 🚢 @here \n\n
-    Check out the changes here: ${releaseUrl}
-  `
+    Medusa ${releaseName} is out! 🚢 @here
+    
+    Check out the changes here: ${releaseUrl}`
 
   console.log(message)
 }
