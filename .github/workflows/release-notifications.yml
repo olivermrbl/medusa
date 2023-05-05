@@ -30,7 +30,7 @@ jobs:
       - name: Discord Notification
         id: discord-notification
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
         uses: Ilshidur/action-discord@0.3.2
         with:
           args: ${{ steps.notification.outputs.message }}
