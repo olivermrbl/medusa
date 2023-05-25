@@ -32,6 +32,9 @@ jobs:
           node-version: 16.x
           cache: "yarn"
         
+      - name: Install Medusa cli
+        run: npm i -g @medusajs/medusa-cli
+        
       - name: Create Medusa project
         run: |
           medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
