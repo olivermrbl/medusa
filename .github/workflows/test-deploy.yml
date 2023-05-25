@@ -44,6 +44,8 @@ jobs:
       
       - name: install dependencies
         run: yarn install
+        env:
+          DATABASE_TYPE: "postgres"
         
       - name: Build Packages
         shell: "bash"
@@ -63,3 +65,4 @@ jobs:
           DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
           NODE_ENV: production
           NPM_CONFIG_PRODUCTION: false
+          DATABASE_TYPE: "postgres"
