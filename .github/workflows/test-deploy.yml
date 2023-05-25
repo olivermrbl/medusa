@@ -51,8 +51,8 @@ jobs:
         shell: "bash"
         run: yarn build
 
-      - name: Build admin UI
-        run: yarn build:admin
+#       - name: Build admin UI
+#         run: yarn build:admin
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 
