@@ -18,6 +18,7 @@ jobs:
           pull_request_sha=$(jq --raw-output .pull_request.base.sha "$GITHUB_EVENT_PATH" | cut -c1-8)
           echo "pull_request_sha=${pull_request_sha}" >> $GITHUB_OUTPUT
           echo $pull_request_sha
+
       - name: Neon Database Create Branch Action
         uses: neondatabase/create-branch-action@v3
         id: create_branch
@@ -42,10 +43,10 @@ jobs:
           medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
         working-directory: ..
       
-      - name: install dependencies
-        run: yarn install
-        env:
-          DATABASE_TYPE: "postgres"
+      # - name: install dependencies
+      #   run: yarn install
+      #   env:
+      #     DATABASE_TYPE: "postgres"
         
       - name: Build Packages
         shell: "bash"
@@ -58,7 +59,7 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
+          heroku_app_name: "preview-${{steps.get_pull_request_sha.outputs.pull_request_sha}}"
           heroku_email: "oli@medusajs.com"
           buildpack: "https://github.com/heroku/heroku-buildpack-nodejs"
         env:
