@@ -4,6 +4,8 @@ on: [pull_request]
 
 jobs:
   deploy-preview:
+    env:
+      NODE_ENV: CI
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -39,6 +41,13 @@ jobs:
         run: |
           medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
         working-directory: ..
+      
+      - name: install dependencies
+        run: yarn install
+        
+      - name: Build Packages
+        shell: "bash"
+        run: yarn build
 
       - name: Build admin UI
         run: yarn build:admin
