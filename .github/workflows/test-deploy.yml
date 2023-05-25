@@ -31,6 +31,9 @@ jobs:
         with:
           node-version: 16.x
           cache: "yarn"
+          
+      - name: Install Medusa cli
+        run: npm i -g @medusajs/medusa-cli
         
       - name: Create Medusa project
         run: |
