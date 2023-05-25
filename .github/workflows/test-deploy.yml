@@ -4,6 +4,8 @@ on: [pull_request]
 
 jobs:
   deploy-preview:
+    env:
+      NODE_ENV: CI
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -35,13 +37,25 @@ jobs:
       - name: Install Medusa cli
         run: npm i -g @medusajs/medusa-cli
         
+      - name: Install Medusa cli
+        run: npm i -g @medusajs/medusa-cli
+        
       - name: Create Medusa project
         run: |
           medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
         working-directory: ..
+      
+      - name: install dependencies
+        run: yarn install
+        env:
+          DATABASE_TYPE: "postgres"
+        
+      - name: Build Packages
+        shell: "bash"
+        run: yarn build
 
-      - name: Build admin UI
-        run: yarn build:admin
+#       - name: Build admin UI
+#         run: yarn build:admin
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 
@@ -54,3 +68,4 @@ jobs:
           DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
           NODE_ENV: production
           NPM_CONFIG_PRODUCTION: false
+          DATABASE_TYPE: "postgres"
