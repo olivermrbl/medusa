@@ -65,7 +65,7 @@ jobs:
           heroku_email: "oli@medusajs.com"
           buildpack: "https://github.com/heroku/heroku-buildpack-nodejs"
         env:
-          DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
-          NODE_ENV: production
-          NPM_CONFIG_PRODUCTION: false
-          DATABASE_TYPE: "postgres"
+          HD_DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
+          HD_NODE_ENV: production
+          HD_NPM_CONFIG_PRODUCTION: false
+          HD_DATABASE_TYPE: "postgres"
