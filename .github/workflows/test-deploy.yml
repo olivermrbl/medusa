@@ -1,0 +1,53 @@
+name: Deploy Preview
+
+on: [pull_request]
+
+jobs:
+  deploy-preview:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get PR sha
+        id: get_pull_request_sha
+        run: |
+          pull_request_sha=$(jq --raw-output .pull_request.base.sha "$GITHUB_EVENT_PATH" | cut -c1-8)
+          echo "pull_request_sha=${pull_request_sha}" >> $GITHUB_OUTPUT
+          echo $pull_request_sha
+      - name: Neon Database Create Branch Action
+        uses: neondatabase/create-branch-action@v3
+        id: create_branch
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          branch_name: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          username: ${{ secrets.PG_USERNAME }}
+          password: ${{ secrets.PG_PASSWORD }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "yarn"
+        
+      - name: Create Medusa project
+        run: |
+          medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
+        working-directory: ..
+
+      - name: Build admin UI
+        run: yarn build:admin
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
+          heroku_email: "oli@medusajs.com"
+          buildpack: "https://github.com/heroku/heroku-buildpack-nodejs"
+        env:
+          DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
+          NODE_ENV: production
+          NPM_CONFIG_PRODUCTION: false
