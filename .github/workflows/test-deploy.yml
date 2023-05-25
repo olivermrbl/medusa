@@ -38,22 +38,20 @@ jobs:
       - name: Install Medusa cli
         run: npm i -g @medusajs/medusa-cli
         
-      - name: Install Medusa cli
-        run: npm i -g @medusajs/medusa-cli
-        
       - name: Create Medusa project
         run: |
           medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
-        working-directory: ..
       
       - name: install dependencies
-        run: yarn install
+        run: npm install
+        working-directory: ./test-deploy
         env:
           DATABASE_TYPE: "postgres"
         
       - name: Build Packages
         shell: "bash"
-        run: yarn build
+        working-directory: ./test-deploy
+        run: npm run build
 
 #       - name: Build admin UI
 #         run: yarn build:admin
@@ -63,9 +61,13 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "preview-${{steps.get_pull_request_sha.outputs.pull_request_sha}}"
           heroku_email: "oli@medusajs.com"
+          team: medusajs
+          appdir: "./test-deploy"
           buildpack: "heroku/nodejs"
         env:
           HD_DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
           HD_NODE_ENV: production
           HD_NPM_CONFIG_PRODUCTION: false
           HD_DATABASE_TYPE: "postgres"
+          HD_COOKIE_SECRET: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
+          HD_JWT_SECRET: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
