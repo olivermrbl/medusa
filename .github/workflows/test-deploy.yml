@@ -6,7 +6,6 @@ jobs:
   deploy-preview:
     env:
       NODE_ENV: CI
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,82 +28,12 @@ jobs:
           username: ${{ secrets.PG_USERNAME }}
           password: ${{ secrets.PG_PASSWORD }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: "yarn"
+      - run: echo ${{ steps.create-branch.outputs.project_id}}
+      - run: echo ${{ steps.create-branch.outputs.branch_id}}
 
-      # - name: Install dependencies
-      #   uses: ./.github/actions/cache-deps
-      #   with:
-      #     extension: snapshot-this
-
-      # - name: Build Packages
-      #   shell: "bash"
-      #   run: yarn build
-
-      # - name: Create an .npmrc
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: |
-      #     cat << EOF > "$HOME/.npmrc"
-      #       //registry.npmjs.org/:_authToken=$NPM_TOKEN
-      #     EOF
-
-      # - name: Configure npm node prepend 
-      #   run: npm config set scripts-prepend-node-path auto
-  
-      # - name: Install Dependencies
-      #   run: yarn
-
-      # - name: Build all packages
-      #   run: yarn build
-
-      # - name: Version packages under the preview tag
-      #   run: yarn version:preview
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Install Dependencies
-      #   run: yarn install --no-immutable
-        
-      # - name: Publish packages under preview tag
-      #   run: yarn release:preview
-
-      - name: Install Medusa cli
-        run: npm i -g @medusajs/medusa-cli  
-        
-      - name: Create Medusa project
-        run: |
-          medusa new test-deploy 'https://github.com/olivermrbl/heroku-neon-medusa'
-      
-      - name: Install dependencies
-        run: rm package-lock.json && touch yarn.lock && yarn install
-        working-directory: ./test-deploy
-        env:
-          DATABASE_TYPE: "postgres"
-        
-      - name: Build Packages
-        shell: "bash"
-        working-directory: ./test-deploy
-        run: yarn build
-
-#       - name: Build admin UI
-#         run: yarn build:admin
-      # - name: Deploy to Heroku
-      #   uses: akhileshns/heroku-deploy@v3.12.12 
-      #   with:
-      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-      #     heroku_app_name: "preview-${{steps.get_pull_request_sha.outputs.pull_request_sha}}"
-      #     heroku_email: "oli@medusajs.com"
-      #     team: medusajs
-      #     appdir: "./test-deploy"
-      #     buildpack: "heroku/nodejs"
-      #   env:
-      #     HD_DATABASE_URL: ${{ steps.create_branch.outputs.db_url_with_pooler}}/neondb
-      #     HD_NODE_ENV: production
-      #     HD_NPM_CONFIG_PRODUCTION: false
-      #     HD_DATABASE_TYPE: "postgres"
-      #     HD_COOKIE_SECRET: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
-          # HD_JWT_SECRET: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
+      - run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{secrets.PREVIEW_REPO_ACCESS_TOKEN}}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/olivermrbl/heroku-neon-medusa/actions/workflows/deploy-preview.yml/dispatches \
+          -d '{"ref":"main", "inputs": { "heroku_app_name": "preview-${{steps.get_pull_request_sha.outputs.pull_request_sha}}", "db_url":"${{ steps.create_branch.outputs.db_url}}/neondb", "pull_request_sha": "${{steps.get_pull_request_sha.outputs.pull_request_sha}}" }}'
