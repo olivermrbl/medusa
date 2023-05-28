@@ -43,7 +43,7 @@ jobs:
         run: yarn build
 
       - name: Version packages
-        run: yarn version:preview
+        run: yarn version:next
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,7 +51,7 @@ jobs:
         run: yarn install --no-immutable
         
       - name: Publish packages under next tag
-        run: yarn release:preview
+        run: yarn release:next
 
       - run: |
           curl -X POST \
