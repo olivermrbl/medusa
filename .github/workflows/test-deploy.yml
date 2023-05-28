@@ -20,19 +20,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get PR sha
-        id: get_pull_request_sha
+      - name: Get PR Number
+        id: get_pull_request_num
         run: |
-          pull_request_sha=$(jq --raw-output .pull_request.base.sha "$GITHUB_EVENT_PATH" | cut -c1-8)
-          echo "pull_request_sha=${pull_request_sha}" >> $GITHUB_OUTPUT
-          echo $pull_request_sha
+          echo "pull_request_num=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+          echo $pull_request_num
 
       - name: Create Neon DB Branch
         uses: neondatabase/create-branch-action@v3
         id: create_branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_name: ${{steps.get_pull_request_sha.outputs.pull_request_sha}}
+          branch_name: ${{steps.get_pull_request_num.outputs.pull_request_num}}
           api_key: ${{ secrets.NEON_API_KEY }}
           username: ${{ secrets.PG_USERNAME }}
           password: ${{ secrets.PG_PASSWORD }}
@@ -68,4 +67,4 @@ jobs:
           -H "Authorization: Bearer ${{secrets.PREVIEW_REPO_ACCESS_TOKEN}}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/olivermrbl/heroku-neon-medusa/actions/workflows/deploy-preview.yml/dispatches \
-          -d '{"ref":"main", "inputs": { "heroku_app_name": "preview-${{steps.get_pull_request_sha.outputs.pull_request_sha}}", "db_url":"${{ steps.create_branch.outputs.db_url}}/neondb", "pull_request_sha": "${{steps.get_pull_request_sha.outputs.pull_request_sha}}" }}'
+          -d '{"ref":"main", "inputs": { "heroku_app_name": "preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}", "db_url":"${{ steps.create_branch.outputs.db_url}}/neondb", "pull_request_num": "${{steps.get_pull_request_num.outputs.pull_request_num}}" }}'
