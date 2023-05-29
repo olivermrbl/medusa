@@ -1,0 +1,31 @@
+name: Destroy Preview Environment
+
+
+on:
+  pull_request:
+    branches:
+      - deploy
+    types: [closed]
+
+jobs: 
+  destroy-preview-environment:
+    # if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR Number
+        id: get_pull_request_num
+        run: |
+          echo "pull_request_num=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          echo $pull_request_num
+        
+      - name: Sign in to Heroku
+        run: |
+          `cat >~/.netrc <<EOF
+          machine api.heroku.com
+              login oli@medusajs.com
+              password ${{ secrets.HEROKU_API_KEY }}
+          EOF`
+        
+      - name: Destroy Preview Environment
+        run: |
+          heroku apps:destroy --app preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}
