@@ -26,4 +26,4 @@ jobs:
         
       - name: Destroy Preview Environment
         run: |
-          heroku apps:destroy --app preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}
+          heroku apps:destroy --app preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}} --confirm preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}
