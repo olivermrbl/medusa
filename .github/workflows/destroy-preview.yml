@@ -3,8 +3,6 @@ name: Destroy Preview Environment
 
 on:
   pull_request:
-    branches:
-      - deploy
     types: [closed]
 
 jobs: 
