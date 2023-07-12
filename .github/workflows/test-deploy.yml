@@ -25,6 +25,56 @@ jobs:
         run: |
           echo "pull_request_num=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
           echo $pull_request_num
+          
+      - name: Validate pull request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+              // Add a rocket reaction to the comment
+              await github.rest.reactions.createForIssueComment({
+                ...context.repo,
+                comment_id: context.payload.comment.id,
+                content: 'rocket',
+              })
+              
+              // Only allow comment creators who have "write" permissions to repo
+              const actorPermission = (await github.rest.repos.getCollaboratorPermissionLevel({
+                ...context.repo,
+                username: context.actor
+              })).data.permission
+              
+              const isPermitted = ['write', 'admin'].includes(actorPermission)
+              
+              if (!isPermitted) {
+                const errorMessage = 'Only users with write permission to the respository can run /preview-this'
+                await github.rest.issues.createComment({
+                  ...context.repo,
+                  issue_number: context.issue.number,
+                  body: errorMessage,
+                })
+                core.setFailed(errorMessage)
+                return;
+              }
+              
+              const pullRequest = await github.rest.pulls.get({
+                ...context.repo,
+                pull_number: context.issue.number,
+              })
+              
+              // Pull request from fork
+              if (context.payload.repository.full_name !== pullRequest.data.head.repo.full_name) {
+                const errorMessage = '`/preview-this` is not supported on pull requests from forked repositories.'
+                await github.rest.issues.createComment({
+                  ...context.repo,
+                  issue_number: context.issue.number,
+                  body: errorMessage,
+                })
+                core.setFailed(errorMessage)
+              }
+            } catch (err) {
+              core.setFailed(`Request failed with error ${err}`)
+            }
 
       - name: Create Neon DB Branch
         uses: neondatabase/create-branch-action@v3
@@ -36,30 +86,33 @@ jobs:
           username: ${{ secrets.PG_USERNAME }}
           password: ${{ secrets.PG_PASSWORD }}
 
-      # - name: Setup Node.js 16.x
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: 16.x
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: 'npm'
 
-      # - name: Configure npm node prepend 
-      #   run: npm config set scripts-prepend-node-path auto
+      - name: Configure npm node prepend 
+        run: npm config set scripts-prepend-node-path auto
 
-      # - name: Install Dependencies
-      #   run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-      # - name: Build all packages
-      #   run: yarn build
+      - name: Build all packages
+        run: yarn build
 
-      # - name: Version packages
-      #   run: yarn version:next
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Install Dependencies
-      #   run: yarn install --no-immutable
+#       - name: Version packages
+#         run: yarn version:next
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-      # - name: Publish packages under next tag
-      #   run: yarn release:next
+#       - name: Publish packages under next tag
+#         run: yarn release:next
+
+      - name: Get uuid
+        id: uuid
+        run: | 
+            echo "::set-output name=uuid::$(uuidgen)"
 
       - name: Trigger Preview Deployment
         run: |
@@ -67,4 +120,25 @@ jobs:
           -H "Authorization: Bearer ${{secrets.PREVIEW_REPO_ACCESS_TOKEN}}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/olivermrbl/heroku-neon-medusa/actions/workflows/deploy-preview.yml/dispatches \
-          -d '{"ref":"main", "inputs": { "heroku_app_name": "preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}", "db_url":"${{ steps.create_branch.outputs.db_url}}/neondb", "pull_request_num": "${{steps.get_pull_request_num.outputs.pull_request_num}}" }}'
+          -d '{"ref":"main", "inputs": { "heroku_app_name": "preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}", "db_url":"${{ steps.create_branch.outputs.db_url}}/neondb", "pull_request_num": "${{steps.get_pull_request_num.outputs.pull_request_num}}", "uuid": ${{steps.uuid.outputs.uuid}} }}'
+          
+      - name: Add URL
+        uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+              const body = (
+                `#### :rocket: A preview environment has been deployed for this PR\n\n` +
+                `API: https://preview-pr-${{steps.get_pull_request_num.outputs.pull_request_num}}-${{steps.uuid.outputs.uuid}}.herokuapp.com/health`
+              )
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body,
+              })
+              await github.rest.reactions.createForIssueComment({
+                ...context.repo,
+                comment_id: context.payload.comment.id,
+                content: 'hooray',
+              })
