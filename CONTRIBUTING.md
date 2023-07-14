@@ -8,7 +8,7 @@ If you're contributing to our documentation, make sure to also check out the [co
 
 - **You're familiar with GitHub Issues and Pull Requests**
 - **You've read the [docs](https://docs.medusajs.com).**
-- **You've setup a test project with `medusa new`**
+- **You've setup a test project with `medusa new`**test
 
 ## Issues before PRs
 
