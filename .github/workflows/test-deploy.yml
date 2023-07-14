@@ -95,11 +95,11 @@ jobs:
       - name: Configure npm node prepend 
         run: npm config set scripts-prepend-node-path auto
 
-      - name: Install Dependencies
-        run: yarn
+#       - name: Install Dependencies
+#         run: yarn
 
-      - name: Build all packages
-        run: yarn build
+#       - name: Build all packages
+#         run: yarn build
 
 #       - name: Version packages
 #         run: yarn version:next
