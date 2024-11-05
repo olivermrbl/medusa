@@ -8,7 +8,7 @@
   </a>
 </p>
 <h1 align="center">
-  Medusa
+  Medusa (Test)
 </h1>
 
 <h4 align="center">
