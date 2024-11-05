@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR Author is in Team
+        id: check_author
         env:
           GITHUB_TOKEN: ${{ secrets.READ_ORG_PAT }}
         run: |
@@ -18,13 +19,13 @@ jobs:
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             https://api.github.com/orgs/medusajs/teams/engineering/memberships/${{ github.event.pull_request.user.login }})
           if [[ "$response" -eq 200 ]]; then
-            echo "The PR author is a team member. Skipping workflow."
-            exit 0
+            echo "author_is_team_member=true\n" >> $GITHUB_OUTPUT
           else
-            echo "The PR author is not a team member. Continuing workflow."
+            echo "author_is_team_member=false\n" >> $GITHUB_OUTPUT
           fi
       - name: Create the Linear Issue
-        id: createIssue
+        if: ${{ steps.check_author.outputs.author_is_team_member == 'false' }}
+        id: create_issue
         uses: ctriolo/action-create-linear-issue@v0.5
         with:
           linear-api-key: ${{secrets.LINEAR_API_KEY}}
