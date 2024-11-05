@@ -17,7 +17,7 @@
 </h4>
 
 <p align="center">
-  Building blocks for digital commerce
+  Building blocks for digital commerce lol
 </p>
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/develop/LICENSE">
