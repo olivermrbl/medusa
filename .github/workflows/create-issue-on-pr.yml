@@ -1,7 +1,6 @@
 name: Create Linear Issue on Pull Request
 
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - develop
@@ -11,6 +10,19 @@ jobs:
   create-linear-issue-on-pull-request:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if PR Author is in Team
+        env:
+          GITHUB_TOKEN: ${{ secrets.READ_ORG_PAT }}
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            https://api.github.com/orgs/medusajs/teams/engineering/memberships/${{ github.event.pull_request.user.login }})
+          if [[ "$response" -eq 200 ]]; then
+            echo "The PR author is a team member. Skipping workflow."
+            exit 0
+          else
+            echo "The PR author is not a team member. Continuing workflow."
+          fi
       - name: Create the Linear Issue
         id: createIssue
         uses: ctriolo/action-create-linear-issue@v0.5
