@@ -47,11 +47,11 @@ jobs:
           node-version: 20
 
       - name: Install Medusa cli
-        run: npm i -g @medusajs/cli@preview
+        run: npm i -g @medusajs/cli@latest
 
       - name: Create Medusa project
         run: |
-          medusa new cli-test --skip-db --v2 --branch feat/v2-ci
+          medusa new cli-test --skip-db --branch ci
         working-directory: ..
 
       - name: run medusa dev
@@ -59,22 +59,22 @@ jobs:
         working-directory: ../cli-test
 
       - name: Run migrations
-        run: medusa db:migrate
+        run: npx medusa db:migrate
         working-directory: ../cli-test
 
       - name: Create admin user
-        run: medusa user -e test@test.com -p password -i admin_123
+        run: npx medusa user -e test@test.com -p password -i admin_123
         working-directory: ../cli-test
 
       - name: Run development server
-        run: medusa develop &
+        run: npx medusa develop &
         working-directory: ../cli-test
 
       - name: Testing development server
         uses: ./.github/actions/test-server
 
       - name: Starting medusa
-        run: medusa start &
+        run: npx medusa start &
         working-directory: ../cli-test
 
       - name: Testing server
