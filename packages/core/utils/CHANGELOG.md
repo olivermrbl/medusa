@@ -1,5 +1,14 @@
 # @medusajs/utils
 
+## 2.0.2
+
+### Patch Changes
+
+- [#9917](https://github.com/medusajs/medusa/pull/9917) [`16b4cc433e996d1a54e4ff043daaa148981ba63d`](https://github.com/medusajs/medusa/commit/16b4cc433e996d1a54e4ff043daaa148981ba63d) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(utils): Mikro orm repository update many to many should detach all items by default
+
+- Updated dependencies []:
+  - @medusajs/types@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

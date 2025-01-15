@@ -1,5 +1,17 @@
 # @medusajs/workflows-sdk
 
+## 2.0.2
+
+### Patch Changes
+
+- [#9921](https://github.com/medusajs/medusa/pull/9921) [`c0368cca282fe26c9e557240bb8ca90514da70c6`](https://github.com/medusajs/medusa/commit/c0368cca282fe26c9e557240bb8ca90514da70c6) Thanks [@adrien2p](https://github.com/adrien2p)! - fix(workflows-sdk): Paralellize steps rollback issue with config
+
+- Updated dependencies [[`16b4cc433e996d1a54e4ff043daaa148981ba63d`](https://github.com/medusajs/medusa/commit/16b4cc433e996d1a54e4ff043daaa148981ba63d)]:
+  - @medusajs/utils@2.0.2
+  - @medusajs/modules-sdk@2.0.2
+  - @medusajs/orchestration@2.0.2
+  - @medusajs/types@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes
