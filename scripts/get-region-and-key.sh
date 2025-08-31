@@ -4,7 +4,7 @@
 set -x
 
 # Make curl request to authenticate
-RESPONSE=$(curl -s -w "\n%{http_code}" -X POST http://localhost:9000/auth/user/emailpass \
+RESPONSE=$(curl -s -X POST http://localhost:9000/auth/user/emailpass \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@medusa-test.com","password":"supersecret"}')
 echo "Response: $RESPONSE"
@@ -27,7 +27,7 @@ if [ -n "$GITHUB_OUTPUT" ]; then
 fi
 
 # Get regions
-REGION_RESPONSE=$(curl -s -w "\n%{http_code}" -X GET http://localhost:9000/admin/regions \
+REGION_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/regions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN")
 echo "Region Response: $REGION_RESPONSE"
@@ -43,7 +43,7 @@ fi
 echo "Region ID: $REGION_ID"
 
 # Get publishable API key
-PUB_KEY_RESPONSE=$(curl -s -w "\n%{http_code}" -X GET http://localhost:9000/admin/api-keys?type=publishable \
+PUB_KEY_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/api-keys?type=publishable \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN")
 echo "Publishable API Key Response: $PUB_KEY_RESPONSE"
