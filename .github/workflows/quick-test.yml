@@ -1,0 +1,65 @@
+name: Performance tests
+on:
+  pull_request:
+
+jobs:
+  simple-performance-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate and get data
+        id: auth
+        run: bash .github/workflows/scripts/utils/get-region-and-key.sh
+
+      - name: Use outputs
+        run: |
+          echo "JWT Token: ${{ steps.auth.outputs.JWT_TOKEN }}"
+          echo "Region ID: ${{ steps.auth.outputs.REGION_ID }}"
+          echo "Publishable API Key: ${{ steps.auth.outputs.PUB_KEY }}"
+      - name: Run local k6 test
+        uses: grafana/run-k6-action@v1
+        env:
+          K6_REGION_ID: ${{ steps.auth.outputs.REGION_ID }}
+          K6_PUBLISHABLE_KEY: ${{ steps.auth.outputs.PUB_KEY }}
+        with:
+          path: scripts/tests/load/small-dtc-local.js
+          flags: --out json=k6_results.json
+        continue-on-error: true # Continue to post results even if test fails
+
+      - name: Parse metrics to markdown table
+        run: |
+          # Extract and format metrics into a markdown table
+          echo "| Metric                | Avg       | Min       | Med       | Max       | p(90)     | p(95)     |" >> k6_results.txt
+          echo "|-----------------------|-----------|-----------|-----------|-----------|-----------|-----------|" >> k6_results.txt
+          echo "| Status                | ${{ steps.k6.outcome }} | | | | | |" >> k6_results.txt
+          jq -r '.metrics | 
+              .http_req_blocked.values as $blk | 
+              .http_req_connecting.values as $con | 
+              .http_req_duration.values as $dur | 
+              .http_req_failed.values as $fail | 
+              .http_req_receiving.values as $rec | 
+              .http_req_sending.values as $send | 
+              .http_reqs.values as $reqs | 
+              .http_req_waiting.values as $wait |
+              [
+              ["HTTP Req Blocked", "\($blk.avg)µs", "\($blk.min)s", "\($blk.med)µs", "\($blk.max)ms", "\($blk.\"p(90)\")µs", "\($blk.\"p(95)\")µs"],
+              ["HTTP Req Connecting", "\($con.avg)µs", "\($con.min)s", "\($con.med)s", "\($con.max)ms", "\($con.\"p(90)\")s", "\($con.\"p(95)\")s"],
+              ["HTTP Req Duration", "\($dur.avg)ms", "\($dur.min)ms", "\($dur.med)ms", "\($dur.max)s", "\($dur.\"p(90)\")s", "\($dur.\"p(95)\")s"],
+              ["HTTP Req Duration (addToCart)", "\(.http_req_duration.\"addToCart\".values.avg)s", "\(.http_req_duration.\"addToCart\".values.min)ms", "\(.http_req_duration.\"addToCart\".values.med)ms", "\(.http_req_duration.\"addToCart\".values.max)s", "\(.http_req_duration.\"addToCart\".values.\"p(90)\")s", "\(.http_req_duration.\"addToCart\".values.\"p(95)\")s"],
+              ["HTTP Req Duration (browseCatalog)", "\(.http_req_duration.\"browseCatalog\".values.avg)ms", "\(.http_req_duration.\"browseCatalog\".values.min)ms", "\(.http_req_duration.\"browseCatalog\".values.med)ms", "\(.http_req_duration.\"browseCatalog\".values.max)s", "\(.http_req_duration.\"browseCatalog\".values.\"p(90)\")s", "\(.http_req_duration.\"browseCatalog\".values.\"p(95)\")s"],
+              ["HTTP Req Duration (completeCart)", "\(.http_req_duration.\"completeCart\".values.avg)s", "\(.http_req_duration.\"completeCart\".values.min)ms", "\(.http_req_duration.\"completeCart\".values.med)ms", "\(.http_req_duration.\"completeCart\".values.max)s", "\(.http_req_duration.\"completeCart\".values.\"p(90)\")s", "\(.http_req_duration.\"completeCart\".values.\"p(95)\")s"],
+              ["HTTP Req Failed", "\($fail.rate * 100)%", "", "", "", "", ""],
+              ["HTTP Req Receiving", "\($rec.avg)ms", "\($rec.min)µs", "\($rec.med)µs", "\($rec.max)ms", "\($rec.\"p(90)\")ms", "\($rec.\"p(95)\")ms"],
+              ["HTTP Req Sending", "\($send.avg)µs", "\($send.min)µs", "\($send.med)µs", "\($send.max)ms", "\($send.\"p(90)\")µs", "\($send.\"p(95)\")µs"],
+              ["HTTP Requests", "\($reqs.count) (\($reqs.rate)/s)", "", "", "", "", ""],
+              ["HTTP Req Waiting", "\($wait.avg)ms", "\($wait.min)ms", "\($wait.med)ms", "\($wait.max)s", "\($wait.\"p(90)\")s", "\($wait.\"p(95)\")s"]
+              ] | .[] | join("|")' k6_results.json >> k6_results.txt
+          cat k6_results.txt
+
+      - name: Post PR comment
+        if: always()
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            **Local Load Test Results**:
+            $(cat k6_results.txt)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
