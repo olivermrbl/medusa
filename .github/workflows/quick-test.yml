@@ -6,6 +6,18 @@ jobs:
   simple-performance-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Authenticate as user
+        run: |
+          RESPONSE=$(curl -s -X POST http://localhost:9000/auth/user/emailpass \
+            -H "Content-Type: application/json" \
+            -d '{"email":"admin@medusa-test.com","password":"supersecret"}')
+
+          # Extract JWT token from response (assuming the token is in a 'token' field)
+          TOKEN=$(echo $RESPONSE | jq -r '.token')
+
+          # Store token in environment variable for subsequent steps
+          echo "JWT_TOKEN=$TOKEN" >> $GITHUB_ENV
+
       - name: Get region ID and publishable api key
         run: |
           REGION_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/regions \
