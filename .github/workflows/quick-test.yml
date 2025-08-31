@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Authenticate and get data
         id: auth
-        run: bash .github/workflows/scripts/utils/get-region-and-key.sh
+        run: bash scripts/utils/get-region-and-key.sh
 
       - name: Use outputs
         run: |
