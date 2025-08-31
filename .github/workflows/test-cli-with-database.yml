@@ -119,7 +119,7 @@ jobs:
 
           # Extract region ID and publishable api key from response; they are both the first element of the array
           REGION_ID=$(echo $REGION_RESPONSE | jq -r '.api_keys[0].id')
-          PUB_KEY=$(echo $PUB_KEY_RESPONSE | jq -r '.api_keys[0].key')
+          PUB_KEY=$(echo $PUB_KEY_RESPONSE | jq -r '.api_keys[0].token')
 
           echo "REGION_ID=$REGION_ID" >> $GITHUB_ENV  
           echo "PUB_KEY=$PUB_KEY" >> $GITHUB_ENV
