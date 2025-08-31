@@ -1,6 +1,7 @@
 name: Quick test
 on:
   pull_request:
+  push:
 
 jobs:
   simple-performance-test:
