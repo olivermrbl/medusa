@@ -7,30 +7,41 @@ jobs:
   simple-performance-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "yarn"
-      - name: Authenticate and get data
+      - name: Authenticate as user
         id: auth
-        run: ./scripts/get-region-and-key.sh
-
-      - name: Use outputs
         run: |
-          echo "JWT Token: ${{ steps.auth.outputs.JWT_TOKEN }}"
-          echo "Region ID: ${{ steps.auth.outputs.REGION_ID }}"
-          echo "Publishable API Key: ${{ steps.auth.outputs.PUB_KEY }}"
+          RESPONSE=$(curl -s -X POST http://localhost:9000/auth/user/emailpass \
+            -H "Content-Type: application/json" \
+            -d '{"email":"admin@medusa-test.com","password":"supersecret"}')
+
+          # Extract JWT token from response (assuming the token is in a 'token' field)
+          TOKEN=$(echo $RESPONSE | jq -r '.token')
+
+          # Store token in environment variable for subsequent steps
+          echo "JWT_TOKEN=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Get region ID and publishable api key
+        id: region-pub-key
+        run: |
+          REGION_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/regions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ steps.auth.outputs.JWT_TOKEN }}")
+
+          PUB_KEY_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/api-keys?type=publishable \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ steps.auth.outputs.JWT_TOKEN }}")
+
+          # Extract region ID and publishable api key from response; they are both the first element of the array
+          REGION_ID=$(echo $REGION_RESPONSE | jq -r '.regions[0].id')
+          PUB_KEY=$(echo $PUB_KEY_RESPONSE | jq -r '.api_keys[0].token')
+
+          echo "REGION_utiID=$REGION_ID" >> $GITHUB_OUTPUT  
+          echo "PUB_KEY=$PUB_KEY" >> $GITHUB_OUTPUT
       - name: Run local k6 test
         uses: grafana/run-k6-action@v1
         env:
-          K6_REGION_ID: ${{ steps.auth.outputs.REGION_ID }}
-          K6_PUBLISHABLE_KEY: ${{ steps.auth.outputs.PUB_KEY }}
+          K6_REGION_ID: ${{ steps.region-pub-key.outputs.REGION_ID }}
+          K6_PUBLISHABLE_KEY: ${{ steps.region-pub-key.outputs.PUB_KEY }}
         with:
           path: scripts/tests/load/small-dtc-local.js
           flags: --out json=k6_results.json
