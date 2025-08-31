@@ -7,6 +7,16 @@ jobs:
   simple-performance-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
       - name: Authenticate as user
         id: auth
         run: |
