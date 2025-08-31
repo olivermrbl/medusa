@@ -19,7 +19,7 @@ jobs:
           cache: "yarn"
       - name: Authenticate and get data
         id: auth
-        run: bash scripts/get-region-and-key.sh
+        run: ./scripts/get-region-and-key.sh
 
       - name: Use outputs
         run: |
