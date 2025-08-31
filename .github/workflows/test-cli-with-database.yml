@@ -125,10 +125,10 @@ jobs:
           echo "PUB_KEY=$PUB_KEY" >> $GITHUB_ENV
       - name: Run local k6 test
         uses: grafana/run-k6-action@v1
+        env:
+          K6_REGION_ID: ${{ env.REGION_ID }}
+          K6_PUBLISHABLE_KEY: ${{ env.PUB_KEY }}
         with:
-          env:
-            K6_REGION_ID: ${{ env.REGION_ID }}
-            K6_PUBLISHABLE_KEY: ${{ env.PUB_KEY }}
           path: scripts/tests/load/small-dtc-local.js
           flags: --out json=k6_results.json
         continue-on-error: true # Continue to post results even if test fails
