@@ -1,11 +1,13 @@
-name: CLI Pipeline
+name: Performance tests
 on:
   pull_request:
 
 jobs:
-  test-cli-with-database:
+  simple-performance-test:
     env:
       NODE_ENV: CI
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
       REDIS_URL: redis://localhost:6379
       DATABASE_URL: "postgres://postgres:postgres@localhost/cli-test"
     services:
@@ -38,24 +40,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
-      - name: Setup development server
-        uses: ./.github/actions/setup-server
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
         with:
-          cache-extension: "cli-test"
           node-version: 20
+          cache: "yarn"
+
+      - name: Install dependencies
+        uses: ./.github/actions/cache-deps
+        with:
+          extension: cli-database
 
       - name: Install Medusa cli
-        run: npm i -g @medusajs/cli@latest
+        run: npm i -g @medusajs/cli@preview
 
       - name: Create Medusa project
-        run: |
-          medusa new cli-test --skip-db --v2 --branch ci
         working-directory: ..
+        run: |
+          medusa new cli-test --skip-db --skip-migrations --v2 --branch ci-custom
 
-      - name: run medusa dev
-        run: medusa-dev --force-install
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install new app dependencies (via resolutions)
+        run: rm package-lock.json && yarn install --no-immutable
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false
         working-directory: ../cli-test
 
       - name: Run migrations
@@ -79,3 +91,92 @@ jobs:
 
       - name: Testing server
         uses: ./.github/actions/test-server
+
+      - name: Wait for live server response
+        shell: "bash"
+        run: ./integration-tests/scripts/cli/wait-for-server-live.sh
+
+      - name: Authenticate as user
+        id: auth
+        run: |
+          RESPONSE=$(curl -s -X POST http://localhost:9000/auth/user/emailpass \
+            -H "Content-Type: application/json" \
+            -d '{"email":"admin@medusa-test.com","password":"supersecret"}')
+
+          # Extract JWT token from response (assuming the token is in a 'token' field)
+          TOKEN=$(echo $RESPONSE | jq -r '.token')
+
+          # Store token in environment variable for subsequent steps
+          echo "JWT_TOKEN=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Get region ID and publishable api key
+        id: region-pub-key
+        run: |
+          REGION_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/regions \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ steps.auth.outputs.JWT_TOKEN }}")
+
+          PUB_KEY_RESPONSE=$(curl -s -X GET http://localhost:9000/admin/api-keys?type=publishable \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ steps.auth.outputs.JWT_TOKEN }}")
+
+          # Extract region ID and publishable api key from response; they are both the first element of the array
+          REGION_ID=$(echo $REGION_RESPONSE | jq -r '.regions[0].id')
+          PUB_KEY=$(echo $PUB_KEY_RESPONSE | jq -r '.api_keys[0].token')
+
+          echo "REGION_utiID=$REGION_ID" >> $GITHUB_OUTPUT  
+          echo "PUB_KEY=$PUB_KEY" >> $GITHUB_OUTPUT
+
+      - name: Test echo region id and pub key
+        run: |
+          echo "REGION_ID=${{ steps.region-pub-key.outputs.REGION_ID }}"
+          echo "PUB_KEY=${{ steps.region-pub-key.outputs.PUB_KEY }}"
+
+      # - name: Run local k6 test
+      #   uses: grafana/run-k6-action@v1
+      #   env:
+      #     K6_REGION_ID: ${{ steps.region-pub-key.outputs.REGION_ID }}
+      #     K6_PUBLISHABLE_KEY: ${{ steps.region-pub-key.outputs.PUB_KEY }}
+      #   with:
+      #     path: scripts/tests/load/small-dtc-local.js
+      #     flags: --out json=k6_results.json
+      #   continue-on-error: true # Continue to post results even if test fails
+
+      # - name: Parse metrics to markdown table
+      #   run: |
+      #     # Extract and format metrics into a markdown table
+      #     echo "| Metric                | Avg       | Min       | Med       | Max       | p(90)     | p(95)     |" >> k6_results.txt
+      #     echo "|-----------------------|-----------|-----------|-----------|-----------|-----------|-----------|" >> k6_results.txt
+      #     echo "| Status                | ${{ steps.k6.outcome }} | | | | | |" >> k6_results.txt
+      #     jq -r '.metrics | 
+      #       .http_req_blocked.values as $blk | 
+      #       .http_req_connecting.values as $con | 
+      #       .http_req_duration.values as $dur | 
+      #       .http_req_failed.values as $fail | 
+      #       .http_req_receiving.values as $rec | 
+      #       .http_req_sending.values as $send | 
+      #       .http_reqs.values as $reqs | 
+      #       .http_req_waiting.values as $wait |
+      #       [
+      #         ["HTTP Req Blocked", "\($blk.avg)µs", "\($blk.min)s", "\($blk.med)µs", "\($blk.max)ms", "\($blk.\"p(90)\")µs", "\($blk.\"p(95)\")µs"],
+      #         ["HTTP Req Connecting", "\($con.avg)µs", "\($con.min)s", "\($con.med)s", "\($con.max)ms", "\($con.\"p(90)\")s", "\($con.\"p(95)\")s"],
+      #         ["HTTP Req Duration", "\($dur.avg)ms", "\($dur.min)ms", "\($dur.med)ms", "\($dur.max)s", "\($dur.\"p(90)\")s", "\($dur.\"p(95)\")s"],
+      #         ["HTTP Req Duration (addToCart)", "\(.http_req_duration.\"addToCart\".values.avg)s", "\(.http_req_duration.\"addToCart\".values.min)ms", "\(.http_req_duration.\"addToCart\".values.med)ms", "\(.http_req_duration.\"addToCart\".values.max)s", "\(.http_req_duration.\"addToCart\".values.\"p(90)\")s", "\(.http_req_duration.\"addToCart\".values.\"p(95)\")s"],
+      #         ["HTTP Req Duration (browseCatalog)", "\(.http_req_duration.\"browseCatalog\".values.avg)ms", "\(.http_req_duration.\"browseCatalog\".values.min)ms", "\(.http_req_duration.\"browseCatalog\".values.med)ms", "\(.http_req_duration.\"browseCatalog\".values.max)s", "\(.http_req_duration.\"browseCatalog\".values.\"p(90)\")s", "\(.http_req_duration.\"browseCatalog\".values.\"p(95)\")s"],
+      #         ["HTTP Req Duration (completeCart)", "\(.http_req_duration.\"completeCart\".values.avg)s", "\(.http_req_duration.\"completeCart\".values.min)ms", "\(.http_req_duration.\"completeCart\".values.med)ms", "\(.http_req_duration.\"completeCart\".values.max)s", "\(.http_req_duration.\"completeCart\".values.\"p(90)\")s", "\(.http_req_duration.\"completeCart\".values.\"p(95)\")s"],
+      #         ["HTTP Req Failed", "\($fail.rate * 100)%", "", "", "", "", ""],
+      #         ["HTTP Req Receiving", "\($rec.avg)ms", "\($rec.min)µs", "\($rec.med)µs", "\($rec.max)ms", "\($rec.\"p(90)\")ms", "\($rec.\"p(95)\")ms"],
+      #         ["HTTP Req Sending", "\($send.avg)µs", "\($send.min)µs", "\($send.med)µs", "\($send.max)ms", "\($send.\"p(90)\")µs", "\($send.\"p(95)\")µs"],
+      #         ["HTTP Requests", "\($reqs.count) (\($reqs.rate)/s)", "", "", "", "", ""],
+      #         ["HTTP Req Waiting", "\($wait.avg)ms", "\($wait.min)ms", "\($wait.med)ms", "\($wait.max)s", "\($wait.\"p(90)\")s", "\($wait.\"p(95)\")s"]
+      #       ] | .[] | join("|")' k6_results.json >> k6_results.txt
+      #     cat k6_results.txt
+
+      # - name: Post PR comment
+      #   if: always()
+      #   uses: thollander/actions-comment-pull-request@v2
+      #   with:
+      #     message: |
+      #       **Local Load Test Results**:
+      #       $(cat k6_results.txt)
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
