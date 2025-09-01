@@ -12,6 +12,7 @@ export const GET = async (
   req: RequestWithContext<HttpTypes.StoreProductParams>,
   res: MedusaResponse<HttpTypes.StoreProductListResponse>
 ) => {
+  
   const remoteQuery = req.scope.resolve(ContainerRegistrationKeys.REMOTE_QUERY)
   const context: object = {}
   const withInventoryQuantity = req.remoteQueryConfig.fields.some((field) =>
