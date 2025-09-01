@@ -25,7 +25,7 @@ export const options = {
       startTime: "0s",
       stages: [
         { duration: "30s", target: 40 },
-        { duration: "4m", target: 40 },
+        { duration: "2m", target: 40 },
         { duration: "30s", target: 0 },
       ],
       gracefulRampDown: "30s",
@@ -37,7 +37,7 @@ export const options = {
       startTime: "0s",
       stages: [
         { duration: "30s", target: 7 },
-        { duration: "4m", target: 7 },
+        { duration: "2m", target: 7 },
         { duration: "30s", target: 0 },
       ],
       gracefulRampDown: "30s",
@@ -49,7 +49,7 @@ export const options = {
       startTime: "0s",
       stages: [
         { duration: "30s", target: 3 },
-        { duration: "4m", target: 3 },
+        { duration: "2m", target: 3 },
         { duration: "30s", target: 0 },
       ],
       gracefulRampDown: "30s",
@@ -57,9 +57,9 @@ export const options = {
     },
   },
   thresholds: {
-    "http_req_duration{scenario:browseCatalog}": ["p(95)<600"],
-    "http_req_duration{scenario:addToCart}": ["p(95)<800"],
-    "http_req_duration{scenario:completeCart}": ["p(95)<1200"],
+    "http_req_duration{scenario:browseCatalog}": ["p(95)<400"],
+    "http_req_duration{scenario:addToCart}": ["p(95)<600"],
+    "http_req_duration{scenario:completeCart}": ["p(95)<900"],
     http_req_failed: ["rate<0.01"],
   },
 }
