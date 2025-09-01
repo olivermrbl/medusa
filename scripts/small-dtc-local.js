@@ -1,5 +1,6 @@
 import { check, group, sleep } from "k6"
 import http from "k6/http"
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 
 let publishableKey = __ENV.K6_PUBLISHABLE_KEY
 let regionId = __ENV.K6_REGION_ID
@@ -10,6 +11,12 @@ const params = {
     "Content-Type": "application/json",
     "x-publishable-api-key": publishableKey,
   },
+}
+
+export function handleSummary(data) {
+  return {
+    "summary.html": htmlReport(data),
+  };
 }
 
 /*
