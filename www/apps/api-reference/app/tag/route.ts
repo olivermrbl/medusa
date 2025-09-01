@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import path from "path"
+
 import getPathsOfTag from "@/utils/get-paths-of-tag"
 
 export async function GET(request: Request) {
