@@ -90,9 +90,6 @@ jobs:
         run: npx medusa start &
         working-directory: ../cli-test
 
-      - name: Testing server
-        uses: ./.github/actions/test-server
-
       - name: Wait for live server response
         shell: "bash"
         run: ./integration-tests/scripts/cli/wait-for-server-live.sh
@@ -137,6 +134,10 @@ jobs:
             ] | .[] | join("|")' k6_results.json >> k6_results.txt
           cat k6_results.txt
 
+      - name: Kill server
+        shell: "bash"
+        run: kill -9 $(lsof -t -i :9000)
+        
       # - name: Post PR comment
       #   if: always()
       #   uses: thollander/actions-comment-pull-request@v2
