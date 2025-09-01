@@ -94,6 +94,8 @@ jobs:
         shell: "bash"
         run: ./integration-tests/scripts/cli/wait-for-server-live.sh
 
+      - name: Set up K6
+        uses: grafana/setup-k6-action@v1
       - name: Run local k6 test
         uses: grafana/run-k6-action@v1
         env:
@@ -137,7 +139,7 @@ jobs:
       - name: Kill server
         shell: "bash"
         run: kill -9 $(lsof -t -i :9000)
-        
+
       # - name: Post PR comment
       #   if: always()
       #   uses: thollander/actions-comment-pull-request@v2
