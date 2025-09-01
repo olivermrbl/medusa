@@ -117,7 +117,5 @@ jobs:
         if: always()
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: |
-            **Local Load Test Results**:
-            $(cat $GITHUB_WORKSPACE/summary.html)
+          file-path: summary.html
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
