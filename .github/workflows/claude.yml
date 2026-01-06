@@ -30,23 +30,19 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code
-        id: claude
+      - name: Run Claude Code Review
+        if: contains(github.event.comment.body, '@claude review this')
+        id: claude-review
         uses: anthropics/claude-code-action@v1
         with:
-          show_full_output: true
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
           additional_permissions: |
             actions: read
 
-          # We treat "@claude review this" as a special command to review the PR
-          # Otherwise, Claude will perform the instructions specified in the comment
           prompt: |
-            ${{
-              contains(github.event.comment.body, '@claude review this') &&
-              format('REPO: {0}
-            PR NUMBER: {1}
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.issue.number || github.event.pull_request.number }}
 
             Please review this pull request and provide feedback on:
             - Code quality and best practices
@@ -55,12 +51,21 @@ jobs:
             - Security concerns
             - Test coverage
 
-            Use the repository''s CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
+            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
 
-            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.',
-              github.repository,
-              github.event.issue.number || github.event.pull_request.number)
-              || ''
-            }}
+            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
 
+          claude_args: "--allowed-tools Bash(gh pr:*)"
+
+      - name: Run Claude Code (General)
+        if: "!contains(github.event.comment.body, '@claude review this')"
+        id: claude-general
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          additional_permissions: |
+            actions: read
+
+          # No prompt specified - uses the comment body as the instruction
           claude_args: "--allowed-tools Bash(gh pr:*)"
