@@ -9,6 +9,34 @@
         "name": "string"
       },
       "description": "The tooltip to show when hovering over the filter menu."
+    },
+    "onAddFilter": {
+      "required": false,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "(id: string, value: unknown) => void",
+        "signature": {
+          "arguments": [
+            {
+              "type": {
+                "name": "string"
+              },
+              "name": "id"
+            },
+            {
+              "type": {
+                "name": "unknown"
+              },
+              "name": "value"
+            }
+          ],
+          "return": {
+            "name": "void"
+          }
+        }
+      },
+      "description": "Callback when a filter is added"
     }
   }
 }

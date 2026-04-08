@@ -36,26 +36,26 @@
       },
       "description": ""
     },
-    "isCustom": {
+    "isCustomRange": {
       "required": true,
       "tsType": {
         "name": "boolean"
       },
       "description": ""
     },
-    "setIsCustom": {
-      "required": true,
+    "onUpdate": {
+      "required": false,
       "tsType": {
         "name": "signature",
         "type": "function",
-        "raw": "(isCustom: boolean) => void",
+        "raw": "(value: unknown) => void",
         "signature": {
           "arguments": [
             {
               "type": {
-                "name": "boolean"
+                "name": "unknown"
               },
-              "name": "isCustom"
+              "name": "value"
             }
           ],
           "return": {

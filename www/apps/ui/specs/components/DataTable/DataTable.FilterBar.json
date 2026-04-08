@@ -13,6 +13,39 @@
         "value": "\"Clear all\"",
         "computed": false
       }
+    },
+    "alwaysShow": {
+      "required": false,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": "",
+      "defaultValue": {
+        "value": "false",
+        "computed": false
+      }
+    },
+    "sortingTooltip": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "columnsTooltip": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "children": {
+      "required": false,
+      "tsType": {
+        "name": "ReactReactNode",
+        "raw": "React.ReactNode"
+      },
+      "description": ""
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "description": "",
   "methods": [],
-  "displayName": "DataTableFilterRadioContent",
+  "displayName": "DataTableFilterNumberContent",
   "props": {
     "id": {
       "required": true,
@@ -13,28 +13,31 @@
     "filter": {
       "required": true,
       "tsType": {
-        "name": "unknown"
+        "name": "any"
       },
       "description": ""
     },
-    "options": {
-      "required": true,
+    "placeholder": {
+      "required": false,
       "tsType": {
-        "name": "Array",
-        "elements": [
-          {
-            "name": "DataTableFilterOption",
-            "elements": [
-              {
-                "name": "string"
-              }
-            ],
-            "raw": "DataTableFilterOption<string>"
-          }
-        ],
-        "raw": "DataTableFilterOption<string>[]"
+        "name": "string"
       },
-      "description": ""
+      "description": "",
+      "defaultValue": {
+        "value": "\"Enter number...\"",
+        "computed": false
+      }
+    },
+    "includeOperators": {
+      "required": false,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": "",
+      "defaultValue": {
+        "value": "true",
+        "computed": false
+      }
     },
     "onUpdate": {
       "required": false,

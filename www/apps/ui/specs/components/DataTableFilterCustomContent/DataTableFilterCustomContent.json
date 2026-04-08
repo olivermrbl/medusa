@@ -1,0 +1,131 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTableFilterCustomContent",
+  "props": {
+    "id": {
+      "required": true,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "filter": {
+      "required": true,
+      "tsType": {
+        "name": "any"
+      },
+      "description": ""
+    },
+    "onRemove": {
+      "required": true,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "() => void",
+        "signature": {
+          "arguments": [],
+          "return": {
+            "name": "void"
+          }
+        }
+      },
+      "description": ""
+    },
+    "render": {
+      "required": true,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "(props: {\n  value: any\n  onChange: (value: any) => void\n  onRemove: () => void\n}) => React.ReactNode",
+        "signature": {
+          "arguments": [
+            {
+              "type": {
+                "name": "signature",
+                "type": "object",
+                "raw": "{\n  value: any\n  onChange: (value: any) => void\n  onRemove: () => void\n}",
+                "signature": {
+                  "properties": [
+                    {
+                      "key": "value",
+                      "value": {
+                        "name": "any",
+                        "required": true
+                      }
+                    },
+                    {
+                      "key": "onChange",
+                      "value": {
+                        "name": "signature",
+                        "type": "function",
+                        "raw": "(value: any) => void",
+                        "signature": {
+                          "arguments": [
+                            {
+                              "type": {
+                                "name": "any"
+                              },
+                              "name": "value"
+                            }
+                          ],
+                          "return": {
+                            "name": "void"
+                          }
+                        },
+                        "required": true
+                      }
+                    },
+                    {
+                      "key": "onRemove",
+                      "value": {
+                        "name": "signature",
+                        "type": "function",
+                        "raw": "() => void",
+                        "signature": {
+                          "arguments": [],
+                          "return": {
+                            "name": "void"
+                          }
+                        },
+                        "required": true
+                      }
+                    }
+                  ]
+                }
+              },
+              "name": "props"
+            }
+          ],
+          "return": {
+            "name": "ReactReactNode",
+            "raw": "React.ReactNode"
+          }
+        }
+      },
+      "description": ""
+    },
+    "onUpdate": {
+      "required": false,
+      "tsType": {
+        "name": "signature",
+        "type": "function",
+        "raw": "(value: unknown) => void",
+        "signature": {
+          "arguments": [
+            {
+              "type": {
+                "name": "unknown"
+              },
+              "name": "value"
+            }
+          ],
+          "return": {
+            "name": "void"
+          }
+        }
+      },
+      "description": ""
+    }
+  }
+}

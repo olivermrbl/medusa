@@ -24,6 +24,14 @@
         "name": "DataTableToolbarTranslations"
       },
       "description": "The translations of strings in the toolbar."
+    },
+    "filterBarContent": {
+      "required": false,
+      "tsType": {
+        "name": "ReactReactNode",
+        "raw": "React.ReactNode"
+      },
+      "description": "Custom content to render in the filter bar"
     }
   }
 }
