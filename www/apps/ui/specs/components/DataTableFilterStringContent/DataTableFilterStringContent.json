@@ -1,7 +1,7 @@
 {
   "description": "",
   "methods": [],
-  "displayName": "DataTableFilterRadioContent",
+  "displayName": "DataTableFilterStringContent",
   "props": {
     "id": {
       "required": true,
@@ -11,30 +11,22 @@
       "description": ""
     },
     "filter": {
-      "required": true,
+      "required": false,
       "tsType": {
-        "name": "unknown"
+        "name": "string"
       },
       "description": ""
     },
-    "options": {
-      "required": true,
+    "placeholder": {
+      "required": false,
       "tsType": {
-        "name": "Array",
-        "elements": [
-          {
-            "name": "DataTableFilterOption",
-            "elements": [
-              {
-                "name": "string"
-              }
-            ],
-            "raw": "DataTableFilterOption<string>"
-          }
-        ],
-        "raw": "DataTableFilterOption<string>[]"
+        "name": "string"
       },
-      "description": ""
+      "description": "",
+      "defaultValue": {
+        "value": "\"Enter value...\"",
+        "computed": false
+      }
     },
     "onUpdate": {
       "required": false,

@@ -1,0 +1,21 @@
+{
+  "description": "",
+  "methods": [],
+  "displayName": "DataTableColumnVisibilityMenu",
+  "props": {
+    "className": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    },
+    "tooltip": {
+      "required": false,
+      "tsType": {
+        "name": "string"
+      },
+      "description": ""
+    }
+  }
+}

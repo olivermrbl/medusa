@@ -1,7 +1,7 @@
 {
   "description": "",
   "methods": [],
-  "displayName": "DataTableFilterRadioContent",
+  "displayName": "DataTableFilterMultiselectContent",
   "props": {
     "id": {
       "required": true,
@@ -11,11 +11,21 @@
       "description": ""
     },
     "filter": {
-      "required": true,
+      "required": false,
       "tsType": {
-        "name": "unknown"
+        "name": "Array",
+        "elements": [
+          {
+            "name": "string"
+          }
+        ],
+        "raw": "string[]"
       },
-      "description": ""
+      "description": "",
+      "defaultValue": {
+        "value": "[]",
+        "computed": false
+      }
     },
     "options": {
       "required": true,
@@ -35,6 +45,17 @@
         "raw": "DataTableFilterOption<string>[]"
       },
       "description": ""
+    },
+    "searchable": {
+      "required": false,
+      "tsType": {
+        "name": "boolean"
+      },
+      "description": "",
+      "defaultValue": {
+        "value": "true",
+        "computed": false
+      }
     },
     "onUpdate": {
       "required": false,
