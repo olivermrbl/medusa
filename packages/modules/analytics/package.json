@@ -1,6 +1,6 @@
 {
   "name": "@medusajs/analytics",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "description": "Medusa Analytics module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,8 +32,8 @@
     "test:integration": "jest --forceExit -- integration-tests/**/__tests__/**/*.ts"
   },
   "devDependencies": {
-    "@medusajs/framework": "2.10.1",
-    "@medusajs/test-utils": "2.10.1",
+    "@medusajs/framework": "2.10.2",
+    "@medusajs/test-utils": "2.10.2",
     "@swc/core": "^1.7.28",
     "@swc/jest": "^0.2.36",
     "jest": "^29.7.0",
@@ -42,7 +42,7 @@
     "typescript": "^5.6.2"
   },
   "peerDependencies": {
-    "@medusajs/framework": "2.10.1",
+    "@medusajs/framework": "2.10.2",
     "awilix": "^8.0.1"
   }
 }

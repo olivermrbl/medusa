@@ -1,5 +1,14 @@
 # @medusajs/core-flows
 
+## 2.10.2
+
+### Patch Changes
+
+- [#13353](https://github.com/medusajs/medusa/pull/13353) [`fb71bc64052ff7ddf4e5a44c6e91e6a3a3636317`](https://github.com/medusajs/medusa/commit/fb71bc64052ff7ddf4e5a44c6e91e6a3a3636317) Thanks [@fPolic](https://github.com/fPolic)! - fix(core-flows): handle cacluated shipping options on draft orders gracefully
+
+- Updated dependencies [[`b4c0f131b70ba950339c1ca4d81b5ce062a588a3`](https://github.com/medusajs/medusa/commit/b4c0f131b70ba950339c1ca4d81b5ce062a588a3)]:
+  - @medusajs/framework@2.10.2
+
 ## 2.10.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @medusajs/workflow-engine-inmemory
 
+## 2.10.2
+
+### Patch Changes
+
+- [#13396](https://github.com/medusajs/medusa/pull/13396) [`2b89510df3b87c153beae5207b1f9184002129d7`](https://github.com/medusajs/medusa/commit/2b89510df3b87c153beae5207b1f9184002129d7) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(): only execute race execution checks for async workflows
+
+- [#13345](https://github.com/medusajs/medusa/pull/13345) [`bd206cb2505a832d0e426040f7a8cf10a947d346`](https://github.com/medusajs/medusa/commit/bd206cb2505a832d0e426040f7a8cf10a947d346) Thanks [@adrien2p](https://github.com/adrien2p)! - Chore(): workflow engine race condition improvements
+
+- Updated dependencies [[`b4c0f131b70ba950339c1ca4d81b5ce062a588a3`](https://github.com/medusajs/medusa/commit/b4c0f131b70ba950339c1ca4d81b5ce062a588a3)]:
+  - @medusajs/framework@2.10.2
+
 ## 2.10.1
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @medusajs/event-bus-local
 
+## 2.10.2
+
+### Patch Changes
+
+- [#13413](https://github.com/medusajs/medusa/pull/13413) [`55a35e47218c65190e36a1a6088031890edc1b14`](https://github.com/medusajs/medusa/commit/55a35e47218c65190e36a1a6088031890edc1b14) Thanks [@adrien2p](https://github.com/adrien2p)! - chore(workflows-sdk, utils): Prevent unnecessary serialization
+
+- Updated dependencies [[`b4c0f131b70ba950339c1ca4d81b5ce062a588a3`](https://github.com/medusajs/medusa/commit/b4c0f131b70ba950339c1ca4d81b5ce062a588a3)]:
+  - @medusajs/framework@2.10.2
+
 ## 2.10.1
 
 ### Patch Changes
