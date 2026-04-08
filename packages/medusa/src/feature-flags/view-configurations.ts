@@ -7,4 +7,6 @@ const ViewConfigurationsFeatureFlag: FlagSettings = {
   description: "[WIP] Enable view configurations for data tables",
 }
 
+console.log("testing this")
+
 export default ViewConfigurationsFeatureFlag
