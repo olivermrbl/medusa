@@ -29,7 +29,7 @@ export async function POST(
   const { result } = await updateViewConfigurationWorkflow(req.scope)
     .run({
       input: {
-        "id": "id_7RjzevkLYQoR"
+        "id": "id_RRQYEdgYTqEqXSR3kua"
       }
     })
 
@@ -54,7 +54,7 @@ export default async function handleOrderPlaced({
   const { result } = await updateViewConfigurationWorkflow(container)
     .run({
       input: {
-        "id": "id_7RjzevkLYQoR"
+        "id": "id_RRQYEdgYTqEqXSR3kua"
       }
     })
 
@@ -79,7 +79,7 @@ export default async function myCustomJob(
   const { result } = await updateViewConfigurationWorkflow(container)
     .run({
       input: {
-        "id": "id_7RjzevkLYQoR"
+        "id": "id_RRQYEdgYTqEqXSR3kua"
       }
     })
 
@@ -105,7 +105,7 @@ const myWorkflow = createWorkflow(
     const result = updateViewConfigurationWorkflow
       .runAsStep({
         input: {
-          "id": "id_7RjzevkLYQoR"
+          "id": "id_RRQYEdgYTqEqXSR3kua"
         }
       })
   }
