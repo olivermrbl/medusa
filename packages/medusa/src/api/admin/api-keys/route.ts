@@ -35,6 +35,7 @@ export const GET = async (
   })
 }
 
+
 export const POST = async (
   req: AuthenticatedMedusaRequest<AdminCreateApiKeyType>,
   res: MedusaResponse<HttpTypes.AdminApiKeyResponse>
